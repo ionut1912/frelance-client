@@ -1,24 +1,21 @@
 import { Component } from '@angular/core';
-import {MatRadioButton} from '@angular/material/radio';
-import {FormsModule} from '@angular/forms';
-import {MatCard} from '@angular/material/card';
-import {RouterLink} from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatCard } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-join',
   templateUrl: './join.component.html',
   imports: [
     FormsModule,
-    MatRadioButton,
+    MatRadioModule,
     MatCard,
     RouterLink
   ],
-  styleUrls: ['./join.component.scss']
+  styleUrls: ['./join.component.scss'],
+  standalone: true
 })
 export class JoinComponent {
-  isClient: boolean = true;
-
-  toggleRole(role: string): void {
-    this.isClient = role === 'client';
-  }
+  role: 'Freelancer' | 'Client' = 'Freelancer';
 }

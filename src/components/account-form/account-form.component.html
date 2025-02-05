@@ -1,22 +1,25 @@
 <div class="flex items-center justify-center min-h-screen p-4">
-  <mat-card class="w-full max-w-md p-6 shadow-lg">
-    <h2 class="text-2xl font-semibold mb-6 text-center">{{ mode === 'register' ? 'Sign Up' : 'Log In' }}</h2>
-
+  <mat-card class="w-full max-w-lg p-6 shadow-lg">
+    <h2 class="text-2xl font-semibold mb-6 text-center">
+      {{ mode === 'register' ? 'Sign Up' : 'Log In' }}
+    </h2>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div *ngFor="let field of fields" class="mb-4">
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>{{ field.label }}</mat-label>
           <input matInput [type]="field.type" [formControlName]="field.name" [placeholder]="field.placeholder" />
-          <mat-error *ngIf="form.get(field.name)?.hasError('required')">
+          <mat-error *ngIf="form.get(field.name)?.hasError('required') && (form.get(field.name)?.touched || form.get(field.name)?.dirty)">
             {{ field.label }} is required
           </mat-error>
-          <mat-error *ngIf="form.get(field.name)?.hasError('email')">
+          <mat-error *ngIf="form.get(field.name)?.hasError('email') && (form.get(field.name)?.touched || form.get(field.name)?.dirty)">
             Please enter a valid email
+          </mat-error>
+          <mat-error *ngIf="field.name === 'phoneNumber' && form.get(field.name)?.hasError('pattern') && (form.get(field.name)?.touched || form.get(field.name)?.dirty)">
+            Phone number must contain only digits
           </mat-error>
         </mat-form-field>
       </div>
-
-      <button class="w-full max-w-xs py-3 text-xl font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors">
+      <button type="submit" class="mx-auto block w-full max-w-xs py-3 text-xl font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors">
         {{ mode === 'register' ? 'Create Account' : 'Log In' }}
       </button>
     </form>
