@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from '../actions/auth.actions';
 import { mergeMap, map, tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { AuthService } from "../../services/auth.service"
+import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class AuthEffects {
+  private actions$ = inject(Actions);
+
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.register),
@@ -40,5 +42,8 @@ export class AuthEffects {
     )
   );
 
-  constructor(private actions$: Actions, private authService: AuthService, private toastr: ToastrService) {}
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {}
 }

@@ -5,6 +5,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatError } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../../store/actions/auth.actions';
+import {LoginDto} from '../../models/LoginDto';
+import {RegisterDto} from '../../models/RegisterDto';
 
 @Component({
   selector: 'app-account-form',
@@ -23,11 +27,11 @@ import { CommonModule } from '@angular/common';
 export class AccountFormComponent implements OnInit {
   @Input() mode: 'login' | 'register' = 'login';
   @Input() fields: { name: string; label: string; type: string; placeholder: string }[] = [];
-  @Input() role?:'Freelancer' | 'Client' = 'Freelancer';
+  @Input() role?: 'Freelancer' | 'Client' = 'Freelancer';
 
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     const controls: { [key: string]: any } = {};
@@ -46,9 +50,25 @@ export class AccountFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      console.log('Form submitted:', this.form.value);
-    }
-    else {
+      if (this.mode === 'login') {
+        const payload: LoginDto = {
+          username: this.form.value.username,
+          email: this.form.value.email,
+          password: this.form.value.password,
+
+        }
+        this.store.dispatch(AuthActions.login({ payload }));
+      } else {
+        const payload:RegisterDto={
+          email:this.form.value.email,
+          password:this.form.value.password,
+          username:this.form.value.username,
+          phoneNumber:this.form.value.phoneNumber,
+          role:this.role!
+        }
+        this.store.dispatch(AuthActions.register({ payload }));
+      }
+    } else {
       console.warn('Form is invalid:', this.form.errors);
     }
   }
