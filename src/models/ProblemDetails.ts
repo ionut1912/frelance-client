@@ -2,5 +2,10 @@ export interface  ProblemDetails {
   status:number;
   title:string;
   detail:string;
-  extensions?:Record<string, string>
+  errors?:ErrorDetail[]
+}
+
+export interface  ErrorDetail{
+  property:string;
+  errorMessage:string;
 }

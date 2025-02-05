@@ -5,7 +5,7 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
-import { ToastrModule } from 'ngx-toastr';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { authReducer } from "./store/reducers/auth.reducers";
@@ -18,7 +18,7 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes),
     provideHttpClient(),
     importProvidersFrom(
-      ToastrModule.forRoot(),
+      MatSnackBarModule,
       StoreModule.forRoot({ auth: authReducer }),
       EffectsModule.forRoot([AuthEffects])
     ),

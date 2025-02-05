@@ -1,11 +1,11 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as AuthActions from '../actions/auth.actions';
 import {UserDto} from '../../models/UserDto';
-import {ProblemDetails} from '../../models/ProblemDetails';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export interface AuthState {
   user: UserDto | null;
-  error: ProblemDetails | null;
+  error: HttpErrorResponse | null;
 }
 
 export const initialState: AuthState = {
