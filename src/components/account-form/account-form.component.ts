@@ -23,6 +23,7 @@ import { CommonModule } from '@angular/common';
 export class AccountFormComponent implements OnInit {
   @Input() mode: 'login' | 'register' = 'login';
   @Input() fields: { name: string; label: string; type: string; placeholder: string }[] = [];
+  @Input() role?:'Freelancer' | 'Client' = 'Freelancer';
 
   form!: FormGroup;
 
@@ -40,7 +41,6 @@ export class AccountFormComponent implements OnInit {
         controls[field.name] = ['', Validators.required];
       }
     });
-
     this.form = this.fb.group(controls);
   }
 

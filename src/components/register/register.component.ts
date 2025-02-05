@@ -23,6 +23,5 @@ export class RegisterComponent implements  OnInit {
     if (history.state && typeof history.state['role'] !== 'undefined') {
       this.role = history.state['role'];
     }
-    console.log(this.role)
   }
 }
