@@ -1,0 +1,36 @@
+<div class="flex flex-col items-center justify-center min-h-screen space-y-6">
+  <div class="flex items-center justify-center space-x-6">
+    <!-- Client Card -->
+    <mat-card class="w-full max-w-xs p-4 shadow-lg">
+      <div class="text-center">
+        <mat-radio-button (click)="toggleRole('client')" class="w-full text-center">
+          <div class="flex items-center justify-center space-x-2">
+            <span class="text-3xl">👔</span>
+            <span class="font-semibold text-xl">I'm a client, hiring for a project</span>
+          </div>
+        </mat-radio-button>
+      </div>
+    </mat-card>
+
+    <!-- Freelancer Card -->
+    <mat-card class="w-full max-w-xs p-4 shadow-lg">
+      <div class="text-center">
+        <mat-radio-button (click)="toggleRole('freelancer')" class="w-full text-center">
+          <div class="flex items-center justify-center space-x-2">
+            <span class="text-3xl">💻</span>
+            <span class="font-semibold text-xl">I'm a freelancer, looking for work</span>
+          </div>
+        </mat-radio-button>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="w-full max-w-xs flex flex-col items-center">
+    <button class="w-full py-3 text-xl font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors">
+      Join as {{ isClient ? 'Client' : 'Freelancer' }}
+    </button>
+    <div class="text-center mt-2">
+      <a routerLink="/login" class="text-black">Already have an account? <span class="text-green-500">Log In</span></a>
+    </div>
+  </div>
+</div>
