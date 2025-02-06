@@ -14,8 +14,9 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
   https_only          = true
 
   site_config {
-    always_on        = false
-    app_command_line = ""
+    always_on         = false
+    app_command_line  = ""
+    linux_fx_version  = "DOCKER|${azurerm_container_registry.acr.login_server}/freelance-client:latest"
   }
 
   identity {
@@ -27,6 +28,6 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
     "PORT"                                = "80"
     "WEBSITES_PORT"                       = "80"
     "DOCKER_CUSTOM_IMAGE_NAME"            = "${azurerm_container_registry.acr.login_server}/freelance-client:latest"
+    "DOCKER_REGISTRY_SERVER_URL"          = "https://${azurerm_container_registry.acr.login_server}"
   }
 }
-
