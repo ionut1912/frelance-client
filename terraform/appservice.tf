@@ -6,7 +6,7 @@ resource "azurerm_service_plan" "freelance_client_plan" {
   sku_name            = "B1"
 }
 
-resource "azurerm_linux_web_app" "freelance_client" {
+resource "azurerm_linux_web_app" "freelance_client_app" {
   name                = "freelance-client"
   location            = azurerm_resource_group.freelance_client_rg.location
   resource_group_name = azurerm_resource_group.freelance_client_rg.name
@@ -28,7 +28,7 @@ resource "azurerm_linux_web_app" "freelance_client" {
 
 # Assign the correct ACR pull role
 resource "azurerm_role_assignment" "acr_pull" {
-  principal_id         = azurerm_linux_web_app.freelance_client.identity[0].principal_id
+  principal_id         = azurerm_linux_web_app.freelance_client_app.identity[0].principal_id
   role_definition_name = "AcrPull"
   scope                = azurerm_container_registry.acr.id
 }
