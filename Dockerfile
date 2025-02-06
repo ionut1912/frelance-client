@@ -7,7 +7,7 @@ RUN npm run build --prod
 
 FROM nginx:alpine
 COPY --from=build-stage /app/dist/frelance-client /usr/share/nginx/html
-COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 ARG PORT=80
 EXPOSE ${PORT}
