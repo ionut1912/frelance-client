@@ -15,7 +15,7 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
 
   site_config {
     always_on = false
-
+    app_command_line = ""
     application_stack {
       docker_image_name = "${azurerm_container_registry.acr.login_server}/freelance-client:latest"
     }
@@ -26,6 +26,9 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
   }
 
   app_settings = {
+    "DOCKER_REGISTRY_SERVER_URL"                = "https://${azurerm_container_registry.acr.login_server}"
+    "DOCKER_REGISTRY_SERVER_USERNAME"           = azurerm_container_registry.acr.admin_username
+    "DOCKER_REGISTRY_SERVER_PASSWORD"           = azurerm_container_registry.acr.admin_password
     "WEBSITES_CONTAINER_START_TIME_LIMIT"       = "900"
     "PORT"                                      = "80"
   }
