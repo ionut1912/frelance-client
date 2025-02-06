@@ -14,12 +14,9 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
   https_only          = true
 
   site_config {
-    always_on = false
+    always_on        = false
     app_command_line = ""
-    application_stack {
-      docker_image_name = "${azurerm_container_registry.acr.login_server}/freelance-client:latest"
-    }
-    acr_use_managed_identity = true
+    linux_fx_version = "DOCKER|${azurerm_container_registry.acr.login_server}/freelance-client:latest"
   }
 
   identity {
@@ -31,4 +28,6 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
     "PORT"                                = "80"
   }
 }
+
+
 
