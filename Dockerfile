@@ -5,6 +5,6 @@ RUN npm install
 COPY . .
 RUN npm run build --prod
 FROM nginx:alpine
-COPY --from=build-stage /app/dist/freelance-client /usr/share/nginx/html
+COPY --from=build-stage /app/dist/frelance-client /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
