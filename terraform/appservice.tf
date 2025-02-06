@@ -14,12 +14,15 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
   https_only          = true
 
   site_config {
-    always_on = false
+    always_on        = false
+    app_command_line = ""
 
     application_stack {
-      docker_image_name = "${azurerm_container_registry.acr.login_server}/freelance-client:latest"
+      docker_image     = "${azurerm_container_registry.acr.login_server}/freelance-client"
+      docker_image_tag = "latest"
     }
   }
+
 
   identity {
     type = "SystemAssigned"
