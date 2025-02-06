@@ -23,7 +23,7 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
   }
 
   app_settings = {
-    "WEBSITES_CONTAINER_START_TIME_LIMIT" = "900"
+    "WEBSITES_CONTAINER_START_TIME_LIMIT" = "1300"
     "PORT"                                = "80"
     "DOCKER_CUSTOM_IMAGE_NAME"            = "${azurerm_container_registry.acr.login_server}/freelance-client:latest"
   }
