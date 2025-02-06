@@ -4,7 +4,10 @@ COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
 RUN npm run build --prod
+
 FROM nginx:alpine
 COPY --from=build-stage /app/dist/frelance-client /usr/share/nginx/html
-EXPOSE 80
+
+ARG PORT=80
+EXPOSE ${PORT}
 CMD ["nginx", "-g", "daemon off;"]
