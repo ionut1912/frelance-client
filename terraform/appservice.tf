@@ -16,7 +16,6 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
   site_config {
     always_on        = false
     app_command_line = ""
-    linux_fx_version = "DOCKER|${azurerm_container_registry.acr.login_server}/freelance-client:latest"
   }
 
   identity {
@@ -26,8 +25,6 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
   app_settings = {
     "WEBSITES_CONTAINER_START_TIME_LIMIT" = "900"
     "PORT"                                = "80"
+    "DOCKER_CUSTOM_IMAGE_NAME"            = "${azurerm_container_registry.acr.login_server}/freelance-client:latest"
   }
 }
-
-
-
