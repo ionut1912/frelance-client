@@ -16,6 +16,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
+          "defaultConfiguration": "development",
           "options": {
             "outputPath": "dist/frelance-client",
             "index": "src/index.html",
@@ -62,11 +63,11 @@
               "extractLicenses": false,
               "sourceMap": true
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "defaultConfiguration": "development",
           "configurations": {
             "production": {
               "buildTarget": "frelance-client:build:production"
@@ -74,8 +75,7 @@
             "development": {
               "buildTarget": "frelance-client:build:development"
             }
-          },
-          "defaultConfiguration": "development"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
