@@ -14,7 +14,7 @@ resource "azurerm_linux_web_app" "freelance_client_app" {
   https_only          = true
 
   site_config {
-    always_on                        = false
+    always_on                               = false
     container_registry_use_managed_identity = true
   }
 
