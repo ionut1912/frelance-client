@@ -1,7 +1,7 @@
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import {provideHttpClient, withFetch} from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { authReducer } from '../store/reducers/auth.reducers';
@@ -13,7 +13,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 export const APP_PROVIDERS = [
   provideAnimations(),
   provideRouter(routes),
-  provideHttpClient(),
+  provideHttpClient(withFetch()),
   provideStore({ auth: authReducer }),
   provideEffects([AuthEffects]),
   importProvidersFrom(MatSnackBarModule),

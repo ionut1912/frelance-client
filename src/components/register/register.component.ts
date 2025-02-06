@@ -1,15 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {AccountFormComponent} from '../account-form/account-form.component';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AccountFormComponent } from '../account-form/account-form.component';
 
 @Component({
   selector: 'app-register',
-  imports: [
-    AccountFormComponent
-  ],
+  imports: [AccountFormComponent],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements  OnInit {
+export class RegisterComponent implements OnInit {
   role: 'Freelancer' | 'Client' = 'Freelancer';
   registerFields = [
     { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email' },
@@ -17,10 +16,9 @@ export class RegisterComponent implements  OnInit {
     { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter your password' },
     { name: 'phoneNumber', label: 'Phone Number', type: 'tel', placeholder: 'Enter your phone number' }
   ];
-  constructor() {
-  }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
   ngOnInit(): void {
-    if (history.state && typeof history.state['role'] !== 'undefined') {
+    if (isPlatformBrowser(this.platformId) && history.state && typeof history.state['role'] !== 'undefined') {
       this.role = history.state['role'];
     }
   }
