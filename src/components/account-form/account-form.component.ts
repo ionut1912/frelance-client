@@ -7,8 +7,10 @@ import { MatError } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../store/actions/auth.actions';
-import {LoginDto} from '../../models/LoginDto';
-import {RegisterDto} from '../../models/RegisterDto';
+import { LoginDto } from '../../models/LoginDto';
+import { RegisterDto } from '../../models/RegisterDto';
+import {MatIcon} from '@angular/material/icon';
+import {MatIconButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-account-form',
@@ -19,7 +21,9 @@ import {RegisterDto} from '../../models/RegisterDto';
     MatCardModule,
     MatInputModule,
     MatError,
-    CommonModule
+    CommonModule,
+    MatIcon,
+    MatIconButton
   ],
   templateUrl: './account-form.component.html',
   styleUrls: ['./account-form.component.scss']
@@ -30,6 +34,7 @@ export class AccountFormComponent implements OnInit {
   @Input() role?: 'Freelancer' | 'Client' = 'Freelancer';
 
   form!: FormGroup;
+  hidePassword: boolean = true;
 
   constructor(private fb: FormBuilder, private store: Store) {}
 
@@ -48,24 +53,27 @@ export class AccountFormComponent implements OnInit {
     this.form = this.fb.group(controls);
   }
 
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
   onSubmit(): void {
     if (this.form.valid) {
       if (this.mode === 'login') {
         const payload: LoginDto = {
           username: this.form.value.username,
           email: this.form.value.email,
-          password: this.form.value.password,
-
-        }
+          password: this.form.value.password
+        };
         this.store.dispatch(AuthActions.login({ payload }));
       } else {
-        const payload:RegisterDto={
-          email:this.form.value.email,
-          password:this.form.value.password,
-          username:this.form.value.username,
-          phoneNumber:this.form.value.phoneNumber,
-          role:this.role!
-        }
+        const payload: RegisterDto = {
+          email: this.form.value.email,
+          password: this.form.value.password,
+          username: this.form.value.username,
+          phoneNumber: this.form.value.phoneNumber,
+          role: this.role!
+        };
         this.store.dispatch(AuthActions.register({ payload }));
       }
     } else {
