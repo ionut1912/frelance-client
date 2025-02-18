@@ -72,7 +72,8 @@ export class AccountFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.form.invalid) {this.form.markAllAsTouched();
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     } else if (this.form.valid) {
       if (this.mode === 'login') {
