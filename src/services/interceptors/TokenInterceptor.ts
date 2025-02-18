@@ -15,7 +15,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler,
+    next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.store
       .select((state) => state.auth.token)
@@ -32,12 +32,12 @@ export class JwtInterceptor implements HttpInterceptor {
             return next.handle(
               clonedReq.clone({
                 headers: clonedReq.headers.delete('Requires-Auth'),
-              }),
+              })
             );
           }
 
           return next.handle(req);
-        }),
+        })
       );
   }
 }

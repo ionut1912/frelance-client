@@ -14,7 +14,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     @Inject(BASE_API_URL) private baseUrl: string,
-    private store: Store,
+    private store: Store
   ) {}
 
   register(payload: RegisterDto): Observable<any> {
@@ -25,7 +25,7 @@ export class AuthService {
     return this.http.post<UserDto>(`${this.baseUrl}/api/login`, payload).pipe(
       tap((response) => {
         this.store.dispatch(setToken({ token: response.token }));
-      }),
+      })
     );
   }
 }

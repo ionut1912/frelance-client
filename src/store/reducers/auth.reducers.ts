@@ -36,7 +36,7 @@ const reducer = createReducer(
   on(AuthActions.clearToken, (state) => {
     sessionStorage.removeItem('jwtToken'); // Remove token on logout
     return { ...state, token: null };
-  }),
+  })
 );
 
 export function authReducer(state: AuthState | undefined, action: Action) {

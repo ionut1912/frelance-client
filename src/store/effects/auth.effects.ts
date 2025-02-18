@@ -39,10 +39,10 @@ export class AuthEffects {
               }
             });
             return of(AuthActions.registerFailure({ error }));
-          }),
-        ),
-      ),
-    ),
+          })
+        )
+      )
+    )
   );
 
   login$ = createEffect(() =>
@@ -73,10 +73,10 @@ export class AuthEffects {
               }
             });
             return of(AuthActions.loginFailure({ error }));
-          }),
-        ),
-      ),
-    ),
+          })
+        )
+      )
+    )
   );
 
   getRoleFromToken(token: string): string | null {

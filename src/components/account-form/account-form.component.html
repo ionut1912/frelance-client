@@ -1,7 +1,7 @@
 <div class="flex items-center justify-center min-h-screen p-4">
   <mat-card class="w-full max-w-lg p-6 shadow-lg bg-gray-100 rounded-lg">
     <h2 class="text-2xl font-semibold mb-6 text-center">
-      {{ mode === "register" ? "Sign Up" : "Log In" }}
+      {{ mode === 'register' ? 'Sign Up' : 'Log In' }}
     </h2>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div *ngFor="let field of fields" class="mb-4">
@@ -28,7 +28,7 @@
             class="password-toggle"
           >
             <mat-icon>{{
-              hidePassword ? "visibility" : "visibility_off"
+              hidePassword ? 'visibility' : 'visibility_off'
             }}</mat-icon>
           </button>
           <mat-error
@@ -62,7 +62,7 @@
         type="submit"
         class="mx-auto block w-full max-w-sm px-4 py-2 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors"
       >
-        {{ mode === "register" ? "Create Account" : "Log In" }}
+        {{ mode === 'register' ? 'Create Account' : 'Log In' }}
       </button>
     </form>
   </mat-card>

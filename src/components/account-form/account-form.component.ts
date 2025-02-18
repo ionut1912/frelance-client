@@ -46,7 +46,7 @@ export class AccountFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
