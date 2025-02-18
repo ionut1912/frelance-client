@@ -91,8 +91,7 @@ export class AccountFormComponent implements OnInit {
         };
         this.store.dispatch(AuthActions.register({ payload }));
       }
-    } else {
-      console.warn('Form is invalid:', this.form.errors);
+    } else {console.warn('Form is invalid:', this.form.errors);
     }
   }
 }
