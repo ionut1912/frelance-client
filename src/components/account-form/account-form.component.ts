@@ -76,8 +76,7 @@ export class AccountFormComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     } else if (this.form.valid) {
-      if (this.mode === 'login') {
-        const payload: LoginDto = {
+      if (this.mode === 'login') {const payload: LoginDto = {
           username: this.form.value.username,
           email: this.form.value.email,
           password: this.form.value.password,
