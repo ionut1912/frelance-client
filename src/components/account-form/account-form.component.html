@@ -1,7 +1,7 @@
 <div class="flex items-center justify-center min-h-screen p-4">
   <mat-card class="w-full max-w-lg p-6 shadow-lg bg-gray-100 rounded-lg">
     <h2 class="text-2xl font-semibold mb-6 text-center">
-      {{ mode === 'register' ? 'Sign Up' : 'Log In' }}
+      {{ mode === "register" ? "Sign Up" : "Log In" }}
     </h2>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div *ngFor="let field of fields" class="mb-4">
@@ -9,7 +9,13 @@
           <mat-label>{{ field.label }}</mat-label>
           <input
             matInput
-            [type]="field.name === 'password' ? (hidePassword ? 'password' : 'text') : field.type"
+            [type]="
+              field.name === 'password'
+                ? hidePassword
+                  ? 'password'
+                  : 'text'
+                : field.type
+            "
             [formControlName]="field.name"
             [placeholder]="field.placeholder"
           />
@@ -21,15 +27,33 @@
             (click)="togglePasswordVisibility()"
             class="password-toggle"
           >
-            <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+            <mat-icon>{{
+              hidePassword ? "visibility" : "visibility_off"
+            }}</mat-icon>
           </button>
-          <mat-error *ngIf="form.get(field.name)?.hasError('required') && (form.get(field.name)?.touched || form.get(field.name)?.dirty)">
+          <mat-error
+            *ngIf="
+              form.get(field.name)?.hasError('required') &&
+              (form.get(field.name)?.touched || form.get(field.name)?.dirty)
+            "
+          >
             {{ field.label }} is required
           </mat-error>
-          <mat-error *ngIf="form.get(field.name)?.hasError('email') && (form.get(field.name)?.touched || form.get(field.name)?.dirty)">
+          <mat-error
+            *ngIf="
+              form.get(field.name)?.hasError('email') &&
+              (form.get(field.name)?.touched || form.get(field.name)?.dirty)
+            "
+          >
             Please enter a valid email
           </mat-error>
-          <mat-error *ngIf="field.name === 'phoneNumber' && form.get(field.name)?.hasError('pattern') && (form.get(field.name)?.touched || form.get(field.name)?.dirty)">
+          <mat-error
+            *ngIf="
+              field.name === 'phoneNumber' &&
+              form.get(field.name)?.hasError('pattern') &&
+              (form.get(field.name)?.touched || form.get(field.name)?.dirty)
+            "
+          >
             Phone number must contain only digits
           </mat-error>
         </mat-form-field>
@@ -38,7 +62,7 @@
         type="submit"
         class="mx-auto block w-full max-w-sm px-4 py-2 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors"
       >
-        {{ mode === 'register' ? 'Create Account' : 'Log In' }}
+        {{ mode === "register" ? "Create Account" : "Log In" }}
       </button>
     </form>
   </mat-card>

@@ -6,7 +6,9 @@
           <mat-radio-button value="Client" class="w-full text-center">
             <div class="flex items-center justify-center space-x-2">
               <span class="text-3xl">👔</span>
-              <span class="font-semibold text-xl">I'm a client, hiring for a project</span>
+              <span class="font-semibold text-xl"
+                >I'm a client, hiring for a project</span
+              >
             </div>
           </mat-radio-button>
         </div>
@@ -16,7 +18,9 @@
           <mat-radio-button value="Freelancer" class="w-full text-center">
             <div class="flex items-center justify-center space-x-2">
               <span class="text-3xl">💻</span>
-              <span class="font-semibold text-xl">I'm a freelancer, looking for work</span>
+              <span class="font-semibold text-xl"
+                >I'm a freelancer, looking for work</span
+              >
             </div>
           </mat-radio-button>
         </div>
@@ -28,7 +32,8 @@
     <button
       [routerLink]="['/register']"
       [state]="{ role: role }"
-      class="w-full py-3 text-xl font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors">
+      class="w-full py-3 text-xl font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors"
+    >
       Join as {{ role }}
     </button>
 

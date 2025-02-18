@@ -1,5 +1,5 @@
-import {ReviewsDto} from './Reviews';
-import {ProposalsDto} from './Proposals';
+import { ReviewsDto } from './Reviews';
+import { ProposalsDto } from './Proposals';
 
 interface LoginDto {
   username: string;
@@ -22,13 +22,13 @@ interface UserDto {
   email: string;
 }
 
-interface  UserProfileDto {
+interface UserProfileDto {
   id: number;
   username: string;
   email: string;
   phoneNumber: string;
-  reviews:ReviewsDto[];
-  proposals:ProposalsDto[];
+  reviews: ReviewsDto[];
+  proposals: ProposalsDto[];
   createdAt: Date;
 }
-export type { LoginDto, RegisterDto, UserDto,UserProfileDto };
+export type { LoginDto, RegisterDto, UserDto, UserProfileDto };

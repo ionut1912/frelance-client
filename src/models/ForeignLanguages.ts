@@ -1,3 +1,3 @@
-export interface ForeignLanguageDto{
-  language:string;
+export interface ForeignLanguageDto {
+  language: string;
 }
