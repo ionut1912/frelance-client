@@ -33,7 +33,7 @@ jobs:
         working-directory: terraform
 
       - name: Typescript Format Check
-        run: npx prettier --check "**/*.{ts,tsx,js,scss}"
+        run: npx prettier --check "**/*.{ts,tsx,js,scss,json}"
 
       - name: Docker login to ACR
         run: az acr login --name freelancewebacr
