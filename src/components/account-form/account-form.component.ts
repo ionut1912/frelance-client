@@ -76,13 +76,15 @@ export class AccountFormComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     } else if (this.form.valid) {
-      if (this.mode === 'login') {const payload: LoginDto = {
+      if (this.mode === 'login') {
+        const payload: LoginDto = {
           username: this.form.value.username,
           email: this.form.value.email,
           password: this.form.value.password,
         };
         this.store.dispatch(AuthActions.login({ payload }));
-      } else {const payload: RegisterDto = {
+      } else {
+        const payload: RegisterDto = {
           email: this.form.value.email,
           password: this.form.value.password,
           username: this.form.value.username,
@@ -91,7 +93,8 @@ export class AccountFormComponent implements OnInit {
         };
         this.store.dispatch(AuthActions.register({ payload }));
       }
-    } else {console.warn('Form is invalid:', this.form.errors);
+    } else {
+      console.warn('Form is invalid:', this.form.errors);
     }
   }
 }
