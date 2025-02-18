@@ -1,16 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component, Input, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { MatError } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../store/actions/auth.actions';
-import { LoginDto } from '../../models/LoginDto';
-import { RegisterDto } from '../../models/RegisterDto';
-import {MatIcon} from '@angular/material/icon';
-import {MatIconButton} from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
+import { LoginDto, RegisterDto } from '../../models/Accounts';
 
 @Component({
   selector: 'app-account-form',
@@ -23,29 +26,40 @@ import {MatIconButton} from '@angular/material/button';
     MatError,
     CommonModule,
     MatIcon,
-    MatIconButton
+    MatIconButton,
   ],
   templateUrl: './account-form.component.html',
-  styleUrls: ['./account-form.component.scss']
+  styleUrls: ['./account-form.component.scss'],
 })
 export class AccountFormComponent implements OnInit {
   @Input() mode: 'login' | 'register' = 'login';
-  @Input() fields: { name: string; label: string; type: string; placeholder: string }[] = [];
+  @Input() fields: {
+    name: string;
+    label: string;
+    type: string;
+    placeholder: string;
+  }[] = [];
   @Input() role?: 'Freelancer' | 'Client' = 'Freelancer';
 
   form!: FormGroup;
   hidePassword: boolean = true;
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+  ) {}
 
   ngOnInit(): void {
     const controls: { [key: string]: any } = {};
 
-    this.fields.forEach(field => {
+    this.fields.forEach((field) => {
       if (field.name === 'email') {
         controls[field.name] = ['', [Validators.required, Validators.email]];
       } else if (field.name === 'phoneNumber') {
-        controls[field.name] = ['', [Validators.required, Validators.pattern('^[0-9]+$')]];
+        controls[field.name] = [
+          '',
+          [Validators.required, Validators.pattern('^[0-9]+$')],
+        ];
       } else {
         controls[field.name] = ['', Validators.required];
       }
@@ -63,7 +77,7 @@ export class AccountFormComponent implements OnInit {
         const payload: LoginDto = {
           username: this.form.value.username,
           email: this.form.value.email,
-          password: this.form.value.password
+          password: this.form.value.password,
         };
         this.store.dispatch(AuthActions.login({ payload }));
       } else {
@@ -72,7 +86,7 @@ export class AccountFormComponent implements OnInit {
           password: this.form.value.password,
           username: this.form.value.username,
           phoneNumber: this.form.value.phoneNumber,
-          role: this.role!
+          role: this.role!,
         };
         this.store.dispatch(AuthActions.register({ payload }));
       }

@@ -7,14 +7,9 @@ import { MatRadioModule } from '@angular/material/radio';
 @Component({
   selector: 'app-join',
   templateUrl: './join.component.html',
-  imports: [
-    FormsModule,
-    MatRadioModule,
-    MatCard,
-    RouterLink
-  ],
+  imports: [FormsModule, MatRadioModule, MatCard, RouterLink],
   styleUrls: ['./join.component.scss'],
-  standalone: true
+  standalone: true,
 })
 export class JoinComponent {
   role: 'Freelancer' | 'Client' = 'Freelancer';
