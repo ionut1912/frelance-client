@@ -82,7 +82,7 @@ export class AccountFormComponent implements OnInit {
           email: this.form.value.email,
           password: this.form.value.password,
         };
-        this.store.dispatch(AuthActions.login({ payload }));
+                this.store.dispatch(AuthActions.login({ payload }));
       } else {
         const payload: RegisterDto = {
           email: this.form.value.email,
