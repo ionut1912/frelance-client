@@ -42,3 +42,4 @@ testem.log
 Thumbs.db
 /terraform/.terraform/
 /terraform/.terraform.lock.hcl
+/terraform/terraform.tfstate

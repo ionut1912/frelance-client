@@ -11,7 +11,7 @@ interface CreateClientProfileRequest {
   addressCity: string;
   addressZip: string;
   bio: string;
-  profileImage: File;
+  image: string;
 }
 
 interface ClientProfileDto {
@@ -32,7 +32,7 @@ interface UpdateClientProfileRequest {
   addressCity?: string;
   addressZip?: string;
   bio?: string;
-  profileImage?: File;
+  image?: string;
 }
 
 export type {

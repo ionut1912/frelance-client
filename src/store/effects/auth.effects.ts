@@ -54,6 +54,7 @@ export class AuthEffects {
           tap((loginSuccessful) => {
             this.zone.run(() => {
               this.toaster.success('Login successful');
+              sessionStorage.setItem('JwtToken', loginSuccessful.user.token);
               const role = this.getRoleFromToken(loginSuccessful.user.token);
               if (role === 'Freelancer') {
                 this.router.navigateByUrl('/freelancer').then((r) => {});

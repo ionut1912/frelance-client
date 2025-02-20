@@ -1,58 +1,43 @@
-name: Deploy to Azure (Terraform & Docker via Publish Profile)
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Manually Login to Azure
-        run: |
-          az login --use-device-code
-          az account set --subscription ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Check Terraform Formatting
-        run: terraform fmt -check
-        working-directory: terraform
-
-      - name: Terraform Init
-        run: terraform init
-        working-directory: terraform
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-        working-directory: terraform
-
-      - name: Typescript Format Check
-        run: npx prettier --check "**/*.{ts,tsx,js,scss,json}"
-
-      - name: Docker login to ACR
-        run: az acr login --name freelancewebacr
-
-      - name: Build Docker image
-        run: docker build --no-cache -t freelance-client .
-
-      - name: Tag Docker image
-        run: docker tag freelance-client freelancewebacr.azurecr.io/freelance-client:latest
-
-      - name: Push Docker image to ACR
-        run: docker push freelancewebacr.azurecr.io/freelance-client:latest
-
-      - name: Deploy Docker image to Azure App Service
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: freelance-client
-          images: freelancewebacr.azurecr.io/freelance-client:latest
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-
-      - name: Restart Azure App Service
-        run: az webapp restart --name freelance-client --resource-group freelance-client
+#name: Deploy to Azure (Terraform & Docker via Publish Profile)
+#
+#on:
+#  push:
+#    branches:
+#      - main
+#
+#jobs:
+#  build-and-deploy:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#
+#      - name: Manually Login to Azure
+#        run: |
+#          az login --use-device-code
+#          az account set --subscription ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+#
+#      - name: Typescript Format Check
+#        run: npx prettier --check "**/*.{ts,tsx,js,scss,json}"
+#
+#      - name: Docker login to ACR
+#        run: az acr login --name freelancewebacr
+#
+#      - name: Build Docker image
+#        run: docker build --no-cache -t freelance-client .
+#
+#      - name: Tag Docker image
+#        run: docker tag freelance-client freelancewebacr.azurecr.io/freelance-client:latest
+#
+#      - name: Push Docker image to ACR
+#        run: docker push freelancewebacr.azurecr.io/freelance-client:latest
+#
+#      - name: Deploy Docker image to Azure App Service
+#        uses: azure/webapps-deploy@v2
+#        with:
+#          app-name: freelance-client
+#          images: freelancewebacr.azurecr.io/freelance-client:latest
+#          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+#
+#      - name: Restart Azure App Service
+#        run: az webapp restart --name freelance-client --resource-group freelance-client

@@ -1,43 +1,32 @@
 import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
   HttpRequest,
+  HttpEvent,
+  HttpInterceptorFn,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { AuthState } from '../../store/reducers/auth.reducers';
-import { Store } from '@ngrx/store';
-import { Observable, switchMap, take } from 'rxjs';
+import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
-export class JwtInterceptor implements HttpInterceptor {
-  constructor(private store: Store<{ auth: AuthState }>) {}
+export const jwtInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<any>,
+  next: (req: HttpRequest<any>) => Observable<HttpEvent<any>>
+): Observable<HttpEvent<any>> => {
+  let token: string | null = null;
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    return this.store
-      .select((state) => state.auth.token)
-      .pipe(
-        take(1),
-        switchMap((token) => {
-          if (token && req.headers.has('Requires-Auth')) {
-            const clonedReq = req.clone({
-              setHeaders: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-
-            return next.handle(
-              clonedReq.clone({
-                headers: clonedReq.headers.delete('Requires-Auth'),
-              })
-            );
-          }
-
-          return next.handle(req);
-        })
-      );
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    token = sessionStorage.getItem('JwtToken');
   }
-}
+
+  if (token && req.headers.has('requires-auth')) {
+    const clonedReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return next(
+      clonedReq.clone({
+        headers: clonedReq.headers.delete('requires-auth'),
+      })
+    );
+  }
+
+  return next(req);
+};
