@@ -1,11 +1,11 @@
 <app-navbar></app-navbar>
-<!-- Show spinner until profile is loaded -->
+
 <ng-container *ngIf="profileLoaded; else loading">
-  <!-- Once loaded, check if a profile exists -->
+
   <ng-container *ngIf="clientProfile$ | async as data; else form">
     <div class="text-center p-4">Profile created</div>
   </ng-container>
-  <!-- If no profile, show the multi-step form -->
+
   <ng-template #form>
     <div class="flex items-center justify-center min-h-screen p-4">
       <mat-horizontal-stepper linear class="w-full max-w-3xl">

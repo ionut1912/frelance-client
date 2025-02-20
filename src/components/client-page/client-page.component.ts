@@ -97,7 +97,7 @@ export class ClientPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(ClientProfileActions.getClientProfiles());
+    this.store.dispatch(ClientProfileActions.getCurrentClientProfile());
     this.store.dispatch(CountryActions.loadCountries());
 
     this.clientProfile$.subscribe(() => {

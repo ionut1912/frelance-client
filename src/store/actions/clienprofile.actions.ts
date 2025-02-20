@@ -16,15 +16,15 @@ const createClientProfileFailure = createAction(
   '[Client Profile] create client profile failure',
   props<{ error: HttpErrorResponse }>()
 );
-const getClientProfiles = createAction('[Data] Get Client Profiles');
-const getClientProfilesResult = createAction(
+const getCurrentClientProfile = createAction('[Data] Get Client Profiles');
+const getCurrentClientProfileResult = createAction(
   '[Data] Get Client Profiles Result',
   props<{ clientProfile: ClientProfileDto }>()
 );
 
 export {
-  getClientProfiles,
-  getClientProfilesResult,
+  getCurrentClientProfile,
+  getCurrentClientProfileResult,
   createClientProfile,
   createClientProfileSuccess,
   createClientProfileFailure,

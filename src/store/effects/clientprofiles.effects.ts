@@ -14,13 +14,13 @@ export class ClientProfilesEffects {
   private toaster = inject(ToastrService);
   loadClientProfiles$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ClientProfileActions.getClientProfiles),
+      ofType(ClientProfileActions.getCurrentClientProfile),
       mergeMap(() =>
         this.clientProfileService
           .getCurrentClientProfiles()
           .pipe(
             map((clientProfile) =>
-              ClientProfileActions.getClientProfilesResult({ clientProfile })
+              ClientProfileActions.getCurrentClientProfileResult({ clientProfile })
             )
           )
       )

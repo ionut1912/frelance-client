@@ -19,9 +19,9 @@ export const clientProfileReducer = createReducer(
     ...state,
     error,
   })),
-  on(ClientProfileActions.getClientProfiles, (state) => ({ ...state })),
+  on(ClientProfileActions.getCurrentClientProfile, (state) => ({ ...state })),
   on(
-    ClientProfileActions.getClientProfilesResult,
+    ClientProfileActions.getCurrentClientProfileResult,
     (state, { clientProfile }) => ({ ...state, clientProfile })
   )
 );

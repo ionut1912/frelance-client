@@ -19,7 +19,7 @@ interface ClientProfileDto {
   user: UserProfileDto;
   address: AddressDto;
   bio: string;
-  profileImageUrl: string;
+  image: string;
   contracts?: ContractsDto[];
   projects?: ProjectDto[];
   invoices?: InvoicesDto[];
