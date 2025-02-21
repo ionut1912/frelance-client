@@ -31,4 +31,5 @@ interface UserProfileDto {
   proposals: ProposalsDto[];
   createdAt: Date;
 }
+
 export type { LoginDto, RegisterDto, UserDto, UserProfileDto };

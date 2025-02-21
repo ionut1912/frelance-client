@@ -3,33 +3,36 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BASE_API_URL } from '../app/base_url';
 import { Observable } from 'rxjs';
 import {
-  ClientProfileDto,
-  CreateClientProfileRequest,
+  CreateFreelancerProfileRequest,
+  FreelancerProfileDto,
 } from '../models/UserProfile';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ClientProfileService {
+export class FreelancerProfileService {
   constructor(
     private http: HttpClient,
     @Inject(BASE_API_URL) private baseUrl: string
   ) {}
 
-  getCurrentClientProfiles(): Observable<ClientProfileDto> {
+  getCurrentFreelancerProfile(): Observable<FreelancerProfileDto> {
     const headers = new HttpHeaders({
       'requires-auth': '',
     });
-    return this.http.get<ClientProfileDto>(
-      `${this.baseUrl}/api/current/clientProfiles`,
+    return this.http.get<FreelancerProfileDto>(
+      `${this.baseUrl}/api/current/freelancerProfiles`,
       { headers }
     );
   }
-  createClientProfile(payload: CreateClientProfileRequest): Observable<any> {
+
+  createFreelancerProfile(
+    payload: CreateFreelancerProfileRequest
+  ): Observable<any> {
     const headers = new HttpHeaders({
       'requires-auth': '',
     });
-    return this.http.post(`${this.baseUrl}/api/clientProfiles`, payload, {
+    return this.http.post(`${this.baseUrl}/api/freelancerProfiles`, payload, {
       headers,
     });
   }

@@ -8,7 +8,7 @@ export interface AuthState {
   error: HttpErrorResponse | null;
 }
 
-export const initialState: AuthState = {
+const initialState: AuthState = {
   user: null,
   error: null,
 };

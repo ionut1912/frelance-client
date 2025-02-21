@@ -1,1 +1,328 @@
-<p>freelancer-page works!</p>
+<app-navbar></app-navbar>
+
+<ng-container *ngIf="profileLoaded; else loading">
+  <ng-container *ngIf="freelancerProfile$ | async as data; else form">
+    <div class="text-center p-4">Profile created</div>
+  </ng-container>
+  <ng-template #form>
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <mat-horizontal-stepper linear class="w-full max-w-3xl">
+        <!-- Address Step -->
+        <mat-step [stepControl]="addressForm" label="Address">
+          <form [formGroup]="addressForm" class="space-y-4">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Select a Country</mat-label>
+              <mat-select formControlName="country" required>
+                <mat-option>
+                  <ngx-mat-select-search
+                    [formControl]="countryFilterCtrl"
+                    placeholderLabel="Search country..."
+                    noEntriesFoundLabel="No matching country"
+                  >
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option
+                  *ngFor="let country of filteredCountries"
+                  [value]="country"
+                >
+                  {{ country.name.common }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="addressForm.get('country')?.hasError('required')"
+              >
+                Country is required.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Select a City</mat-label>
+              <mat-select formControlName="city" required>
+                <mat-option>
+                  <ngx-mat-select-search
+                    [formControl]="cityFilterCtrl"
+                    placeholderLabel="Search city..."
+                    noEntriesFoundLabel="No matching city"
+                  >
+                  </ngx-mat-select-search>
+                </mat-option>
+                <ng-container *ngIf="citiesLoading$ | async; else cityOptions">
+                  <mat-option disabled>
+                    <mat-progress-spinner
+                      mode="indeterminate"
+                      diameter="24"
+                    ></mat-progress-spinner>
+                    Loading cities...
+                  </mat-option>
+                </ng-container>
+                <ng-template #cityOptions>
+                  <mat-option
+                    *ngFor="let city of filteredCitiesList"
+                    [value]="city"
+                  >
+                    {{ city }}
+                  </mat-option>
+                </ng-template>
+              </mat-select>
+              <mat-error *ngIf="addressForm.get('city')?.hasError('required')">
+                City is required.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Street</mat-label>
+              <input matInput formControlName="street" required />
+              <mat-error
+                *ngIf="addressForm.get('street')?.hasError('required')"
+              >
+                Street is required.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Street Number</mat-label>
+              <input matInput formControlName="streetNumber" required />
+              <mat-error
+                *ngIf="addressForm.get('streetNumber')?.hasError('required')"
+              >
+                Street number is required.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Zipcode</mat-label>
+              <input matInput formControlName="zipCode" required />
+              <mat-error
+                *ngIf="addressForm.get('zipCode')?.hasError('required')"
+              >
+                Zipcode is required.
+              </mat-error>
+            </mat-form-field>
+            <div class="flex justify-end">
+              <button
+                mat-button
+                matStepperNext
+                class="bg-blue-500 text-white px-4 py-2 rounded"
+                [disabled]="addressForm.invalid"
+              >
+                Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- User Data Step -->
+        <mat-step [stepControl]="userDataForm" label="User Data">
+          <form [formGroup]="userDataForm" class="space-y-4">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Bio</mat-label>
+              <textarea matInput formControlName="bio" required></textarea>
+              <mat-error *ngIf="userDataForm.get('bio')?.hasError('required')">
+                Bio is required.
+              </mat-error>
+            </mat-form-field>
+            <div>
+              <input
+                type="file"
+                (change)="onFileSelected($event)"
+                required
+                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              />
+              <mat-error
+                *ngIf="userDataForm.get('image')?.hasError('required')"
+              >
+                Image is required.
+              </mat-error>
+              <mat-error
+                *ngIf="userDataForm.get('image')?.hasError('notImage')"
+              >
+                Please select a valid image file.
+              </mat-error>
+              <mat-error
+                *ngIf="userDataForm.get('image')?.hasError('forbiddenFileType')"
+              >
+                Forbidden file type. Only images are allowed.
+              </mat-error>
+            </div>
+            <div *ngIf="imageSrc" class="mt-4">
+              <p class="text-sm font-semibold">Image Preview:</p>
+              <img
+                [src]="imageSrc"
+                alt="Image preview"
+                class="max-w-xs border rounded"
+              />
+            </div>
+            <div class="flex justify-between mt-4">
+              <button
+                mat-button
+                matStepperPrevious
+                class="bg-gray-500 text-white px-4 py-2 rounded"
+              >
+                Back
+              </button>
+              <button
+                mat-button
+                matStepperNext
+                class="bg-green-500 text-white px-4 py-2 rounded"
+                [disabled]="userDataForm.invalid"
+              >
+                Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Freelancer Profile Step -->
+        <mat-step
+          [stepControl]="freelancerProfileForm"
+          label="Freelancer Profile"
+        >
+          <form [formGroup]="freelancerProfileForm" class="space-y-4">
+            <!-- Programming Languages (multiple select) -->
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Programming Languages</mat-label>
+              <mat-select
+                formControlName="programmingLanguages"
+                multiple
+                required
+              >
+                <mat-option
+                  *ngFor="let skill of freelancerProfileSkills$ | async"
+                  [value]="skill.programmingLanguage"
+                >
+                  {{ skill.programmingLanguage }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  freelancerProfileForm
+                    .get('programmingLanguages')
+                    ?.hasError('required')
+                "
+              >
+                Programming Languages is required.
+              </mat-error>
+            </mat-form-field>
+            <!-- Areas (unique list from uniqueAreas$) -->
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Area</mat-label>
+              <mat-select formControlName="areas" required>
+                <mat-option
+                  *ngFor="let area of uniqueAreas$ | async"
+                  [value]="area"
+                >
+                  {{ area }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="freelancerProfileForm.get('areas')?.hasError('required')"
+              >
+                Area is required.
+              </mat-error>
+            </mat-form-field>
+            <!-- Foreign Languages (multiple select) -->
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Foreign Languages</mat-label>
+              <mat-select formControlName="foreignLanguages" multiple required>
+                <mat-option
+                  *ngFor="let language of freelancerProfileLanguages$ | async"
+                  [value]="language.code"
+                >
+                  {{ language.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  freelancerProfileForm
+                    .get('foreignLanguages')
+                    ?.hasError('required')
+                "
+              >
+                Foreign Language is required.
+              </mat-error>
+            </mat-form-field>
+            <!-- Experience -->
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Experience</mat-label>
+              <input matInput formControlName="experience" required />
+              <mat-error
+                *ngIf="
+                  freelancerProfileForm.get('experience')?.hasError('required')
+                "
+              >
+                Experience is required.
+              </mat-error>
+            </mat-form-field>
+            <!-- Rate -->
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Rate</mat-label>
+              <input matInput formControlName="rate" required />
+              <mat-error
+                *ngIf="freelancerProfileForm.get('rate')?.hasError('required')"
+              >
+                Rate is required.
+              </mat-error>
+            </mat-form-field>
+            <!-- Currency -->
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Currency</mat-label>
+              <input matInput formControlName="currency" required />
+              <mat-error
+                *ngIf="
+                  freelancerProfileForm.get('currency')?.hasError('required')
+                "
+              >
+                Currency is required.
+              </mat-error>
+            </mat-form-field>
+            <!-- Rating -->
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Rating</mat-label>
+              <input matInput formControlName="rating" required />
+              <mat-error
+                *ngIf="
+                  freelancerProfileForm.get('rating')?.hasError('required')
+                "
+              >
+                Rating is required.
+              </mat-error>
+            </mat-form-field>
+            <!-- Portfolio URL -->
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Portfolio URL</mat-label>
+              <input matInput formControlName="portfolioUrl" required />
+              <mat-error
+                *ngIf="
+                  freelancerProfileForm
+                    .get('portfolioUrl')
+                    ?.hasError('required')
+                "
+              >
+                Portfolio URL is required.
+              </mat-error>
+            </mat-form-field>
+            <div class="flex justify-between mt-4">
+              <button
+                mat-button
+                matStepperPrevious
+                class="bg-gray-500 text-white px-4 py-2 rounded"
+              >
+                Back
+              </button>
+              <button
+                mat-button
+                (click)="completeStepper()"
+                class="bg-green-500 text-white px-4 py-2 rounded"
+                [disabled]="freelancerProfileForm.invalid"
+              >
+                Complete
+              </button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </ng-template>
+</ng-container>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center min-h-screen">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</ng-template>

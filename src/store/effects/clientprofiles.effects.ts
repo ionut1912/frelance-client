@@ -20,7 +20,9 @@ export class ClientProfilesEffects {
           .getCurrentClientProfiles()
           .pipe(
             map((clientProfile) =>
-              ClientProfileActions.getCurrentClientProfileResult({ clientProfile })
+              ClientProfileActions.getCurrentClientProfileResult({
+                clientProfile,
+              })
             )
           )
       )
@@ -39,7 +41,6 @@ export class ClientProfilesEffects {
           }),
           catchError((error: HttpErrorResponse) => {
             this.zone.run(() => {
-              console.log(error);
               if (error.error === null) {
                 this.toaster.error('Unable to create Client Profile');
               } else if (error && Array.isArray(error.error.errors)) {

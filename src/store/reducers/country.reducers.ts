@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as CountryActions from '../actions/country.actions';
-import { Country } from '../../models/Country';
+import { Country } from '../../models/ExternalApis';
 
 export interface CountryState {
   countries: Country[];
@@ -12,7 +12,7 @@ const initialState: CountryState = {
   error: null,
 };
 
-export const countryReducer = createReducer(
+export const countryReducers = createReducer(
   initialState,
   on(CountryActions.loadCountries, (state) => ({
     ...state,

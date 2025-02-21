@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import * as CountryActions from '../actions/country.actions';
-import { Country } from '../../models/Country';
+import { Country } from '../../models/ExternalApis';
 
 @Injectable()
 export class CountryEffects {

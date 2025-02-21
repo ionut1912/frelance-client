@@ -1,9 +1,12 @@
 import { UserProfileDto } from './Accounts';
-import { AddressDto } from './Addresses';
 import { TaskDto } from './Tasks';
-import { ForeignLanguageDto } from './ForeignLanguages';
-import { SkillDto } from './Skills';
 import { ProjectDto } from './Projects';
+import { ContractsDto } from './Contracts';
+import { InvoicesDto } from './Invoices';
+
+interface ForeignLanguageDto {
+  language: string;
+}
 
 interface CreateFreelancerProfileRequest {
   addressCountry: string;
@@ -12,8 +15,8 @@ interface CreateFreelancerProfileRequest {
   addressCity: string;
   addressZip: string;
   bio: string;
-  profileImage: File;
-  programingLanguages: string[];
+  image: string;
+  programmingLanguages: string[];
   areas: string[];
   foreignLanguages: string[];
   experience: string;
@@ -59,8 +62,57 @@ interface UpdateFreelancerProfileRequest {
   portfolioUrl?: string;
 }
 
+interface CreateClientProfileRequest {
+  addressCountry: string;
+  addressStreet: string;
+  addressStreetNumber: string;
+  addressCity: string;
+  addressZip: string;
+  bio: string;
+  image: string;
+}
+interface AddressDto {
+  id: number;
+  country: string;
+  city: string;
+  street: string;
+  streetNumber: string;
+  zipCode: string;
+}
+
+interface ClientProfileDto {
+  id: number;
+  user: UserProfileDto;
+  address: AddressDto;
+  bio: string;
+  image: string;
+  contracts?: ContractsDto[];
+  projects?: ProjectDto[];
+  invoices?: InvoicesDto[];
+}
+
+interface UpdateClientProfileRequest {
+  addressCountry?: string;
+  addressStreet?: string;
+  addressStreetNumber?: string;
+  addressCity?: string;
+  addressZip?: string;
+  bio?: string;
+  image?: string;
+}
+interface SkillDto {
+  id: number;
+  programmingLanguage: string;
+  area: string;
+}
+
 export type {
+  CreateClientProfileRequest,
+  ClientProfileDto,
+  UpdateClientProfileRequest,
   CreateFreelancerProfileRequest,
   FreelancerProfileDto,
   UpdateFreelancerProfileRequest,
+  SkillDto,
+  ForeignLanguageDto,
 };

@@ -22,9 +22,15 @@ import { clientProfileReducer } from '../store/reducers/clientprofile.reducers';
 import { ClientProfilesEffects } from '../store/effects/clientprofiles.effects';
 import { jwtInterceptor } from '../services/interceptors/TokenInterceptor';
 import { CountryEffects } from '../store/effects/country.effects';
-import { countryReducer } from '../store/reducers/country.reducer';
+import { countryReducers } from '../store/reducers/country.reducers';
 import { CityEffects } from '../store/effects/city.effects';
-import { cityReducer } from '../store/reducers/city.reducer';
+import { cityReducers } from '../store/reducers/city.reducers';
+import { languageReducer } from '../store/reducers/lanuguage.reducer';
+import { LanguageEffects } from '../store/effects/languages.effects';
+import { SkillsEffects } from '../store/effects/skills.effects';
+import { skillReducer } from '../store/reducers/skills.reducers';
+import { FreelancerProfileEffects } from '../store/effects/freelancerprofile.effects';
+import { freelancerProfileReducer } from '../store/reducers/freelancerprofile.reducers';
 
 export const APP_PROVIDERS = [
   provideAnimations(),
@@ -33,14 +39,20 @@ export const APP_PROVIDERS = [
   provideStore({
     auth: authReducer,
     clientProfile: clientProfileReducer,
-    countries: countryReducer,
-    cities: cityReducer,
+    countries: countryReducers,
+    cities: cityReducers,
+    languages: languageReducer,
+    skills: skillReducer,
+    freelancerProfile: freelancerProfileReducer,
   }),
   provideEffects([
     AuthEffects,
     ClientProfilesEffects,
     CountryEffects,
     CityEffects,
+    LanguageEffects,
+    SkillsEffects,
+    FreelancerProfileEffects,
   ]),
   importProvidersFrom(BrowserAnimationsModule),
   importProvidersFrom(ToastrModule.forRoot()),

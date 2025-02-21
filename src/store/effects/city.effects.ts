@@ -23,8 +23,15 @@ export class CityEffects {
               ? this.http.get<any>(urlForRow((i + 1) * pageSize))
               : EMPTY
           ),
-          reduce((all, current) => all.concat(current.geonames || []), [] as any[]),
-          map((cities) => CityActions.loadCitiesSuccess({ cities: cities.map((item: any) => item.name) })),
+          reduce(
+            (all, current) => all.concat(current.geonames || []),
+            [] as any[]
+          ),
+          map((cities) =>
+            CityActions.loadCitiesSuccess({
+              cities: cities.map((item: any) => item.name),
+            })
+          ),
           catchError((error) =>
             of(CityActions.loadCitiesFailure({ error: error.message }))
           )

@@ -13,7 +13,7 @@ const initialState: CityState = {
   error: null,
 };
 
-export const cityReducer = createReducer(
+export const cityReducers = createReducer(
   initialState,
   on(CityActions.loadCities, (state) => ({
     ...state,

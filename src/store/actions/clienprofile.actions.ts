@@ -1,9 +1,9 @@
 import { createAction, props } from '@ngrx/store';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ClientProfileDto,
   CreateClientProfileRequest,
-} from '../../models/ClientProfile';
-import { HttpErrorResponse } from '@angular/common/http';
+} from '../../models/UserProfile';
 
 const createClientProfile = createAction(
   '[Client Profile] create client profile',

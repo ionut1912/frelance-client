@@ -1,18 +1,14 @@
 <app-navbar></app-navbar>
 
 <ng-container *ngIf="profileLoaded; else loading">
-
   <ng-container *ngIf="clientProfile$ | async as data; else form">
     <div class="text-center p-4">Profile created</div>
   </ng-container>
-
   <ng-template #form>
     <div class="flex items-center justify-center min-h-screen p-4">
       <mat-horizontal-stepper linear class="w-full max-w-3xl">
-        <!-- Address Step -->
         <mat-step [stepControl]="addressForm" label="Address">
           <form [formGroup]="addressForm" class="space-y-4">
-            <!-- Country Select -->
             <mat-form-field appearance="fill" class="w-full">
               <mat-label>Select a Country</mat-label>
               <mat-select formControlName="country" required>
@@ -37,7 +33,6 @@
                 Country is required.
               </mat-error>
             </mat-form-field>
-            <!-- City Select -->
             <mat-form-field appearance="fill" class="w-full">
               <mat-label>Select a City</mat-label>
               <mat-select formControlName="city" required>
@@ -71,7 +66,6 @@
                 City is required.
               </mat-error>
             </mat-form-field>
-            <!-- Street -->
             <mat-form-field appearance="fill" class="w-full">
               <mat-label>Street</mat-label>
               <input matInput formControlName="street" required />
@@ -113,10 +107,8 @@
             </div>
           </form>
         </mat-step>
-        <!-- User Data Step -->
         <mat-step [stepControl]="userDataForm" label="User Data">
           <form [formGroup]="userDataForm" class="space-y-4">
-            <!-- Bio -->
             <mat-form-field appearance="fill" class="w-full">
               <mat-label>Bio</mat-label>
               <textarea matInput formControlName="bio" required></textarea>
@@ -124,7 +116,6 @@
                 Bio is required.
               </mat-error>
             </mat-form-field>
-            <!-- Image Upload -->
             <div>
               <input
                 type="file"
@@ -148,11 +139,10 @@
                 Forbidden file type. Only images are allowed.
               </mat-error>
             </div>
-            <!-- Image Preview using ngSrc -->
             <div *ngIf="imageSrc" class="mt-4">
               <p class="text-sm font-semibold">Image Preview:</p>
               <img
-                ngSrc="{{ imageSrc }}"
+                [src]="imageSrc"
                 alt="Image preview"
                 class="max-w-xs border rounded"
               />
@@ -180,7 +170,6 @@
     </div>
   </ng-template>
 </ng-container>
-<!-- Loading Spinner -->
 <ng-template #loading>
   <div class="flex items-center justify-center min-h-screen">
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>

@@ -9,11 +9,6 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import {
-  ClientProfileDto,
-  CreateClientProfileRequest,
-} from '../../models/ClientProfile';
-import { Country } from '../../models/Country';
 import * as ClientProfileActions from '../../store/actions/clienprofile.actions';
 import * as CountryActions from '../../store/actions/country.actions';
 import * as CityActions from '../../store/actions/city.actions';
@@ -30,11 +25,15 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { ClientProfileState } from '../../store/reducers/clientprofile.reducers';
-import { CountryState } from '../../store/reducers/country.reducer';
-import { CityState } from '../../store/reducers/city.reducer';
+import { CountryState } from '../../store/reducers/country.reducers';
+import { CityState } from '../../store/reducers/city.reducers';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgOptimizedImage } from '@angular/common';
+import { Country } from '../../models/ExternalApis';
+import {
+  ClientProfileDto,
+  CreateClientProfileRequest,
+} from '../../models/UserProfile';
 
 @Component({
   selector: 'app-client-page',
@@ -58,7 +57,6 @@ import { NgOptimizedImage } from '@angular/common';
     NgxMatSelectSearchModule,
     MatProgressSpinnerModule,
     MatError,
-    NgOptimizedImage,
   ],
   styleUrls: ['./client-page.component.css'],
 })
@@ -75,9 +73,7 @@ export class ClientPageComponent implements OnInit {
   filteredCountries: Country[] = [];
   allCitiesList: string[] = [];
   filteredCitiesList: string[] = [];
-
   imageSrc: string | null = null;
-  // New flag to know if the client profile has been loaded
   profileLoaded = false;
 
   constructor(

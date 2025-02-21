@@ -1,14 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
-import { ClientProfileDto } from '../../models/ClientProfile';
 import * as ClientProfileActions from '../actions/clienprofile.actions';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ClientProfileDto } from '../../models/UserProfile';
 
 export interface ClientProfileState {
   clientProfile: ClientProfileDto | null;
   error: HttpErrorResponse | null;
 }
 
-export const initialState: ClientProfileState = {
+const initialState: ClientProfileState = {
   clientProfile: null,
   error: null,
 };
