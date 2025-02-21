@@ -22,7 +22,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
-import { map, startWith, skip } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import {
   CreateFreelancerProfileRequest,
   FreelancerProfileDto,
@@ -133,7 +133,7 @@ export class FrelancerPageComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(FreelancerProfileActions.getCurrentFreelancerProfile());
     this.store.dispatch(CountryActions.loadCountries());
-    this.freelancerProfile$.pipe(skip(1)).subscribe(() => {
+    this.freelancerProfile$.subscribe(() => {
       this.profileLoaded = true;
     });
 

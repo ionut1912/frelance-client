@@ -16,15 +16,13 @@ export class ClientProfilesEffects {
     this.actions$.pipe(
       ofType(ClientProfileActions.getCurrentClientProfile),
       mergeMap(() =>
-        this.clientProfileService
-          .getCurrentClientProfiles()
-          .pipe(
-            map((clientProfile) =>
-              ClientProfileActions.getCurrentClientProfileResult({
-                clientProfile,
-              })
-            )
+        this.clientProfileService.getCurrentClientProfiles().pipe(
+          map((clientProfile) =>
+            ClientProfileActions.getCurrentClientProfileResult({
+              clientProfile,
+            })
           )
+        )
       )
     )
   );
