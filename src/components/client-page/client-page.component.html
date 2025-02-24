@@ -1,170 +1,40 @@
 <app-navbar></app-navbar>
-
 <ng-container *ngIf="profile === undefined; else loaded">
-  <ng-template [ngTemplateOutlet]="loading"></ng-template>
+  <ng-container *ngTemplateOutlet="loading"></ng-container>
 </ng-container>
-
 <ng-template #loaded>
   <ng-container *ngIf="profile === null; else profileCreated">
-    <ng-template [ngTemplateOutlet]="form"></ng-template>
+    <ng-template [ngTemplateOutlet]="profileForm"></ng-template>
   </ng-container>
 </ng-template>
-
 <ng-template #profileCreated>
   <div class="text-center p-4">Profile created</div>
 </ng-template>
-
-<ng-template #form>
+<ng-template #profileForm>
   <div class="flex items-center justify-center min-h-screen p-4">
     <mat-horizontal-stepper linear class="w-full max-w-3xl">
       <mat-step [stepControl]="addressForm" label="Address">
-        <form [formGroup]="addressForm" class="space-y-4">
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Select a Country</mat-label>
-            <mat-select formControlName="country" required>
-              <mat-option>
-                <ngx-mat-select-search
-                  [formControl]="countryFilterCtrl"
-                  placeholderLabel="Search country..."
-                  noEntriesFoundLabel="No matching country"
-                >
-                </ngx-mat-select-search>
-              </mat-option>
-              <mat-option
-                *ngFor="let country of filteredCountries"
-                [value]="country"
-              >
-                {{ country.name.common }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="addressForm.get('country')?.hasError('required')">
-              Country is required.
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Select a City</mat-label>
-            <mat-select formControlName="city" required>
-              <mat-option>
-                <ngx-mat-select-search
-                  [formControl]="cityFilterCtrl"
-                  placeholderLabel="Search city..."
-                  noEntriesFoundLabel="No matching city"
-                >
-                </ngx-mat-select-search>
-              </mat-option>
-              <ng-container *ngIf="citiesLoading$ | async; else cityOptions">
-                <mat-option disabled>
-                  <mat-progress-spinner
-                    mode="indeterminate"
-                    diameter="24"
-                  ></mat-progress-spinner>
-                  Loading cities...
-                </mat-option>
-              </ng-container>
-              <ng-template #cityOptions>
-                <mat-option
-                  *ngFor="let city of filteredCitiesList"
-                  [value]="city"
-                >
-                  {{ city }}
-                </mat-option>
-              </ng-template>
-            </mat-select>
-            <mat-error *ngIf="addressForm.get('city')?.hasError('required')">
-              City is required.
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Street</mat-label>
-            <input matInput formControlName="street" required />
-            <mat-error *ngIf="addressForm.get('street')?.hasError('required')">
-              Street is required.
-            </mat-error>
-          </mat-form-field>
-          <!-- Street Number -->
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Street Number</mat-label>
-            <input matInput formControlName="streetNumber" required />
-            <mat-error
-              *ngIf="addressForm.get('streetNumber')?.hasError('required')"
-            >
-              Street number is required.
-            </mat-error>
-          </mat-form-field>
-          <!-- Zipcode -->
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Zipcode</mat-label>
-            <input matInput formControlName="zipCode" required />
-            <mat-error *ngIf="addressForm.get('zipCode')?.hasError('required')">
-              Zipcode is required.
-            </mat-error>
-          </mat-form-field>
-          <div class="flex justify-end">
-            <button
-              mat-button
-              matStepperNext
-              class="bg-blue-500 text-white px-4 py-2 rounded"
-              [disabled]="addressForm.invalid"
-            >
-              Next
-            </button>
-          </div>
-        </form>
+        <app-address-form
+          [formGroup]="addressForm"
+          [countryFilterCtrl]="countryFilterCtrl"
+          [filteredCountries]="filteredCountries"
+          [cityFilterCtrl]="cityFilterCtrl"
+          [filteredCitiesList]="filteredCitiesList"
+          [citiesLoading]="false">
+        </app-address-form>
       </mat-step>
       <mat-step [stepControl]="userDataForm" label="User Data">
-        <form [formGroup]="userDataForm" class="space-y-4">
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Bio</mat-label>
-            <textarea matInput formControlName="bio" required></textarea>
-            <mat-error *ngIf="userDataForm.get('bio')?.hasError('required')">
-              Bio is required.
-            </mat-error>
-          </mat-form-field>
-          <div>
-            <input
-              type="file"
-              (change)="onFileSelected($event)"
-              required
-              class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-            />
-            <mat-error *ngIf="userDataForm.get('image')?.hasError('required')">
-              Image is required.
-            </mat-error>
-            <mat-error *ngIf="userDataForm.get('image')?.hasError('notImage')">
-              Please select a valid image file.
-            </mat-error>
-            <mat-error
-              *ngIf="userDataForm.get('image')?.hasError('forbiddenFileType')"
-            >
-              Forbidden file type. Only images are allowed.
-            </mat-error>
-          </div>
-          <div *ngIf="imageSrc" class="mt-4">
-            <p class="text-sm font-semibold">Image Preview:</p>
-            <img
-              [src]="imageSrc"
-              alt="Image preview"
-              class="max-w-xs border rounded"
-            />
-          </div>
-          <div class="flex justify-between mt-4">
-            <button
-              mat-button
-              matStepperPrevious
-              class="bg-gray-500 text-white px-4 py-2 rounded"
-            >
-              Back
-            </button>
-            <button
-              mat-button
-              (click)="completeStepper()"
-              class="bg-green-500 text-white px-4 py-2 rounded"
-              [disabled]="userDataForm.invalid"
-            >
-              Complete
-            </button>
-          </div>
-        </form>
+        <app-user-data-form
+          [formGroup]="userDataForm"
+          [imageSrc]="imageSrc"
+          (fileSelectedEvent)="onFileSelected($event)"
+        [isFreelancer]=false>
+        </app-user-data-form>
+        <div class="flex justify-end mt-4">
+          <button mat-button (click)="completeStepper()" class="bg-green-500 text-white px-4 py-2 rounded" [disabled]="userDataForm.invalid">
+            Complete
+          </button>
+        </div>
       </mat-step>
     </mat-horizontal-stepper>
   </div>
