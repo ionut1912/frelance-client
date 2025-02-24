@@ -1,15 +1,14 @@
 <app-navbar></app-navbar>
 
-<ng-container *ngIf="profileLoaded; else loading">
-  <ng-container
-    *ngIf="
-      (freelancerProfile$ | async) === null;
-      then form;
-      else profileCreated
-    "
-  >
-  </ng-container>
+<ng-container *ngIf="profile === undefined; else loaded">
+  <ng-template [ngTemplateOutlet]="loading"></ng-template>
 </ng-container>
+
+<ng-template #loaded>
+  <ng-container *ngIf="profile === null; else profileCreated">
+    <ng-template [ngTemplateOutlet]="form"></ng-template>
+  </ng-container>
+</ng-template>
 
 <ng-template #profileCreated>
   <div class="text-center p-4">Profile created</div>
@@ -18,7 +17,6 @@
 <ng-template #form>
   <div class="flex items-center justify-center min-h-screen p-4">
     <mat-horizontal-stepper linear class="w-full max-w-3xl">
-      <!-- Address Step -->
       <mat-step [stepControl]="addressForm" label="Address">
         <form [formGroup]="addressForm" class="space-y-4">
           <mat-form-field appearance="fill" class="w-full">
@@ -112,7 +110,6 @@
         </form>
       </mat-step>
 
-      <!-- User Data Step -->
       <mat-step [stepControl]="userDataForm" label="User Data">
         <form [formGroup]="userDataForm" class="space-y-4">
           <mat-form-field appearance="fill" class="w-full">
@@ -169,7 +166,6 @@
         </form>
       </mat-step>
 
-      <!-- Freelancer Profile Step -->
       <mat-step
         [stepControl]="freelancerProfileForm"
         label="Freelancer Profile"

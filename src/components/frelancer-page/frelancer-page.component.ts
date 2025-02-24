@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -62,12 +62,13 @@ import { FreelancersState } from '../../store/reducers/freelancerprofile.reducer
     NgIf,
     NgxMatSelectSearchModule,
     ReactiveFormsModule,
+    NgTemplateOutlet,
   ],
   templateUrl: './frelancer-page.component.html',
   styleUrls: ['./frelancer-page.component.scss'],
 })
 export class FrelancerPageComponent implements OnInit {
-  freelancerProfile$: Observable<FreelancerProfileDto | null>;
+  freelancerProfile$: Observable<FreelancerProfileDto | null | undefined>;
   countries$: Observable<Country[]>;
   cities$: Observable<string[]>;
   citiesLoading$: Observable<boolean>;
@@ -92,7 +93,7 @@ export class FrelancerPageComponent implements OnInit {
   filteredForeignLanguages$!: Observable<Language[]>;
 
   imageSrc: string | null = null;
-  profileLoaded = false;
+  profile: FreelancerProfileDto | null | undefined = undefined;
 
   constructor(
     private store: Store<{
@@ -119,7 +120,6 @@ export class FrelancerPageComponent implements OnInit {
     this.freelancerProfileSkills$ = this.store.select(
       (state) => state.skills.skills
     );
-
     this.uniqueAreas$ = this.freelancerProfileSkills$.pipe(
       map((skills) => {
         if (!skills) return [];
@@ -133,9 +133,10 @@ export class FrelancerPageComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(FreelancerProfileActions.getCurrentFreelancerProfile());
     this.store.dispatch(CountryActions.loadCountries());
-    this.freelancerProfile$.subscribe(() => {
-      this.profileLoaded = true;
-    });
+
+    this.store
+      .select((state) => state.freelancerProfile.freelancerProfile)
+      .subscribe((val) => (this.profile = val));
 
     this.countries$.subscribe((countries) => {
       this.allCountries = countries;

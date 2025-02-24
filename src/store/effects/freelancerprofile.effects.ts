@@ -20,15 +20,13 @@ export class FreelancerProfileEffects {
     this.actions$.pipe(
       ofType(FreelancerProfileActions.getCurrentFreelancerProfile),
       mergeMap(() =>
-        this.freelancerProfileService
-          .getCurrentFreelancerProfile()
-          .pipe(
-            map((freelancerProfile) =>
-              FreelancerProfileActions.getCurrentFreelancerProfileResult({
-                freelancerProfile,
-              })
-            )
+        this.freelancerProfileService.getCurrentFreelancerProfile().pipe(
+          map((freelancerProfile) =>
+            FreelancerProfileActions.getCurrentFreelancerProfileResult({
+              freelancerProfile,
+            })
           )
+        )
       )
     )
   );

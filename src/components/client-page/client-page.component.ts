@@ -19,7 +19,7 @@ import {
   MatStepperNext,
   MatStepperPrevious,
 } from '@angular/material/stepper';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
@@ -57,11 +57,12 @@ import {
     NgxMatSelectSearchModule,
     MatProgressSpinnerModule,
     MatError,
+    NgTemplateOutlet,
   ],
   styleUrls: ['./client-page.component.css'],
 })
 export class ClientPageComponent implements OnInit {
-  clientProfile$: Observable<ClientProfileDto | null>;
+  clientProfile$: Observable<ClientProfileDto | null | undefined>;
   countries$: Observable<Country[]>;
   cities$: Observable<string[]>;
   citiesLoading$: Observable<boolean>;
@@ -75,7 +76,7 @@ export class ClientPageComponent implements OnInit {
   filteredCitiesList: string[] = [];
   imageSrc: string | null = null;
   profileLoaded = false;
-
+  profile: ClientProfileDto | null | undefined = undefined;
   constructor(
     private store: Store<{
       clientProfile: ClientProfileState;
@@ -96,9 +97,9 @@ export class ClientPageComponent implements OnInit {
     this.store.dispatch(ClientProfileActions.getCurrentClientProfile());
     this.store.dispatch(CountryActions.loadCountries());
 
-    this.clientProfile$.subscribe(() => {
-      this.profileLoaded = true;
-    });
+    this.store
+      .select((state) => state.clientProfile.clientProfile)
+      .subscribe((val) => (this.profile = val));
 
     this.countries$.subscribe((countries) => {
       this.allCountries = countries;

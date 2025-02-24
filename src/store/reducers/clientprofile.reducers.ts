@@ -4,12 +4,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ClientProfileDto } from '../../models/UserProfile';
 
 export interface ClientProfileState {
-  clientProfile: ClientProfileDto | null;
+  clientProfile: ClientProfileDto | null | undefined;
   error: HttpErrorResponse | null;
 }
 
 const initialState: ClientProfileState = {
-  clientProfile: null,
+  clientProfile: undefined,
   error: null,
 };
 

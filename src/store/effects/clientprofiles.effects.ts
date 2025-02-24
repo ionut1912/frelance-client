@@ -12,20 +12,23 @@ export class ClientProfilesEffects {
   private actions$ = inject(Actions);
   private zone = inject(NgZone);
   private toaster = inject(ToastrService);
-  loadClientProfiles$ = createEffect(() =>
+  loadCurrentClientProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientProfileActions.getCurrentClientProfile),
       mergeMap(() =>
-        this.clientProfileService.getCurrentClientProfiles().pipe(
-          map((clientProfile) =>
-            ClientProfileActions.getCurrentClientProfileResult({
-              clientProfile,
-            })
+        this.clientProfileService
+          .getCurrentClientProfiles()
+          .pipe(
+            map((clientProfile) =>
+              ClientProfileActions.getCurrentClientProfileResult({
+                clientProfile,
+              })
+            )
           )
-        )
       )
     )
   );
+
   createClientProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientProfileActions.createClientProfile),
