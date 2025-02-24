@@ -42,7 +42,7 @@ import { SkillsState } from '../../store/reducers/skills.reducers';
 import { FreelancersState } from '../../store/reducers/freelancerprofile.reducers';
 
 @Component({
-  selector: 'app-frelancer-page',
+  selector: 'app-freelancer-page',
   imports: [
     AsyncPipe,
     MatButton,
@@ -64,10 +64,10 @@ import { FreelancersState } from '../../store/reducers/freelancerprofile.reducer
     ReactiveFormsModule,
     NgTemplateOutlet,
   ],
-  templateUrl: './frelancer-page.component.html',
-  styleUrls: ['./frelancer-page.component.scss'],
+  templateUrl: './freelancer-page.component.html',
+  styleUrls: ['./freelancer-page.component.scss'],
 })
-export class FrelancerPageComponent implements OnInit {
+export class FreelancerPageComponent implements OnInit {
   freelancerProfile$: Observable<FreelancerProfileDto | null | undefined>;
   countries$: Observable<Country[]>;
   cities$: Observable<string[]>;
