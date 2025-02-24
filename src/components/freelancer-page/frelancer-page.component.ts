@@ -9,7 +9,6 @@ import { MatSelect } from '@angular/material/select';
 import {
   MatStep,
   MatStepper,
-  MatStepperNext,
   MatStepperPrevious,
 } from '@angular/material/stepper';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -40,6 +39,8 @@ import * as SkillsActions from '../../store/actions/skills.actions';
 import { LanguageState } from '../../store/reducers/lanuguage.reducer';
 import { SkillsState } from '../../store/reducers/skills.reducers';
 import { FreelancersState } from '../../store/reducers/freelancerprofile.reducers';
+import { AddressFormComponent } from '../address-form/address-form.component';
+import { UserDataFormComponent } from '../user-data-form/user-data-form.component';
 
 @Component({
   selector: 'app-freelancer-page',
@@ -55,7 +56,6 @@ import { FreelancersState } from '../../store/reducers/freelancerprofile.reducer
     MatSelect,
     MatStep,
     MatStepper,
-    MatStepperNext,
     MatStepperPrevious,
     NavbarComponent,
     NgForOf,
@@ -63,6 +63,8 @@ import { FreelancersState } from '../../store/reducers/freelancerprofile.reducer
     NgxMatSelectSearchModule,
     ReactiveFormsModule,
     NgTemplateOutlet,
+    AddressFormComponent,
+    UserDataFormComponent,
   ],
   templateUrl: './freelancer-page.component.html',
   styleUrls: ['./freelancer-page.component.scss'],
