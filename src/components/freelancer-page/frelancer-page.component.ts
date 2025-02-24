@@ -6,34 +6,18 @@ import { MatInput } from '@angular/material/input';
 import { MatOption } from '@angular/material/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSelect } from '@angular/material/select';
-import {
-  MatStep,
-  MatStepper,
-  MatStepperPrevious,
-} from '@angular/material/stepper';
+import { MatStep, MatStepper, MatStepperPrevious } from '@angular/material/stepper';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import {
-  CreateFreelancerProfileRequest,
-  FreelancerProfileDto,
-  SkillDto,
-} from '../../models/UserProfile';
-import { Country, Language } from '../../models/ExternalApis';
+import { CreateFreelancerProfileRequest, FreelancerProfileDto, SkillDto } from '../../models/UserProfile';
+import {  Language } from '../../models/ExternalApis';
 import { Store } from '@ngrx/store';
 import { CountryState } from '../../store/reducers/country.reducers';
 import { CityState } from '../../store/reducers/city.reducers';
 import * as FreelancerProfileActions from '../../store/actions/freelancerprofile.actions';
-import * as CountryActions from '../../store/actions/country.actions';
-import * as CityActions from '../../store/actions/city.actions';
 import * as LanguageActions from '../../store/actions/language.actions';
 import * as SkillsActions from '../../store/actions/skills.actions';
 import { LanguageState } from '../../store/reducers/lanuguage.reducer';
@@ -41,6 +25,8 @@ import { SkillsState } from '../../store/reducers/skills.reducers';
 import { FreelancersState } from '../../store/reducers/freelancerprofile.reducers';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { UserDataFormComponent } from '../user-data-form/user-data-form.component';
+import { BaseProfilePageComponent } from '../base-profille/base-profile-page.component';
+
 
 @Component({
   selector: 'app-freelancer-page',
@@ -69,50 +55,31 @@ import { UserDataFormComponent } from '../user-data-form/user-data-form.componen
   templateUrl: './freelancer-page.component.html',
   styleUrls: ['./freelancer-page.component.scss'],
 })
-export class FreelancerPageComponent implements OnInit {
+export class FreelancerPageComponent extends BaseProfilePageComponent implements OnInit {
   freelancerProfile$: Observable<FreelancerProfileDto | null | undefined>;
-  countries$: Observable<Country[]>;
-  cities$: Observable<string[]>;
-  citiesLoading$: Observable<boolean>;
+  freelancerProfileForm: FormGroup;
+  foreignLanguageFilterCtrl: FormControl = new FormControl('');
+  filteredForeignLanguages$!: Observable<Language[]>;
   freelancerProfileLanguages$: Observable<Language[]>;
   freelancerLanguagesLoading$: Observable<boolean>;
   freelancerProfileSkills$: Observable<SkillDto[]>;
   uniqueAreas$: Observable<string[]>;
-
-  addressForm: FormGroup = new FormGroup({});
-  userDataForm: FormGroup = new FormGroup({});
-  freelancerProfileForm: FormGroup = new FormGroup({});
-
-  countryFilterCtrl: FormControl = new FormControl();
-  cityFilterCtrl: FormControl = new FormControl();
-  foreignLanguageFilterCtrl: FormControl = new FormControl();
-
-  allCountries: Country[] = [];
-  filteredCountries: Country[] = [];
-  allCitiesList: string[] = [];
-  filteredCitiesList: string[] = [];
-
-  filteredForeignLanguages$!: Observable<Language[]>;
-
-  imageSrc: string | null = null;
   profile: FreelancerProfileDto | null | undefined = undefined;
 
   constructor(
-    private store: Store<{
+    protected override store: Store<{
       freelancerProfile: FreelancersState;
       countries: CountryState;
       cities: CityState;
       languages: LanguageState;
       skills: SkillsState;
     }>,
-    private fb: FormBuilder
+    protected override fb: FormBuilder
   ) {
+    super(fb, store as Store<{ countries: CountryState; cities: CityState }>);
     this.freelancerProfile$ = this.store.select(
       (state) => state.freelancerProfile.freelancerProfile
     );
-    this.countries$ = this.store.select((state) => state.countries.countries);
-    this.cities$ = this.store.select((state) => state.cities.cities);
-    this.citiesLoading$ = this.store.select((state) => state.cities.loading);
     this.freelancerProfileLanguages$ = this.store.select(
       (state) => state.languages.languages
     );
@@ -122,53 +89,6 @@ export class FreelancerPageComponent implements OnInit {
     this.freelancerProfileSkills$ = this.store.select(
       (state) => state.skills.skills
     );
-    this.uniqueAreas$ = this.freelancerProfileSkills$.pipe(
-      map((skills) => {
-        if (!skills) return [];
-        return skills
-          .map((skill) => skill.area)
-          .filter((area, index, self) => self.indexOf(area) === index);
-      })
-    );
-  }
-
-  ngOnInit(): void {
-    this.store.dispatch(FreelancerProfileActions.getCurrentFreelancerProfile());
-    this.store.dispatch(CountryActions.loadCountries());
-
-    this.store
-      .select((state) => state.freelancerProfile.freelancerProfile)
-      .subscribe((val) => (this.profile = val));
-
-    this.countries$.subscribe((countries) => {
-      this.allCountries = countries;
-      this.filteredCountries = countries;
-    });
-    this.countryFilterCtrl.valueChanges
-      .pipe(
-        startWith(''),
-        map((search) => {
-          if (!search) return this.allCountries;
-          return this.allCountries.filter((country) =>
-            country.name.common.toLowerCase().includes(search.toLowerCase())
-          );
-        })
-      )
-      .subscribe((filtered) => {
-        this.filteredCountries = filtered;
-      });
-
-    this.addressForm = this.fb.group({
-      country: ['', Validators.required],
-      city: ['', Validators.required],
-      street: ['', Validators.required],
-      streetNumber: ['', Validators.required],
-      zipCode: ['', Validators.required],
-    });
-    this.userDataForm = this.fb.group({
-      bio: ['', Validators.required],
-      image: [null, [Validators.required, this.imageFileValidator.bind(this)]],
-    });
     this.freelancerProfileForm = this.fb.group({
       programmingLanguages: ['', Validators.required],
       areas: ['', Validators.required],
@@ -179,35 +99,22 @@ export class FreelancerPageComponent implements OnInit {
       rating: ['', Validators.required],
       portfolioUrl: ['', Validators.required],
     });
+    this.uniqueAreas$ = this.freelancerProfileSkills$.pipe(
+      map((skills) => {
+        if (!skills) return [];
+        return skills
+          .map((skill) => skill.area)
+          .filter((area, index, self) => self.indexOf(area) === index);
+      })
+    );
+  }
 
-    this.addressForm
-      .get('country')!
-      .valueChanges.subscribe((selectedCountry) => {
-        if (selectedCountry) {
-          this.store.dispatch(
-            CityActions.loadCities({ country: selectedCountry })
-          );
-        }
-      });
-    this.cities$.subscribe((cities) => {
-      this.allCitiesList = cities;
-      this.filteredCitiesList = cities;
-    });
-    this.cityFilterCtrl.valueChanges
-      .pipe(
-        startWith(''),
-        map((search) => {
-          if (!search) return this.allCitiesList;
-          return this.allCitiesList.filter((city) =>
-            city.toLowerCase().includes(search.toLowerCase())
-          );
-        })
-      )
-      .subscribe((filtered) => {
-        this.filteredCitiesList = filtered;
-      });
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.store.dispatch(FreelancerProfileActions.getCurrentFreelancerProfile());
     this.store.dispatch(LanguageActions.loadLanguages());
     this.store.dispatch(SkillsActions.getSkills());
+    this.freelancerProfile$.subscribe((val) => (this.profile = val));
     this.filteredForeignLanguages$ = combineLatest([
       this.freelancerProfileLanguages$,
       this.foreignLanguageFilterCtrl.valueChanges.pipe(startWith('')),
@@ -221,59 +128,6 @@ export class FreelancerPageComponent implements OnInit {
     );
   }
 
-  imageFileValidator(control: FormControl): { [key: string]: any } | null {
-    const file = control.value;
-    if (!file) return null;
-    if (!file.type || !file.type.startsWith('image/')) {
-      return { notImage: true };
-    }
-    const forbiddenExtensions = [
-      'pdf',
-      'doc',
-      'docx',
-      'xls',
-      'xlsx',
-      'ppt',
-      'pptx',
-    ];
-    const ext = file.name.split('.').pop().toLowerCase();
-    if (forbiddenExtensions.includes(ext)) {
-      return { forbiddenFileType: true };
-    }
-    return null;
-  }
-
-  onFileSelected(event: any): void {
-    const file = event.target.files && event.target.files[0];
-    if (file) {
-      const forbiddenExtensions = [
-        'pdf',
-        'doc',
-        'docx',
-        'xls',
-        'xlsx',
-        'ppt',
-        'pptx',
-      ];
-      const ext = file.name.split('.').pop().toLowerCase();
-      if (
-        !file.type.startsWith('image/') ||
-        forbiddenExtensions.includes(ext)
-      ) {
-        this.userDataForm.get('image')!.setErrors({ forbiddenFileType: true });
-        this.imageSrc = null;
-        return;
-      }
-      this.userDataForm.patchValue({ image: file });
-      this.userDataForm.get('image')!.updateValueAndValidity();
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imageSrc = reader.result as string;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   completeStepper(): void {
     const payload: CreateFreelancerProfileRequest = {
       addressCountry: this.addressForm.value.country.name.common,
@@ -283,8 +137,7 @@ export class FreelancerPageComponent implements OnInit {
       addressZip: this.addressForm.value.zipCode,
       bio: this.userDataForm.value.bio,
       image: this.imageSrc!,
-      programmingLanguages:
-        this.freelancerProfileForm.value.programmingLanguages,
+      programmingLanguages: this.freelancerProfileForm.value.programmingLanguages,
       areas: this.freelancerProfileForm.value.areas,
       foreignLanguages: this.freelancerProfileForm.value.foreignLanguages,
       experience: this.freelancerProfileForm.value.experience,
@@ -293,8 +146,6 @@ export class FreelancerPageComponent implements OnInit {
       rating: this.freelancerProfileForm.value.rating,
       portfolioUrl: this.freelancerProfileForm.value.portfolioUrl,
     };
-    this.store.dispatch(
-      FreelancerProfileActions.createFreelancerProfile({ payload })
-    );
+    this.store.dispatch(FreelancerProfileActions.createFreelancerProfile({ payload }));
   }
 }
