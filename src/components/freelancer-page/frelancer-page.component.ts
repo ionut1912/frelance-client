@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncPipe, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
-import { MatButton } from '@angular/material/button';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatOption } from '@angular/material/core';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatSelect } from '@angular/material/select';
-import { MatStep, MatStepper, MatStepperPrevious } from '@angular/material/stepper';
+import { MatStep, MatStepper } from '@angular/material/stepper';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -26,31 +21,24 @@ import { FreelancersState } from '../../store/reducers/freelancerprofile.reducer
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { UserDataFormComponent } from '../user-data-form/user-data-form.component';
 import { BaseProfilePageComponent } from '../base-profille/base-profile-page.component';
+import { FreelancerProfileFormComponent } from '../freelancer-profile-form/freelancer-profile-form.component';
 
 
 @Component({
   selector: 'app-freelancer-page',
   imports: [
-    AsyncPipe,
-    MatButton,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatOption,
+
     MatProgressSpinner,
-    MatSelect,
     MatStep,
     MatStepper,
-    MatStepperPrevious,
     NavbarComponent,
-    NgForOf,
     NgIf,
     NgxMatSelectSearchModule,
     ReactiveFormsModule,
     NgTemplateOutlet,
     AddressFormComponent,
     UserDataFormComponent,
+    FreelancerProfileFormComponent,
   ],
   templateUrl: './freelancer-page.component.html',
   styleUrls: ['./freelancer-page.component.scss'],

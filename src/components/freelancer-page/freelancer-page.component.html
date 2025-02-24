@@ -35,86 +35,16 @@
           [isFreelancer]="true">
         </app-user-data-form>
       </mat-step>
-      <mat-step [stepControl]="freelancerProfileForm" label="Freelancer Profile">
-        <form [formGroup]="freelancerProfileForm" class="space-y-4">
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Programming Languages</mat-label>
-            <mat-select formControlName="programmingLanguages" multiple required>
-              <mat-option *ngFor="let skill of freelancerProfileSkills$ | async" [value]="skill.programmingLanguage">
-                {{ skill.programmingLanguage }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="freelancerProfileForm.get('programmingLanguages')?.hasError('required')">
-              Programming Languages is required.
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Area</mat-label>
-            <mat-select formControlName="areas" multiple required>
-              <mat-option *ngFor="let area of uniqueAreas$ | async" [value]="area">
-                {{ area }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="freelancerProfileForm.get('areas')?.hasError('required')">
-              Area is required.
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Foreign Languages</mat-label>
-            <mat-select formControlName="foreignLanguages" multiple required>
-              <mat-option *ngFor="let language of filteredForeignLanguages$ | async" [value]="language.code">
-                {{ language.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="freelancerProfileForm.get('foreignLanguages')?.hasError('required')">
-              Foreign Language is required.
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Experience</mat-label>
-            <input matInput formControlName="experience" required />
-            <mat-error *ngIf="freelancerProfileForm.get('experience')?.hasError('required')">
-              Experience is required.
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Rate</mat-label>
-            <input matInput formControlName="rate" required />
-            <mat-error *ngIf="freelancerProfileForm.get('rate')?.hasError('required')">
-              Rate is required.
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Currency</mat-label>
-            <input matInput formControlName="currency" required />
-            <mat-error *ngIf="freelancerProfileForm.get('currency')?.hasError('required')">
-              Currency is required.
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Rating</mat-label>
-            <input matInput formControlName="rating" required />
-            <mat-error *ngIf="freelancerProfileForm.get('rating')?.hasError('required')">
-              Rating is required.
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Portfolio URL</mat-label>
-            <input matInput formControlName="portfolioUrl" required />
-            <mat-error *ngIf="freelancerProfileForm.get('portfolioUrl')?.hasError('required')">
-              Portfolio URL is required.
-            </mat-error>
-          </mat-form-field>
-          <div class="flex justify-between mt-4">
-            <button mat-button matStepperPrevious class="bg-gray-500 text-white px-4 py-2 rounded">
-              Back
-            </button>
-            <button mat-button (click)="completeStepper()" class="bg-green-500 text-white px-4 py-2 rounded" [disabled]="freelancerProfileForm.invalid">
-              Complete
-            </button>
-          </div>
-        </form>
+      <mat-step [stepControl]="freelancerProfileForm" label="Freelancer profile">
+        <app-freelancer-profile-form
+          [freelancerProfileForm]="freelancerProfileForm"
+          [freelancerProfileSkills$]="freelancerProfileSkills$"
+          [uniqueAreas$]="uniqueAreas$"
+          [filteredForeignLanguages$]="filteredForeignLanguages$"
+          (completeStepper)="completeStepper()">
+        </app-freelancer-profile-form>
       </mat-step>
+
     </mat-horizontal-stepper>
   </div>
 </ng-template>
