@@ -25,10 +25,10 @@ import { MatStepperNext } from '@angular/material/stepper';
     MatInput,
     MatButton,
     MatStepperNext,
-    MatLabel
+    MatLabel,
   ],
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss']
+  styleUrls: ['./address-form.component.scss'],
 })
 export class AddressFormComponent {
   @Input() formGroup!: FormGroup;

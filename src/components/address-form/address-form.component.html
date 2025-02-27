@@ -6,7 +6,8 @@
         <ngx-mat-select-search
           [formControl]="countryFilterCtrl"
           placeholderLabel="Search country..."
-          noEntriesFoundLabel="No matching country">
+          noEntriesFoundLabel="No matching country"
+        >
         </ngx-mat-select-search>
       </mat-option>
       <mat-option *ngFor="let country of filteredCountries" [value]="country">
@@ -24,12 +25,16 @@
         <ngx-mat-select-search
           [formControl]="cityFilterCtrl"
           placeholderLabel="Search city..."
-          noEntriesFoundLabel="No matching city">
+          noEntriesFoundLabel="No matching city"
+        >
         </ngx-mat-select-search>
       </mat-option>
       <ng-container *ngIf="citiesLoading; else cityOptions">
         <mat-option disabled>
-          <mat-progress-spinner mode="indeterminate" diameter="24"></mat-progress-spinner>
+          <mat-progress-spinner
+            mode="indeterminate"
+            diameter="24"
+          ></mat-progress-spinner>
           Loading cities...
         </mat-option>
       </ng-container>
@@ -65,7 +70,12 @@
     </mat-error>
   </mat-form-field>
   <div class="flex justify-end">
-    <button mat-button matStepperNext class="bg-blue-500 text-white px-4 py-2 rounded" [disabled]="formGroup.invalid">
+    <button
+      mat-button
+      matStepperNext
+      class="bg-blue-500 text-white px-4 py-2 rounded"
+      [disabled]="formGroup.invalid"
+    >
       Next
     </button>
   </div>

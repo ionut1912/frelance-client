@@ -31,12 +31,19 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
   ],
   styleUrls: ['./client-page.component.css'],
 })
-export class ClientPageComponent extends BaseProfilePageComponent implements OnInit {
+export class ClientPageComponent
+  extends BaseProfilePageComponent
+  implements OnInit
+{
   profile: ClientProfileDto | null | undefined = undefined;
 
   constructor(
     protected override fb: FormBuilder,
-    protected override store: Store<{ clientProfile: ClientProfileState, countries: CountryState, cities: CityState }>
+    protected override store: Store<{
+      clientProfile: ClientProfileState;
+      countries: CountryState;
+      cities: CityState;
+    }>
   ) {
     super(fb, store);
   }
@@ -44,7 +51,9 @@ export class ClientPageComponent extends BaseProfilePageComponent implements OnI
   override ngOnInit(): void {
     super.ngOnInit();
     this.store.dispatch(ClientProfileActions.getCurrentClientProfile());
-    this.store.select(state => state.clientProfile.clientProfile).subscribe(profile => this.profile = profile);
+    this.store
+      .select((state) => state.clientProfile.clientProfile)
+      .subscribe((profile) => (this.profile = profile));
   }
 
   completeStepper(): void {
@@ -55,7 +64,7 @@ export class ClientPageComponent extends BaseProfilePageComponent implements OnI
       addressCity: this.addressForm.value.city,
       addressZip: this.addressForm.value.zipCode,
       bio: this.userDataForm.value.bio,
-      image: this.imageSrc!
+      image: this.imageSrc!,
     };
     this.store.dispatch(ClientProfileActions.createClientProfile({ payload }));
   }

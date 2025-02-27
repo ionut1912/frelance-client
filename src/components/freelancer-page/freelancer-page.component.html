@@ -24,7 +24,8 @@
           [filteredCountries]="filteredCountries"
           [cityFilterCtrl]="cityFilterCtrl"
           [filteredCitiesList]="filteredCitiesList"
-          [citiesLoading]="false">
+          [citiesLoading]="false"
+        >
         </app-address-form>
       </mat-step>
       <mat-step [stepControl]="userDataForm" label="User Data">
@@ -32,19 +33,23 @@
           [formGroup]="userDataForm"
           [imageSrc]="imageSrc"
           (fileSelectedEvent)="onFileSelected($event)"
-          [isFreelancer]="true">
+          [isFreelancer]="true"
+        >
         </app-user-data-form>
       </mat-step>
-      <mat-step [stepControl]="freelancerProfileForm" label="Freelancer profile">
+      <mat-step
+        [stepControl]="freelancerProfileForm"
+        label="Freelancer profile"
+      >
         <app-freelancer-profile-form
           [freelancerProfileForm]="freelancerProfileForm"
           [freelancerProfileSkills$]="freelancerProfileSkills$"
           [uniqueAreas$]="uniqueAreas$"
           [filteredForeignLanguages$]="filteredForeignLanguages$"
-          (completeStepper)="completeStepper()">
+          (completeStepper)="completeStepper()"
+        >
         </app-freelancer-profile-form>
       </mat-step>
-
     </mat-horizontal-stepper>
   </div>
 </ng-template>

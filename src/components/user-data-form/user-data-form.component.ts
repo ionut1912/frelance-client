@@ -18,7 +18,7 @@ import { MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
     MatButton,
     MatStepperPrevious,
     MatStepperNext,
-    MatLabel
+    MatLabel,
   ],
   styleUrls: ['./user-data-form.component.scss'],
 })
@@ -26,7 +26,7 @@ export class UserDataFormComponent {
   @Input() formGroup!: FormGroup;
   @Input() imageSrc: string | null = null;
   @Output() fileSelectedEvent = new EventEmitter<Event>();
-  @Input() isFreelancer!:boolean
+  @Input() isFreelancer!: boolean;
 
   fileSelected(event: Event): void {
     this.fileSelectedEvent.emit(event);

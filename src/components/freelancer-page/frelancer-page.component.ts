@@ -4,11 +4,21 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatStep, MatStepper } from '@angular/material/stepper';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { CreateFreelancerProfileRequest, FreelancerProfileDto, SkillDto } from '../../models/UserProfile';
-import {  Language } from '../../models/ExternalApis';
+import {
+  CreateFreelancerProfileRequest,
+  FreelancerProfileDto,
+  SkillDto,
+} from '../../models/UserProfile';
+import { Language } from '../../models/ExternalApis';
 import { Store } from '@ngrx/store';
 import { CountryState } from '../../store/reducers/country.reducers';
 import { CityState } from '../../store/reducers/city.reducers';
@@ -23,11 +33,9 @@ import { UserDataFormComponent } from '../user-data-form/user-data-form.componen
 import { BaseProfilePageComponent } from '../base-profille/base-profile-page.component';
 import { FreelancerProfileFormComponent } from '../freelancer-profile-form/freelancer-profile-form.component';
 
-
 @Component({
   selector: 'app-freelancer-page',
   imports: [
-
     MatProgressSpinner,
     MatStep,
     MatStepper,
@@ -43,7 +51,10 @@ import { FreelancerProfileFormComponent } from '../freelancer-profile-form/freel
   templateUrl: './freelancer-page.component.html',
   styleUrls: ['./freelancer-page.component.scss'],
 })
-export class FreelancerPageComponent extends BaseProfilePageComponent implements OnInit {
+export class FreelancerPageComponent
+  extends BaseProfilePageComponent
+  implements OnInit
+{
   freelancerProfile$: Observable<FreelancerProfileDto | null | undefined>;
   freelancerProfileForm: FormGroup;
   foreignLanguageFilterCtrl: FormControl = new FormControl('');
@@ -125,7 +136,8 @@ export class FreelancerPageComponent extends BaseProfilePageComponent implements
       addressZip: this.addressForm.value.zipCode,
       bio: this.userDataForm.value.bio,
       image: this.imageSrc!,
-      programmingLanguages: this.freelancerProfileForm.value.programmingLanguages,
+      programmingLanguages:
+        this.freelancerProfileForm.value.programmingLanguages,
       areas: this.freelancerProfileForm.value.areas,
       foreignLanguages: this.freelancerProfileForm.value.foreignLanguages,
       experience: this.freelancerProfileForm.value.experience,
@@ -134,6 +146,8 @@ export class FreelancerPageComponent extends BaseProfilePageComponent implements
       rating: this.freelancerProfileForm.value.rating,
       portfolioUrl: this.freelancerProfileForm.value.portfolioUrl,
     };
-    this.store.dispatch(FreelancerProfileActions.createFreelancerProfile({ payload }));
+    this.store.dispatch(
+      FreelancerProfileActions.createFreelancerProfile({ payload })
+    );
   }
 }

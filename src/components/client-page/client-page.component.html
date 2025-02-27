@@ -20,7 +20,8 @@
           [filteredCountries]="filteredCountries"
           [cityFilterCtrl]="cityFilterCtrl"
           [filteredCitiesList]="filteredCitiesList"
-          [citiesLoading]="false">
+          [citiesLoading]="false"
+        >
         </app-address-form>
       </mat-step>
       <mat-step [stepControl]="userDataForm" label="User Data">
@@ -28,10 +29,16 @@
           [formGroup]="userDataForm"
           [imageSrc]="imageSrc"
           (fileSelectedEvent)="onFileSelected($event)"
-        [isFreelancer]=false>
+          [isFreelancer]="false"
+        >
         </app-user-data-form>
         <div class="flex justify-end mt-4">
-          <button mat-button (click)="completeStepper()" class="bg-green-500 text-white px-4 py-2 rounded" [disabled]="userDataForm.invalid">
+          <button
+            mat-button
+            (click)="completeStepper()"
+            class="bg-green-500 text-white px-4 py-2 rounded"
+            [disabled]="userDataForm.invalid"
+          >
             Complete
           </button>
         </div>
