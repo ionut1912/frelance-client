@@ -8,6 +8,17 @@ interface ForeignLanguageDto {
   language: string;
 }
 
+interface BaseProfileDto {
+  id: number;
+  userProfile: UserProfileDto;
+  address: AddressDto;
+  bio: string;
+  project?: ProjectDto[];
+  contracts?: ContractsDto[];
+  invoices?: InvoicesDto[];
+  image: string;
+  isVerified: boolean;
+}
 interface CreateFreelancerProfileRequest {
   addressCountry: string;
   addressStreet: string;
@@ -26,16 +37,10 @@ interface CreateFreelancerProfileRequest {
   portfolioUrl: string;
 }
 
-interface FreelancerProfileDto {
-  id: number;
-  userProfile: UserProfileDto;
-  address: AddressDto;
-  bio: string;
-  profileImageUrl: string;
+interface FreelancerProfileDto extends BaseProfileDto {
   tasks: TaskDto[];
   skills: SkillDto[];
   foreignLanguages: ForeignLanguageDto[];
-  projects?: ProjectDto[];
   isAvailable: boolean;
   experience: string;
   rate: number;
@@ -80,16 +85,7 @@ interface AddressDto {
   zipCode: string;
 }
 
-interface ClientProfileDto {
-  id: number;
-  user: UserProfileDto;
-  address: AddressDto;
-  bio: string;
-  image: string;
-  contracts?: ContractsDto[];
-  projects?: ProjectDto[];
-  invoices?: InvoicesDto[];
-}
+interface ClientProfileDto extends BaseProfileDto {}
 
 interface UpdateClientProfileRequest {
   addressCountry?: string;

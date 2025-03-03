@@ -18,17 +18,24 @@
             "
             [formControlName]="field.name"
             [placeholder]="field.placeholder"
+            (focus)="
+              field.name === 'password' ? (passwordFieldFocused = true) : null
+            "
+            (blur)="
+              field.name === 'password' ? (passwordFieldFocused = false) : null
+            "
           />
           <button
             *ngIf="field.name === 'password'"
             mat-icon-button
             matSuffix
             type="button"
+            (mousedown)="$event.preventDefault()"
             (click)="togglePasswordVisibility()"
             class="password-toggle"
           >
             <mat-icon>{{
-              hidePassword ? 'visibility' : 'visibility_off'
+              hidePassword ? 'visibility_off' : 'visibility'
             }}</mat-icon>
           </button>
           <mat-error
@@ -57,6 +64,12 @@
             Phone number must contain only digits
           </mat-error>
         </mat-form-field>
+        <div
+          *ngIf="field.name === 'password' && passwordFieldFocused"
+          class="legend text-sm text-gray-600 mt-2"
+        >
+          <app-password-legend [form]="form"></app-password-legend>
+        </div>
       </div>
       <button
         type="submit"

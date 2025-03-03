@@ -14,6 +14,7 @@ import * as AuthActions from '../../store/actions/auth.actions';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { LoginDto, RegisterDto } from '../../models/Accounts';
+import { PasswordLegendComponent } from '../password-legend/password-legend.component';
 
 @Component({
   selector: 'app-account-form',
@@ -27,6 +28,7 @@ import { LoginDto, RegisterDto } from '../../models/Accounts';
     CommonModule,
     MatIcon,
     MatIconButton,
+    PasswordLegendComponent,
   ],
   templateUrl: './account-form.component.html',
   styleUrls: ['./account-form.component.scss'],
@@ -43,6 +45,7 @@ export class AccountFormComponent implements OnInit {
 
   form!: FormGroup;
   hidePassword: boolean = true;
+  passwordFieldFocused: boolean = false;
 
   constructor(
     private fb: FormBuilder,

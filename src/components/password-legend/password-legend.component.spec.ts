@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FreelancerPageComponent } from './freelancer-page.component';
+import { PasswordLegendComponent } from './password-legend.component';
 
-describe('FreelancerPageComponent', () => {
-  let component: FreelancerPageComponent;
-  let fixture: ComponentFixture<FreelancerPageComponent>;
+describe('PasswordLegendComponent', () => {
+  let component: PasswordLegendComponent;
+  let fixture: ComponentFixture<PasswordLegendComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FreelancerPageComponent],
+      imports: [PasswordLegendComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FreelancerPageComponent);
+    fixture = TestBed.createComponent(PasswordLegendComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

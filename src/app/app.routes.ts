@@ -3,7 +3,7 @@ import { JoinComponent } from '../components/join/join.component';
 import { LoginComponent } from '../components/login/login.component';
 import { RegisterComponent } from '../components/register/register.component';
 import { ClientPageComponent } from '../components/client-page/client-page.component';
-import { FreelancerPageComponent } from '../components/freelancer-page/frelancer-page.component';
+import { FreelancerPageComponent } from '../components/freelancer-page/freelancer-page.component';
 
 export const routes: Routes = [
   { path: '', component: JoinComponent },
