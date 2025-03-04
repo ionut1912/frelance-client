@@ -36,4 +36,19 @@ export class FreelancerProfileService {
       headers,
     });
   }
+
+  verifyFreelancerProfile(id: number): Observable<any> {
+    const headers = new HttpHeaders({ 'requires-auth': '' });
+    return this.http.patch(
+      `${this.baseUrl}/api/freelancerProfiles/verify/${id}`,
+      {},
+      { headers }
+    );
+  }
+  deleteFreelancerProfile(id: number): Observable<any> {
+    const headers = new HttpHeaders({ 'requires-auth': '' });
+    return this.http.delete(`${this.baseUrl}/api/freelancerProfiles/${id}`, {
+      headers,
+    });
+  }
 }

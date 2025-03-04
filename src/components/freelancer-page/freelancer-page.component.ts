@@ -32,6 +32,7 @@ import { AddressFormComponent } from '../address-form/address-form.component';
 import { UserDataFormComponent } from '../user-data-form/user-data-form.component';
 import { BaseProfilePageComponent } from '../base-profille/base-profile-page.component';
 import { FreelancerProfileFormComponent } from '../freelancer-profile-form/freelancer-profile-form.component';
+import { VerifyPhotoComponent } from '../verify-photo/verify-photo.component';
 
 @Component({
   selector: 'app-freelancer-page',
@@ -47,6 +48,7 @@ import { FreelancerProfileFormComponent } from '../freelancer-profile-form/freel
     AddressFormComponent,
     UserDataFormComponent,
     FreelancerProfileFormComponent,
+    VerifyPhotoComponent,
   ],
   templateUrl: './freelancer-page.component.html',
   styleUrls: ['./freelancer-page.component.scss'],
@@ -125,6 +127,10 @@ export class FreelancerPageComponent
         );
       })
     );
+  }
+
+  setImage(image: string): void {
+    this.imageSrc = image;
   }
 
   completeStepper(): void {

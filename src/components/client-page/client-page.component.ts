@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { ClientProfileState } from '../../store/reducers/clientprofile.reducers';
 import { CountryState } from '../../store/reducers/country.reducers';
 import { CityState } from '../../store/reducers/city.reducers';
-import * as ClientProfileActions from '../../store/actions/clienprofile.actions';
+import * as ClientProfileActions from '../../store/actions/clientprofile.actions';
 import { ClientProfileDto } from '../../models/UserProfile';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
@@ -14,10 +14,12 @@ import { AddressFormComponent } from '../address-form/address-form.component';
 import { UserDataFormComponent } from '../user-data-form/user-data-form.component';
 import { MatButton } from '@angular/material/button';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { VerifyPhotoComponent } from '../verify-photo/verify-photo.component';
 
 @Component({
   selector: 'app-client-page',
   templateUrl: './client-page.component.html',
+  styleUrls: ['./client-page.component.css'],
   imports: [
     NavbarComponent,
     NgIf,
@@ -28,8 +30,8 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     UserDataFormComponent,
     MatButton,
     MatProgressSpinner,
+    VerifyPhotoComponent,
   ],
-  styleUrls: ['./client-page.component.css'],
 })
 export class ClientPageComponent
   extends BaseProfilePageComponent
@@ -54,6 +56,10 @@ export class ClientPageComponent
     this.store
       .select((state) => state.clientProfile.clientProfile)
       .subscribe((profile) => (this.profile = profile));
+  }
+
+  setImage(image: string): void {
+    this.imageSrc = image;
   }
 
   completeStepper(): void {

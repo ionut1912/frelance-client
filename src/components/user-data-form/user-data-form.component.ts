@@ -5,13 +5,14 @@ import { NgIf } from '@angular/common';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
+import { CameraCaptureComponent } from '../canera-capture/camera-capture.component';
 
 @Component({
   selector: 'app-user-data-form',
   templateUrl: './user-data-form.component.html',
+  styleUrls: ['./user-data-form.component.scss'],
   imports: [
     MatFormField,
-    ReactiveFormsModule,
     NgIf,
     MatInput,
     MatError,
@@ -19,16 +20,18 @@ import { MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
     MatStepperPrevious,
     MatStepperNext,
     MatLabel,
+    ReactiveFormsModule,
+    CameraCaptureComponent,
   ],
-  styleUrls: ['./user-data-form.component.scss'],
 })
 export class UserDataFormComponent {
   @Input() formGroup!: FormGroup;
-  @Input() imageSrc: string | null = null;
-  @Output() fileSelectedEvent = new EventEmitter<Event>();
+  base64Image: string = '';
   @Input() isFreelancer!: boolean;
+  @Output() imageCaptured = new EventEmitter<string>();
 
-  fileSelected(event: Event): void {
-    this.fileSelectedEvent.emit(event);
+  onImageCaptured(image: string): void {
+    this.base64Image = image;
+    this.imageCaptured.emit(this.base64Image);
   }
 }

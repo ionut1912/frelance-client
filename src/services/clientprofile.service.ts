@@ -17,19 +17,32 @@ export class ClientProfileService {
   ) {}
 
   getCurrentClientProfiles(): Observable<ClientProfileDto> {
-    const headers = new HttpHeaders({
-      'requires-auth': '',
-    });
+    const headers = new HttpHeaders({ 'requires-auth': '' });
     return this.http.get<ClientProfileDto>(
       `${this.baseUrl}/api/current/clientProfiles`,
       { headers }
     );
   }
+
   createClientProfile(payload: CreateClientProfileRequest): Observable<any> {
-    const headers = new HttpHeaders({
-      'requires-auth': '',
-    });
+    const headers = new HttpHeaders({ 'requires-auth': '' });
     return this.http.post(`${this.baseUrl}/api/clientProfiles`, payload, {
+      headers,
+    });
+  }
+
+  verifyClientProfile(id: number): Observable<any> {
+    const headers = new HttpHeaders({ 'requires-auth': '' });
+    return this.http.patch(
+      `${this.baseUrl}/api/clientProfiles/verify/${id}`,
+      {},
+      { headers }
+    );
+  }
+
+  deleteClientProfile(id: number): Observable<any> {
+    const headers = new HttpHeaders({ 'requires-auth': '' });
+    return this.http.delete(`${this.baseUrl}/api/clientProfiles/${id}`, {
       headers,
     });
   }

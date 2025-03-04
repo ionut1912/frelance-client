@@ -21,7 +21,20 @@ const reducer = createReducer(
     error: null,
   })),
   on(AuthActions.loginFailure, (state, { error }) => ({ ...state, error })),
-  on(AuthActions.registerFailure, (state, { error }) => ({ ...state, error }))
+  on(AuthActions.registerFailure, (state, { error }) => ({ ...state, error })),
+  on(AuthActions.blockAccountFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(AuthActions.deleteAccountFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(AuthActions.deleteAccountSuccess, (state) => ({
+    ...state,
+    user: null,
+    error: null,
+  }))
 );
 
 export function authReducer(state: AuthState | undefined, action: Action) {

@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as CountryActions from '../actions/country.actions';
 import { Country } from '../../models/ExternalApis';
+import { mergeMap } from 'rxjs/operators';
+import { handleLoad } from '../../utils';
 
 @Injectable()
 export class CountryEffects {
@@ -15,13 +16,11 @@ export class CountryEffects {
     this.actions$.pipe(
       ofType(CountryActions.loadCountries),
       mergeMap(() =>
-        this.http.get<Country[]>(this.apiUrl).pipe(
-          map((countries) =>
-            CountryActions.loadCountriesSuccess({ countries })
-          ),
-          catchError((error) =>
-            of(CountryActions.loadCountriesFailure({ error: error.message }))
-          )
+        handleLoad(
+          this.http.get<Country[]>(this.apiUrl),
+          (countries) => CountryActions.loadCountriesSuccess({ countries }),
+          (error) =>
+            CountryActions.loadCountriesFailure({ error: error.message })
         )
       )
     )

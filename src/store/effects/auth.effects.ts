@@ -5,9 +5,15 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { ErrorDetail } from '../../models/Errors';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import {
+  getRoleFromToken,
+  handleHttpError,
+  handleSuccess,
+  navigateByRole,
+  navigateTo,
+} from '../../utils';
 
 @Injectable()
 export class AuthEffects {
@@ -22,22 +28,18 @@ export class AuthEffects {
       mergeMap((action) =>
         this.authService.register(action.payload).pipe(
           map(() => AuthActions.registerSuccess()),
-          tap(() => {
-            this.zone.run(() => {
-              this.toaster.success('Register success');
-              this.router.navigateByUrl('/login').then(() => {});
-            });
-          }),
+          tap(() =>
+            handleSuccess(this.zone, this.toaster, 'Register success', () => {
+              navigateTo(this.router, '/login');
+            })
+          ),
           catchError((error: HttpErrorResponse) => {
-            this.zone.run(() => {
-              if (error && Array.isArray(error.error.errors)) {
-                error.error.errors.forEach((errDetail: ErrorDetail) => {
-                  this.toaster.error(errDetail.errorMessage);
-                });
-              } else {
-                this.toaster.error('Registration failed');
-              }
-            });
+            handleHttpError(
+              error,
+              this.zone,
+              this.toaster,
+              'Registration failed'
+            );
             return of(AuthActions.registerFailure({ error }));
           })
         )
@@ -51,28 +53,17 @@ export class AuthEffects {
       mergeMap((action) =>
         this.authService.login(action.payload).pipe(
           map((user) => AuthActions.loginSuccess({ user })),
-          tap((loginSuccessful) => {
-            this.zone.run(() => {
-              this.toaster.success('Login successful');
+          tap((loginSuccessful) =>
+            handleSuccess(this.zone, this.toaster, 'Login successful', () => {
               sessionStorage.setItem('JwtToken', loginSuccessful.user.token);
-              const role = this.getRoleFromToken(loginSuccessful.user.token);
-              if (role === 'Freelancer') {
-                this.router.navigateByUrl('/freelancer').then((r) => {});
-              } else {
-                this.router.navigateByUrl('/client').then((r) => {});
+              const role = getRoleFromToken(loginSuccessful.user.token);
+              if (role) {
+                navigateByRole(role, this.router);
               }
-            });
-          }),
+            })
+          ),
           catchError((error: HttpErrorResponse) => {
-            this.zone.run(() => {
-              if (error && Array.isArray(error.error.errors)) {
-                error.error.errors.forEach((errDetail: ErrorDetail) => {
-                  this.toaster.error(errDetail.errorMessage);
-                });
-              } else {
-                this.toaster.error('Login failed');
-              }
-            });
+            handleHttpError(error, this.zone, this.toaster, 'Login failed');
             return of(AuthActions.loginFailure({ error }));
           })
         )
@@ -80,16 +71,33 @@ export class AuthEffects {
     )
   );
 
-  getRoleFromToken(token: string): string | null {
-    const parts = token.split('.');
-    if (parts.length !== 3) return null;
-    const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-    const decoded = JSON.parse(atob(payload));
-    return (
-      decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
-      null
-    );
-  }
+  blockAccount$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.blockAccount),
+      mergeMap((action) =>
+        this.authService.blockAccount(action.id).pipe(
+          map(() => AuthActions.blockAccountSuccess()),
+          catchError((error: HttpErrorResponse) =>
+            of(AuthActions.blockAccountFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  deleteAccount$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.deleteAccount),
+      mergeMap((action) =>
+        this.authService.deleteAccount(action.id).pipe(
+          map(() => AuthActions.deleteAccountSuccess()),
+          catchError((error: HttpErrorResponse) =>
+            of(AuthActions.deleteAccountFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 
   constructor(private authService: AuthService) {}
 }

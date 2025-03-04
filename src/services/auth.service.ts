@@ -14,10 +14,26 @@ export class AuthService {
   ) {}
 
   register(payload: RegisterDto): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/register`, payload);
+    return this.http.post(`${this.baseUrl}/api/auth/register`, payload);
   }
 
   login(payload: LoginDto): Observable<UserDto> {
-    return this.http.post<UserDto>(`${this.baseUrl}/api/login`, payload);
+    return this.http.post<UserDto>(`${this.baseUrl}/api/auth/login`, payload);
+  }
+
+  blockAccount(id: number): Observable<any> {
+    const headers = { 'requires-auth': '' };
+    return this.http.post(
+      `${this.baseUrl}/api/auth/block/${id}`,
+      {},
+      { headers }
+    );
+  }
+
+  deleteAccount(id: number): Observable<any> {
+    const headers = { 'requires-auth': '' };
+    return this.http.delete(`${this.baseUrl}/api/auth/account/${id}`, {
+      headers,
+    });
   }
 }

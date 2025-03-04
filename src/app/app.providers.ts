@@ -31,6 +31,8 @@ import { SkillsEffects } from '../store/effects/skills.effects';
 import { skillReducer } from '../store/reducers/skills.reducers';
 import { FreelancerProfileEffects } from '../store/effects/freelancerprofile.effects';
 import { freelancerProfileReducer } from '../store/reducers/freelancerprofile.reducers';
+import { faceVerificationReducer } from '../store/reducers/faceverification.reducers';
+import { FaceVerificationEffects } from '../store/effects/faceverification.effects';
 
 export const APP_PROVIDERS = [
   provideAnimations(),
@@ -44,6 +46,7 @@ export const APP_PROVIDERS = [
     languages: languageReducer,
     skills: skillReducer,
     freelancerProfile: freelancerProfileReducer,
+    faceVerification: faceVerificationReducer,
   }),
   provideEffects([
     AuthEffects,
@@ -53,6 +56,7 @@ export const APP_PROVIDERS = [
     LanguageEffects,
     SkillsEffects,
     FreelancerProfileEffects,
+    FaceVerificationEffects,
   ]),
   importProvidersFrom(BrowserAnimationsModule),
   importProvidersFrom(ToastrModule.forRoot()),

@@ -8,7 +8,15 @@
   </ng-container>
 </ng-template>
 <ng-template #profileCreated>
-  <div class="text-center p-4">Hello,{{ profile?.userProfile?.username }}!</div>
+  <div class="text-center p-4">
+    Hello, {{ profile?.user?.username }}!
+    <div *ngIf="!profile?.isVerified">
+      <app-verify-photo
+        [profile]="profile"
+        [role]="'Client'"
+      ></app-verify-photo>
+    </div>
+  </div>
 </ng-template>
 <ng-template #profileForm>
   <div class="flex items-center justify-center min-h-screen p-4">
@@ -20,18 +28,15 @@
           [filteredCountries]="filteredCountries"
           [cityFilterCtrl]="cityFilterCtrl"
           [filteredCitiesList]="filteredCitiesList"
-          [citiesLoading]="false"
-        >
-        </app-address-form>
+          [citiesLoading]="citiesLoading"
+        ></app-address-form>
       </mat-step>
       <mat-step [stepControl]="userDataForm" label="User Data">
         <app-user-data-form
           [formGroup]="userDataForm"
-          [imageSrc]="imageSrc"
-          (fileSelectedEvent)="onFileSelected($event)"
           [isFreelancer]="false"
-        >
-        </app-user-data-form>
+          (imageCaptured)="setImage($event)"
+        ></app-user-data-form>
         <div class="flex justify-end mt-4">
           <button
             mat-button

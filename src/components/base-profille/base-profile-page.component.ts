@@ -45,7 +45,6 @@ export abstract class BaseProfilePageComponent implements OnInit {
     });
     this.userDataForm = this.fb.group({
       bio: ['', Validators.required],
-      image: [null, [Validators.required, this.imageFileValidator.bind(this)]],
     });
   }
 
@@ -128,7 +127,6 @@ export abstract class BaseProfilePageComponent implements OnInit {
       !file.type.startsWith('image/') ||
       (ext && forbiddenExtensions.includes(ext))
     ) {
-      this.userDataForm.get('image')?.setErrors({ forbiddenFileType: true });
       this.imageSrc = null;
       return;
     }

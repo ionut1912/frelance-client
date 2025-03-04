@@ -11,7 +11,15 @@
 </ng-template>
 
 <ng-template #profileCreated>
-  <div class="text-center p-4">Hello,{{ profile?.userProfile?.username }}!</div>
+  <div class="text-center p-4">
+    Hello, {{ profile?.user?.username }}!
+    <div *ngIf="!profile?.isVerified">
+      <app-verify-photo
+        [profile]="profile"
+        [role]="'Freelancer'"
+      ></app-verify-photo>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #form>
@@ -24,16 +32,15 @@
           [filteredCountries]="filteredCountries"
           [cityFilterCtrl]="cityFilterCtrl"
           [filteredCitiesList]="filteredCitiesList"
-          [citiesLoading]="false"
+          [citiesLoading]="citiesLoading"
         >
         </app-address-form>
       </mat-step>
       <mat-step [stepControl]="userDataForm" label="User Data">
         <app-user-data-form
           [formGroup]="userDataForm"
-          [imageSrc]="imageSrc"
-          (fileSelectedEvent)="onFileSelected($event)"
           [isFreelancer]="true"
+          (imageCaptured)="setImage($event)"
         >
         </app-user-data-form>
       </mat-step>

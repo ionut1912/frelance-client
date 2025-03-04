@@ -21,6 +21,27 @@ const loginFailure = createAction(
   '[Auth] Login Failure',
   props<{ error: HttpErrorResponse }>()
 );
+
+const blockAccount = createAction(
+  '[Auth] Block Account',
+  props<{ id: number }>()
+);
+const blockAccountSuccess = createAction('[Auth] Block Account Success');
+const blockAccountFailure = createAction(
+  '[Auth] Block Account Failure',
+  props<{ error: HttpErrorResponse }>()
+);
+
+const deleteAccount = createAction(
+  '[Auth] Delete Account',
+  props<{ id: number }>()
+);
+const deleteAccountSuccess = createAction('[Auth] Delete Account Success');
+const deleteAccountFailure = createAction(
+  '[Auth] Delete Account Failure',
+  props<{ error: HttpErrorResponse }>()
+);
+
 export {
   register,
   registerSuccess,
@@ -28,4 +49,10 @@ export {
   login,
   loginSuccess,
   loginFailure,
+  blockAccount,
+  blockAccountSuccess,
+  blockAccountFailure,
+  deleteAccount,
+  deleteAccountSuccess,
+  deleteAccountFailure,
 };

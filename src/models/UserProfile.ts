@@ -4,13 +4,14 @@ import { ProjectDto } from './Projects';
 import { ContractsDto } from './Contracts';
 import { InvoicesDto } from './Invoices';
 
+type Role = 'Freelancer' | 'Client';
 interface ForeignLanguageDto {
   language: string;
 }
 
 interface BaseProfileDto {
   id: number;
-  userProfile: UserProfileDto;
+  user: UserProfileDto;
   address: AddressDto;
   bio: string;
   project?: ProjectDto[];
@@ -102,6 +103,18 @@ interface SkillDto {
   area: string;
 }
 
+interface VerifyFaceResult {
+  isMatch: boolean;
+  similarity: number;
+}
+interface FaceVerificationRequest {
+  faceBase64Image: string;
+}
+interface VerifyFacePayload {
+  faceVerificationRequest: FaceVerificationRequest;
+  role: Role;
+  profile: FreelancerProfileDto | ClientProfileDto;
+}
 export type {
   CreateClientProfileRequest,
   ClientProfileDto,
@@ -111,4 +124,8 @@ export type {
   UpdateFreelancerProfileRequest,
   SkillDto,
   ForeignLanguageDto,
+  VerifyFaceResult,
+  VerifyFacePayload,
+  FaceVerificationRequest,
+  Role,
 };

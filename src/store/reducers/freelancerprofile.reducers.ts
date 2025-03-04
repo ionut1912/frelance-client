@@ -23,5 +23,20 @@ export const freelancerProfileReducer = createReducer(
   on(FreelancerActions.createFreelancerProfileFailure, (state, { error }) => ({
     ...state,
     error,
+  })),
+  on(FreelancerActions.verifyFreelancerProfile, (state) => ({
+    ...state,
+    freelancerProfile: state.freelancerProfile
+      ? { ...state.freelancerProfile, isVerified: true }
+      : state.freelancerProfile,
+  })),
+  on(FreelancerActions.deleteFreelancerProfileFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(FreelancerActions.deleteFreelancerProfileSuccess, (state) => ({
+    ...state,
+    clientProfile: null,
+    error: null,
   }))
 );

@@ -21,11 +21,28 @@ const getCurrentClientProfileResult = createAction(
   '[Data] Get Client Profiles Result',
   props<{ clientProfile: ClientProfileDto }>()
 );
+const verifyClientProfile = createAction('[Client Profile] verify profile');
+
+const deleteClientProfile = createAction(
+  '[Client Profile] delete client profile',
+  props<{ id: number }>()
+);
+const deleteClientProfileSuccess = createAction(
+  '[Client Profile] delete client profile success'
+);
+const deleteClientProfileFailure = createAction(
+  '[Client Profile] delete client profile failure',
+  props<{ error: HttpErrorResponse }>()
+);
 
 export {
-  getCurrentClientProfile,
-  getCurrentClientProfileResult,
   createClientProfile,
   createClientProfileSuccess,
   createClientProfileFailure,
+  getCurrentClientProfile,
+  getCurrentClientProfileResult,
+  verifyClientProfile,
+  deleteClientProfile,
+  deleteClientProfileSuccess,
+  deleteClientProfileFailure,
 };

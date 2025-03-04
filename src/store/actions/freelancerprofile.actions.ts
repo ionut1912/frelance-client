@@ -23,10 +23,26 @@ const createFreelancerProfileFailure = createAction(
   '[Data] Create Freelancer Profile Failure',
   props<{ error: HttpErrorResponse }>()
 );
+const verifyFreelancerProfile = createAction('[Client Profile] verify profile');
+const deleteFreelancerProfile = createAction(
+  '[Client Profile] delete client profile',
+  props<{ id: number }>()
+);
+const deleteFreelancerProfileSuccess = createAction(
+  '[Client Profile] delete client profile success'
+);
+const deleteFreelancerProfileFailure = createAction(
+  '[Client Profile] delete client profile failure',
+  props<{ error: HttpErrorResponse }>()
+);
 export {
   getCurrentFreelancerProfile,
   getCurrentFreelancerProfileResult,
   createFreelancerProfile,
   createFreelancerProfileSuccess,
   createFreelancerProfileFailure,
+  verifyFreelancerProfile,
+  deleteFreelancerProfile,
+  deleteFreelancerProfileSuccess,
+  deleteFreelancerProfileFailure,
 };

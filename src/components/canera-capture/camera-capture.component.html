@@ -1,0 +1,31 @@
+<div class="flex flex-col items-center justify-center">
+  <div *ngIf="isCameraLoading" class="flex justify-center items-center mb-2">
+    <mat-progress-spinner
+      mode="indeterminate"
+      diameter="40"
+    ></mat-progress-spinner>
+  </div>
+  <video #video autoplay class="w-full h-auto" *ngIf="!base64Image"></video>
+  <button
+    *ngIf="!base64Image"
+    (click)="this.capture()"
+    [disabled]="this.isCameraLoading"
+    class="mx-auto block w-full max-w-sm px-4 py-2 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors disabled:opacity-50"
+  >
+    Capture
+  </button>
+  <div *ngIf="base64Image" class="mt-4">
+    <p class="text-sm font-semibold">Image Preview:</p>
+    <img
+      [src]="base64Image"
+      alt="Image preview"
+      class="max-w-xs border rounded"
+    />
+    <button
+      (click)="retake()"
+      class="mx-auto block w-full max-w-sm px-4 py-2 text-lg font-semibold text-white bg-yellow-500 rounded-md hover:bg-yellow-600 transition-colors mt-2"
+    >
+      Retake
+    </button>
+  </div>
+</div>

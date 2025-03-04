@@ -1,31 +1,30 @@
 import { inject, Injectable, NgZone } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as FreelancerProfileActions from '../actions/freelancerprofile.actions';
-import { mergeMap, of } from 'rxjs';
+import { mergeMap, tap, map, catchError } from 'rxjs/operators';
 import { FreelancerProfileService } from '../../services/freelancerprofile.service';
-import { catchError, map, tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorDetail } from '../../models/Errors';
+import { handleHttpError, handleSuccess, handleLoad } from '../../utils';
+import { of } from 'rxjs';
 
 @Injectable()
 export class FreelancerProfileEffects {
-  actions$ = inject(Actions);
+  private actions$ = inject(Actions);
   private zone = inject(NgZone);
   private toaster = inject(ToastrService);
-
-  constructor(private freelancerProfileService: FreelancerProfileService) {}
 
   loadCurrentFreelancerProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FreelancerProfileActions.getCurrentFreelancerProfile),
       mergeMap(() =>
-        this.freelancerProfileService.getCurrentFreelancerProfile().pipe(
-          map((freelancerProfile) =>
+        handleLoad(
+          this.freelancerProfileService.getCurrentFreelancerProfile(),
+          (freelancerProfile) =>
             FreelancerProfileActions.getCurrentFreelancerProfileResult({
               freelancerProfile,
-            })
-          )
+            }),
+          (error) => ({ type: 'NO_OP' })
         )
       )
     )
@@ -34,45 +33,55 @@ export class FreelancerProfileEffects {
   createFreelancerProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FreelancerProfileActions.createFreelancerProfile),
-      mergeMap(
-        (
-          action: ReturnType<
-            typeof FreelancerProfileActions.createFreelancerProfile
-          >
-        ) =>
-          this.freelancerProfileService
-            .createFreelancerProfile(action.payload)
-            .pipe(
-              map(() =>
-                FreelancerProfileActions.createFreelancerProfileSuccess()
-              ),
-              tap(() => {
-                this.zone.run(() => {
-                  this.toaster.success(
-                    'Successfully created FreelancerProfile'
-                  );
-                });
-              }),
-              catchError((error: HttpErrorResponse) => {
-                this.zone.run(() => {
-                  if (error.error === null) {
-                    this.toaster.error('Unable to create Client Profile');
-                  } else if (error && Array.isArray(error.error.errors)) {
-                    error.error.errors.forEach((errDetail: ErrorDetail) => {
-                      this.toaster.error(errDetail.errorMessage);
-                    });
-                  } else {
-                    this.toaster.error('Freelancer0 Profile Creation Failed');
-                  }
-                });
-                return of(
-                  FreelancerProfileActions.createFreelancerProfileFailure({
-                    error,
-                  })
-                );
-              })
-            )
+      mergeMap((action) =>
+        this.freelancerProfileService
+          .createFreelancerProfile(action.payload)
+          .pipe(
+            map(() =>
+              FreelancerProfileActions.createFreelancerProfileSuccess()
+            ),
+            tap(() =>
+              handleSuccess(
+                this.zone,
+                this.toaster,
+                'Successfully created FreelancerProfile',
+                () => {
+                  window.location.reload();
+                }
+              )
+            ),
+            catchError((error: HttpErrorResponse) => {
+              handleHttpError(
+                error,
+                this.zone,
+                this.toaster,
+                'Freelancer Profile Creation Failed',
+                'Unable to create Freelancer Profile'
+              );
+              return of(
+                FreelancerProfileActions.createFreelancerProfileFailure({
+                  error,
+                })
+              );
+            })
+          )
       )
     )
   );
+  deleteFreelancerProfile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FreelancerProfileActions.deleteFreelancerProfile),
+      mergeMap((action) =>
+        this.freelancerProfileService.deleteFreelancerProfile(action.id).pipe(
+          map(() => FreelancerProfileActions.deleteFreelancerProfileSuccess()),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              FreelancerProfileActions.deleteFreelancerProfileFailure({ error })
+            )
+          )
+        )
+      )
+    )
+  );
+  constructor(private freelancerProfileService: FreelancerProfileService) {}
 }

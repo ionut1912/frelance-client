@@ -1,0 +1,23 @@
+<div class="flex flex-col items-center justify-center p-4">
+  <div *ngIf="!isVerified" class="text-center">
+    <p class="mb-4 text-red-600 font-bold">Your profile is not verified.</p>
+    <button
+      (click)="verify()"
+      class="mx-auto block w-full max-w-sm px-4 py-2 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors disabled:opacity-50"
+    >
+      Verify Now
+    </button>
+  </div>
+  <div *ngIf="isVerified">
+    <app-camera-capture
+      (imageCaptured)="onImageCaptured($event)"
+    ></app-camera-capture>
+    <button
+      *ngIf="base64Image"
+      (click)="verifyImage()"
+      class="mx-auto block w-full max-w-sm px-4 py-2 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors"
+    >
+      Verify profile
+    </button>
+  </div>
+</div>
