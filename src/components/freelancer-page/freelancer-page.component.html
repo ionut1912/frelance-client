@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar [links]="links"></app-navbar>
 
 <ng-container *ngIf="profile === undefined; else loaded">
   <ng-template [ngTemplateOutlet]="loading"></ng-template>

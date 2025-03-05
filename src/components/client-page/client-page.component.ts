@@ -38,7 +38,14 @@ export class ClientPageComponent
   implements OnInit
 {
   profile: ClientProfileDto | null | undefined = undefined;
-
+  links = [
+    { label: 'My Profile', url: '/user-profile' },
+    { label: 'My Projects', url: '/projects' },
+    { label: 'My Invoices', url: '/invoices' },
+    { label: 'My Contracts', url: '/cotracts' },
+    { label: 'My Proposals', url: '/proposals' },
+    { label: 'Project Board', url: '/board' },
+  ];
   constructor(
     protected override fb: FormBuilder,
     protected override store: Store<{

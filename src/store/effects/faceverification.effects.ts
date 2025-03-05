@@ -7,19 +7,18 @@ import * as FaceVerificationActions from '../actions/faceverification.actions';
 import * as FreelancerProfileActions from '../actions/freelancerprofile.actions';
 import * as ClientProfileActions from '../actions/clientprofile.actions';
 import * as AuthActions from '../actions/auth.actions';
-import {
-  mergeMap,
-  catchError,
-  map,
-  tap,
-  take,
-} from 'rxjs/operators';
+import { mergeMap, catchError, map, tap, take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import {  navigateTo } from '../../utils';
+import { navigateTo } from '../../utils';
 import { Router } from '@angular/router';
+import {
+  ClientProfileDto,
+  FreelancerProfileDto,
+  Role,
+} from '../../models/UserProfile';
 
 @Injectable()
 export class FaceVerificationEffects {
@@ -60,6 +59,15 @@ export class FaceVerificationEffects {
                   'Unable to verify face'
                 );
               });
+              if (error.status === 404) {
+                this.toaster.warning(
+                  'We will delete your profile data,because we don t find a face in one of your images'
+                );
+                this.dispatchProfileDeletion(
+                  action.payload.role,
+                  action.payload.profile
+                );
+              }
               return of(FaceVerificationActions.verifyFaceFailure({ error }));
             })
           )
@@ -67,7 +75,10 @@ export class FaceVerificationEffects {
     )
   );
 
-  private processMatch(role: string, profile: any): void {
+  private processMatch(
+    role: Role,
+    profile: ClientProfileDto | FreelancerProfileDto
+  ): void {
     const verify$ =
       role === 'Freelancer'
         ? this.freelancerService
@@ -82,7 +93,10 @@ export class FaceVerificationEffects {
     });
   }
 
-  private processNoMatch(role: string, profile: any): void {
+  private processNoMatch(
+    role: Role,
+    profile: ClientProfileDto | FreelancerProfileDto
+  ): void {
     this.store.dispatch(FaceVerificationActions.incrementFalseCount());
     this.store
       .select((state: any) => state.faceVerification.falseCount)
@@ -116,7 +130,10 @@ export class FaceVerificationEffects {
     this.toaster.warning('We will delete your profile and you can try again');
   }
 
-  private dispatchProfileDeletion(role: string, profile: any): void {
+  private dispatchProfileDeletion(
+    role: Role,
+    profile: ClientProfileDto | FreelancerProfileDto
+  ): void {
     if (role === 'Client') {
       this.store.dispatch(
         ClientProfileActions.deleteClientProfile({ id: profile.id })

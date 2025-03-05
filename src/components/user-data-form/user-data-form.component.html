@@ -15,7 +15,6 @@
     <button
       mat-button
       matStepperPrevious
-      class="bg-gray-500 text-white px-4 py-2 rounded"
     >
       Back
     </button>
@@ -23,7 +22,6 @@
       *ngIf="isFreelancer"
       mat-button
       matStepperNext
-      class="bg-green-500 text-white px-4 py-2 rounded"
       [disabled]="!base64Image || formGroup.invalid"
     >
       Next

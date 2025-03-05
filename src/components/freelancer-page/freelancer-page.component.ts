@@ -66,7 +66,13 @@ export class FreelancerPageComponent
   freelancerProfileSkills$: Observable<SkillDto[]>;
   uniqueAreas$: Observable<string[]>;
   profile: FreelancerProfileDto | null | undefined = undefined;
-
+  links = [
+    { label: 'My Profile', url: '/user-profile' },
+    { label: 'Projects', url: '/projects' },
+    { label: 'Invoices', url: '/invoices' },
+    { label: 'Contracts:', url: '/cotracts' },
+    { label: 'Proposals:', url: '/proposals' },
+  ];
   constructor(
     protected override store: Store<{
       freelancerProfile: FreelancersState;
