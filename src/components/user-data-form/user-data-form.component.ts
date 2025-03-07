@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { Field, FormComponent } from '../generic/form/form.component';
+import { FormComponent } from '../generic/form/form.component';
 import { MatStepper } from '@angular/material/stepper';
+import { Field } from '../../models/generics';
 
 @Component({
   selector: 'app-user-data-form',
@@ -14,7 +15,7 @@ export class UserDataFormComponent implements OnInit {
   @Input() stepper!: MatStepper;
   @Output() imageCaptured = new EventEmitter<string>();
 
-  fields: Field<any>[] = [];
+  fields: Field<string>[] = [];
   base64Image: string = '';
 
   ngOnInit(): void {

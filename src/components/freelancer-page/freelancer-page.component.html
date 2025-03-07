@@ -24,7 +24,7 @@
 
 <ng-template #form>
   <div class="flex items-center justify-center min-h-screen p-4">
-    <mat-horizontal-stepper linear class="w-full max-w-3xl" #stepper>
+    <mat-horizontal-stepper  class="w-full max-w-3xl" #stepper>
       <mat-step [stepControl]="addressForm" label="Address">
         <app-address-form
           [countries]="filteredCountries"

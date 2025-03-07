@@ -141,6 +141,10 @@ export class FreelancerPageComponent
   }
 
   completeStepper(): void {
+    console.log(this.addressForm);
+    console.log(this.userDataForm);
+    console.log(this.freelancerProfileForm);
+    console.log(this.imageSrc);
     const payload: CreateFreelancerProfileRequest = {
       addressCountry: this.addressForm.value.country.name.common,
       addressStreet: this.addressForm.value.street,
@@ -159,6 +163,7 @@ export class FreelancerPageComponent
       rating: this.freelancerProfileForm.value.rating,
       portfolioUrl: this.freelancerProfileForm.value.portfolioUrl,
     };
+
     this.store.dispatch(
       FreelancerProfileActions.createFreelancerProfile({ payload })
     );

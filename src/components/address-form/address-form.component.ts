@@ -11,8 +11,9 @@ import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as CityActions from '../../store/actions/city.actions';
 import { Country } from '../../models/ExternalApis';
-import { Field, FormComponent } from '../generic/form/form.component';
+import { FormComponent } from '../generic/form/form.component';
 import { MatStepper } from '@angular/material/stepper';
+import { Field } from '../../models/generics';
 
 @Component({
   selector: 'app-address-form',
@@ -145,5 +146,7 @@ export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
     ];
   }
 
-  onFormSubmit(): void {}
+  onFormSubmit(): void {
+    this.stepper.next();
+  }
 }

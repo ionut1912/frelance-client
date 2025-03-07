@@ -14,11 +14,8 @@ import {
   MatTable,
 } from '@angular/material/table';
 import { NgForOf, NgIf } from '@angular/common';
-export interface TableColumn<T> {
-  columnDef: string;
-  header: string;
-  cell: (element: T) => string;
-}
+import { TableColumn } from '../../../models/generics';
+
 @Component({
   selector: 'app-table',
   imports: [

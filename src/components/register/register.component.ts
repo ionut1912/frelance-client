@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Field, FormComponent } from '../generic/form/form.component';
+import {  FormComponent } from '../generic/form/form.component';
 import { Validators } from '@angular/forms';
 import * as AuthActions from '../../store/actions/auth.actions';
 import { Store } from '@ngrx/store';
 import { RegisterDto } from '../../models/Accounts';
+import { Field } from '../../models/generics';
 
 @Component({
   selector: 'app-register',

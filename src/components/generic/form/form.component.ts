@@ -1,85 +1,45 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ValidatorFn, ReactiveFormsModule } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import { Field } from '../../../models/generics';
+import { MatCard } from '@angular/material/card';
+import { NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
-import {
-  NgForOf,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-} from '@angular/common';
 import { MatInput } from '@angular/material/input';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { CameraCaptureComponent } from '../../canera-capture/camera-capture.component';
 import { PasswordLegendComponent } from '../../password-legend/password-legend.component';
-import { MatCard } from '@angular/material/card';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-
-export interface FieldExtra {
-  hide?: boolean;
-  search?: boolean;
-  searchControl?: FormControl;
-  labelKey?: string;
-  multiple?: boolean;
-  required?: boolean;
-  loader?: boolean;
-}
-
-export interface Field<T> {
-  name: string;
-  type:
-    | 'text'
-    | 'password'
-    | 'textarea'
-    | 'select'
-    | 'camera'
-    | 'email'
-    | 'tel';
-  label: string;
-  placeholder?: string;
-  options?: T[];
-  validators?: ValidatorFn[];
-  errorMessages: { [key: string]: string };
-  extra?: FieldExtra;
-}
+import { CameraCaptureComponent } from '../../canera-capture/camera-capture.component';
 
 @Component({
   selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss'],
   imports: [
-    MatFormField,
     ReactiveFormsModule,
+    MatCard,
+    NgIf,
     NgForOf,
     NgSwitch,
     NgSwitchCase,
+    MatFormField,
     MatInput,
     MatError,
     MatIconButton,
     MatIcon,
-    MatOption,
+    PasswordLegendComponent,
     MatSelect,
-    MatLabel,
-    NgIf,
+    MatOption,
     NgxMatSelectSearchModule,
+    MatProgressSpinner,
     CameraCaptureComponent,
     NgSwitchDefault,
     MatButton,
-    PasswordLegendComponent,
-    MatCard,
-    MatProgressSpinner,
+    MatLabel
   ],
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
 })
 export class FormComponent<T> implements OnInit {
   @Input() fields: Field<T>[] = [];
@@ -104,8 +64,11 @@ export class FormComponent<T> implements OnInit {
   ngOnInit(): void {
     const group: Record<string, [unknown, ValidatorFn[]]> = {};
     this.fields.forEach((field: Field<T>) => {
+      // Use an empty array if multiple selection is enabled
       group[field.name] = [
-        this.initialData[field.name] || '',
+        field.extra?.multiple
+          ? (this.initialData[field.name] || [])
+          : (this.initialData[field.name] || ''),
         field.validators || [],
       ];
       if (field.type === 'password') {

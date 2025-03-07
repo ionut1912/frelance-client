@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Field, FormComponent } from '../generic/form/form.component';
+import {  FormComponent } from '../generic/form/form.component';
 import { Validators } from '@angular/forms';
 import { LoginDto } from '../../models/Accounts';
 import * as AuthActions from '../../store/actions/auth.actions';
 import { Store } from '@ngrx/store';
+import { Field } from '../../models/generics';
 
 @Component({
   selector: 'app-login',

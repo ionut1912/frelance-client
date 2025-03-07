@@ -17,9 +17,7 @@
                 />
               </mat-form-field>
               <ng-container *ngFor="let err of getErrors(field.name)">
-                <mat-error>{{
-                  field.errorMessages ? field.errorMessages[err] : err
-                }}</mat-error>
+                <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
               </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="'password'">
@@ -39,22 +37,13 @@
                   type="button"
                   (click)="togglePassword(field.name)"
                 >
-                  <mat-icon>{{
-                    field.extra && field.extra.hide
-                      ? 'visibility_off'
-                      : 'visibility'
-                  }}</mat-icon>
+                  <mat-icon>{{ field.extra && field.extra.hide ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </button>
               </mat-form-field>
               <ng-container *ngFor="let err of getErrors(field.name)">
-                <mat-error>{{
-                  field.errorMessages ? field.errorMessages[err] : err
-                }}</mat-error>
+                <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
               </ng-container>
-              <div
-                *ngIf="passwordFieldFocused[field.name]"
-                class="legend text-sm text-gray-600 mt-2"
-              >
+              <div *ngIf="passwordFieldFocused[field.name]" class="legend text-sm text-gray-600 mt-2">
                 <app-password-legend [form]="form"></app-password-legend>
               </div>
             </ng-container>
@@ -68,9 +57,7 @@
                 ></textarea>
               </mat-form-field>
               <ng-container *ngFor="let err of getErrors(field.name)">
-                <mat-error>{{
-                  field.errorMessages ? field.errorMessages[err] : err
-                }}</mat-error>
+                <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
               </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="'select'">
@@ -79,6 +66,7 @@
                 <mat-select
                   [formControlName]="field.name"
                   [required]="field.extra?.required!"
+                  [multiple]="field.extra?.multiple"
                 >
                   <mat-option *ngIf="field.extra?.search">
                     <ngx-mat-select-search
@@ -88,29 +76,19 @@
                     ></ngx-mat-select-search>
                   </mat-option>
                   <mat-option *ngIf="field.extra?.loader" disabled>
-                    <mat-progress-spinner
-                      mode="indeterminate"
-                      diameter="20"
-                    ></mat-progress-spinner>
+                    <mat-progress-spinner mode="indeterminate" diameter="20"></mat-progress-spinner>
                   </mat-option>
-                  <mat-option
-                    *ngFor="let option of field.options"
-                    [value]="option"
-                  >
+                  <mat-option *ngFor="let option of field.options" [value]="option">
                     {{ getOptionLabel(option, field) }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
               <ng-container *ngFor="let err of getErrors(field.name)">
-                <mat-error>{{
-                  field.errorMessages ? field.errorMessages[err] : err
-                }}</mat-error>
+                <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
               </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="'camera'">
-              <app-camera-capture
-                (imageCaptured)="onCameraCaptured(field.name, $event)"
-              ></app-camera-capture>
+              <app-camera-capture (imageCaptured)="onCameraCaptured(field.name, $event)"></app-camera-capture>
             </ng-container>
             <ng-container *ngSwitchDefault>
               <mat-form-field appearance="fill" class="w-full">
@@ -122,37 +100,19 @@
                 />
               </mat-form-field>
               <ng-container *ngFor="let err of getErrors(field.name)">
-                <mat-error>{{
-                  field.errorMessages ? field.errorMessages[err] : err
-                }}</mat-error>
+                <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
               </ng-container>
             </ng-container>
           </ng-container>
         </ng-container>
         <div class="flex justify-end mt-4">
-          <button
-            *ngIf="previousButton"
-            mat-button
-            type="button"
-            (click)="stepper.previous()"
-          >
+          <button *ngIf="previousButton" mat-button type="button" (click)="stepper.previous()">
             {{ previousButtonLabel }}
           </button>
-          <button
-            *ngIf="nextButton"
-            mat-button
-            type="button"
-            [disabled]="form.invalid || nextButtonDisabled"
-            (click)="stepper.next()"
-          >
+          <button *ngIf="nextButton" mat-button type="button" [disabled]="form.invalid || nextButtonDisabled" (click)="stepper.next()">
             {{ nextButtonLabel }}
           </button>
-          <button
-            *ngIf="!previousButton && !nextButton && submitLabel"
-            mat-button
-            type="submit"
-            [disabled]="form.invalid"
-          >
+          <button *ngIf="!previousButton && !nextButton && submitLabel" mat-button type="submit" [disabled]="form.invalid">
             {{ submitLabel }}
           </button>
         </div>
@@ -168,16 +128,10 @@
         <ng-container *ngSwitchCase="'text'">
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>{{ field.label }}</mat-label>
-            <input
-              matInput
-              [formControlName]="field.name"
-              [placeholder]="field.placeholder!"
-            />
+            <input matInput [formControlName]="field.name" [placeholder]="field.placeholder!" />
           </mat-form-field>
           <ng-container *ngFor="let err of getErrors(field.name)">
-            <mat-error>{{
-              field.errorMessages ? field.errorMessages[err] : err
-            }}</mat-error>
+            <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
           </ng-container>
         </ng-container>
         <ng-container *ngSwitchCase="'password'">
@@ -197,38 +151,23 @@
               type="button"
               (click)="togglePassword(field.name)"
             >
-              <mat-icon>{{
-                field.extra && field.extra.hide
-                  ? 'visibility_off'
-                  : 'visibility'
-              }}</mat-icon>
+              <mat-icon>{{ field.extra && field.extra.hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
           </mat-form-field>
           <ng-container *ngFor="let err of getErrors(field.name)">
-            <mat-error>{{
-              field.errorMessages ? field.errorMessages[err] : err
-            }}</mat-error>
+            <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
           </ng-container>
-          <div
-            *ngIf="passwordFieldFocused[field.name]"
-            class="legend text-sm text-gray-600 mt-2"
-          >
+          <div *ngIf="passwordFieldFocused[field.name]" class="legend text-sm text-gray-600 mt-2">
             <app-password-legend [form]="form"></app-password-legend>
           </div>
         </ng-container>
         <ng-container *ngSwitchCase="'textarea'">
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>{{ field.label }}</mat-label>
-            <textarea
-              matInput
-              [formControlName]="field.name"
-              [placeholder]="field.placeholder!"
-            ></textarea>
+            <textarea matInput [formControlName]="field.name" [placeholder]="field.placeholder!"></textarea>
           </mat-form-field>
           <ng-container *ngFor="let err of getErrors(field.name)">
-            <mat-error>{{
-              field.errorMessages ? field.errorMessages[err] : err
-            }}</mat-error>
+            <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
           </ng-container>
         </ng-container>
         <ng-container *ngSwitchCase="'select'">
@@ -237,6 +176,7 @@
             <mat-select
               [formControlName]="field.name"
               [required]="field.extra?.required!"
+              [multiple]="field.extra?.multiple"
             >
               <mat-option *ngIf="field.extra?.search">
                 <ngx-mat-select-search
@@ -246,10 +186,7 @@
                 ></ngx-mat-select-search>
               </mat-option>
               <mat-option *ngIf="field.extra?.loader" disabled>
-                <mat-progress-spinner
-                  mode="indeterminate"
-                  diameter="20"
-                ></mat-progress-spinner>
+                <mat-progress-spinner mode="indeterminate" diameter="20"></mat-progress-spinner>
               </mat-option>
               <mat-option *ngFor="let option of field.options" [value]="option">
                 {{ getOptionLabel(option, field) }}
@@ -257,57 +194,31 @@
             </mat-select>
           </mat-form-field>
           <ng-container *ngFor="let err of getErrors(field.name)">
-            <mat-error>{{
-              field.errorMessages ? field.errorMessages[err] : err
-            }}</mat-error>
+            <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
           </ng-container>
         </ng-container>
         <ng-container *ngSwitchCase="'camera'">
-          <app-camera-capture
-            (imageCaptured)="onCameraCaptured(field.name, $event)"
-          ></app-camera-capture>
+          <app-camera-capture (imageCaptured)="onCameraCaptured(field.name, $event)"></app-camera-capture>
         </ng-container>
         <ng-container *ngSwitchDefault>
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>{{ field.label }}</mat-label>
-            <input
-              matInput
-              [formControlName]="field.name"
-              [placeholder]="field.placeholder!"
-            />
+            <input matInput [formControlName]="field.name" [placeholder]="field.placeholder!" />
           </mat-form-field>
           <ng-container *ngFor="let err of getErrors(field.name)">
-            <mat-error>{{
-              field.errorMessages ? field.errorMessages[err] : err
-            }}</mat-error>
+            <mat-error>{{ field.errorMessages ? field.errorMessages[err] : err }}</mat-error>
           </ng-container>
         </ng-container>
       </ng-container>
     </ng-container>
     <div class="flex justify-end mt-4">
-      <button
-        *ngIf="previousButton"
-        mat-button
-        type="button"
-        (click)="stepper.previous()"
-      >
+      <button *ngIf="previousButton" mat-button type="button" (click)="stepper.previous()">
         {{ previousButtonLabel }}
       </button>
-      <button
-        *ngIf="nextButton"
-        mat-button
-        type="button"
-        [disabled]="form.invalid || nextButtonDisabled"
-        (click)="stepper.next()"
-      >
+      <button *ngIf="nextButton" mat-button type="button" [disabled]="form.invalid || nextButtonDisabled" (click)="stepper.next()">
         {{ nextButtonLabel }}
       </button>
-      <button
-        *ngIf="!previousButton && !nextButton && submitLabel"
-        mat-button
-        type="submit"
-        [disabled]="form.invalid"
-      >
+      <button *ngIf="!nextButton && submitLabel" mat-button type="submit" [disabled]="form.invalid">
         {{ submitLabel }}
       </button>
     </div>
