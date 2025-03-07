@@ -1,8 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ValidatorFn, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidatorFn,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Field } from '../../../models/generics';
-import { NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import {
+  NgForOf,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault,
+} from '@angular/common';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -71,7 +83,7 @@ export class FormComponent<T> implements OnInit {
     if (this.externalForm) {
       this.form = this.externalForm;
       // Ensure each field is added to the external form if missing.
-      this.fields.forEach(field => {
+      this.fields.forEach((field) => {
         if (!this.form.contains(field.name)) {
           this.form.addControl(
             field.name,
@@ -90,10 +102,12 @@ export class FormComponent<T> implements OnInit {
     } else {
       // Otherwise, create our own form
       const group: Record<string, [unknown, ValidatorFn[]]> = {};
-      this.fields.forEach(field => {
+      this.fields.forEach((field) => {
         group[field.name] = [
-          field.extra?.multiple ? (this.initialData[field.name] || []) : (this.initialData[field.name] || ''),
-          field.validators || []
+          field.extra?.multiple
+            ? this.initialData[field.name] || []
+            : this.initialData[field.name] || '',
+          field.validators || [],
         ];
         if (field.type === 'password') {
           field.extra = field.extra || {};
@@ -114,7 +128,7 @@ export class FormComponent<T> implements OnInit {
   }
 
   togglePassword(name: string): void {
-    const field = this.fields.find(f => f.name === name);
+    const field = this.fields.find((f) => f.name === name);
     if (field && field.extra) {
       field.extra.hide = !field.extra.hide;
     }
@@ -136,7 +150,8 @@ export class FormComponent<T> implements OnInit {
 
   getErrors(name: string): string[] {
     const control = this.form.get(name);
-    if (!control || !control.errors || !(control.touched || control.dirty)) return [];
+    if (!control || !control.errors || !(control.touched || control.dirty))
+      return [];
     return Object.keys(control.errors);
   }
 

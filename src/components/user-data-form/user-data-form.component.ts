@@ -9,7 +9,7 @@ import { FormComponent } from '../generic/form/form.component';
   templateUrl: './user-data-form.component.html',
   styleUrls: ['./user-data-form.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, FormComponent]
+  imports: [ReactiveFormsModule, FormComponent],
 })
 export class UserDataFormComponent implements OnInit {
   @Input() isFreelancer!: boolean;
@@ -28,15 +28,15 @@ export class UserDataFormComponent implements OnInit {
         label: 'Bio',
         placeholder: 'Enter your bio',
         validators: [Validators.required],
-        errorMessages: { required: 'Bio is required' }
+        errorMessages: { required: 'Bio is required' },
       },
       {
         name: 'profileImage',
         type: 'camera',
         label: 'Capture Profile Image',
         validators: [Validators.required],
-        errorMessages: { required: 'Image is required' }
-      }
+        errorMessages: { required: 'Image is required' },
+      },
     ];
   }
 

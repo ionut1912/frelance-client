@@ -12,7 +12,7 @@ import { FormComponent } from '../generic/form/form.component';
   templateUrl: './freelancer-profile-form.component.html',
   styleUrls: ['./freelancer-profile-form.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, FormComponent]
+  imports: [ReactiveFormsModule, FormComponent],
 })
 export class FreelancerProfileFormComponent implements OnInit {
   @Input() freelancerProfileSkills$!: Observable<SkillDto[]>;
@@ -35,7 +35,7 @@ export class FreelancerProfileFormComponent implements OnInit {
         options: [],
         validators: [Validators.required],
         errorMessages: { required: 'Programming Languages is required' },
-        extra: { multiple: true }
+        extra: { multiple: true },
       },
       {
         name: 'areas',
@@ -44,7 +44,7 @@ export class FreelancerProfileFormComponent implements OnInit {
         options: [],
         validators: [Validators.required],
         errorMessages: { required: 'Area is required' },
-        extra: { multiple: true }
+        extra: { multiple: true },
       },
       {
         name: 'foreignLanguages',
@@ -53,7 +53,7 @@ export class FreelancerProfileFormComponent implements OnInit {
         options: [],
         validators: [Validators.required],
         errorMessages: { required: 'Foreign Language is required' },
-        extra: { multiple: true, labelKey: 'name' }
+        extra: { multiple: true, labelKey: 'name' },
       },
       {
         name: 'experience',
@@ -61,7 +61,7 @@ export class FreelancerProfileFormComponent implements OnInit {
         label: 'Experience',
         placeholder: 'Enter experience',
         validators: [Validators.required],
-        errorMessages: { required: 'Experience is required' }
+        errorMessages: { required: 'Experience is required' },
       },
       {
         name: 'rate',
@@ -69,7 +69,7 @@ export class FreelancerProfileFormComponent implements OnInit {
         label: 'Rate',
         placeholder: 'Enter rate',
         validators: [Validators.required],
-        errorMessages: { required: 'Rate is required' }
+        errorMessages: { required: 'Rate is required' },
       },
       {
         name: 'currency',
@@ -77,7 +77,7 @@ export class FreelancerProfileFormComponent implements OnInit {
         label: 'Currency',
         placeholder: 'Enter currency',
         validators: [Validators.required],
-        errorMessages: { required: 'Currency is required' }
+        errorMessages: { required: 'Currency is required' },
       },
       {
         name: 'rating',
@@ -85,7 +85,7 @@ export class FreelancerProfileFormComponent implements OnInit {
         label: 'Rating',
         placeholder: 'Enter rating',
         validators: [Validators.required],
-        errorMessages: { required: 'Rating is required' }
+        errorMessages: { required: 'Rating is required' },
       },
       {
         name: 'portfolioUrl',
@@ -93,22 +93,23 @@ export class FreelancerProfileFormComponent implements OnInit {
         label: 'Portfolio URL',
         placeholder: 'Enter portfolio URL',
         validators: [Validators.required],
-        errorMessages: { required: 'Portfolio URL is required' }
-      }
+        errorMessages: { required: 'Portfolio URL is required' },
+      },
     ];
 
-    this.freelancerProfileSkills$.subscribe(skills => {
-      const field = this.fields.find(f => f.name === 'programmingLanguages');
-      if (field) field.options = skills.map((s: SkillDto) => s.programmingLanguage);
+    this.freelancerProfileSkills$.subscribe((skills) => {
+      const field = this.fields.find((f) => f.name === 'programmingLanguages');
+      if (field)
+        field.options = skills.map((s: SkillDto) => s.programmingLanguage);
     });
 
-    this.uniqueAreas$.subscribe(areas => {
-      const field = this.fields.find(f => f.name === 'areas');
+    this.uniqueAreas$.subscribe((areas) => {
+      const field = this.fields.find((f) => f.name === 'areas');
       if (field) field.options = areas;
     });
 
-    this.filteredForeignLanguages$.subscribe(langs => {
-      const field = this.fields.find(f => f.name === 'foreignLanguages');
+    this.filteredForeignLanguages$.subscribe((langs) => {
+      const field = this.fields.find((f) => f.name === 'foreignLanguages');
       if (field) field.options = langs;
     });
   }

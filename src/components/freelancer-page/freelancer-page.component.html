@@ -14,7 +14,10 @@
   <div class="text-center p-4">
     Hello, {{ profile?.user?.username }}!
     <div *ngIf="!profile?.isVerified">
-      <app-verify-photo [profile]="profile" [role]="'Freelancer'"></app-verify-photo>
+      <app-verify-photo
+        [profile]="profile"
+        [role]="'Freelancer'"
+      ></app-verify-photo>
     </div>
   </div>
 </ng-template>
@@ -31,7 +34,8 @@
           [countryFilterCtrl]="countryFilterCtrl"
           [cityFilterCtrl]="cityFilterCtrl"
           [stepper]="stepper"
-          [externalForm]="addressForm">
+          [externalForm]="addressForm"
+        >
         </app-address-form>
       </mat-step>
       <mat-step [stepControl]="userDataForm" label="User Data">
@@ -39,17 +43,22 @@
           [isFreelancer]="true"
           (imageCaptured)="setImage($event)"
           [stepper]="stepper"
-          [externalForm]="userDataForm">
+          [externalForm]="userDataForm"
+        >
         </app-user-data-form>
       </mat-step>
-      <mat-step [stepControl]="freelancerProfileForm" label="Freelancer profile">
+      <mat-step
+        [stepControl]="freelancerProfileForm"
+        label="Freelancer profile"
+      >
         <app-freelancer-profile-form
           [freelancerProfileSkills$]="freelancerProfileSkills$"
           [uniqueAreas$]="uniqueAreas$"
           [filteredForeignLanguages$]="filteredForeignLanguages$"
           (completeStepper)="completeStepper()"
           [stepper]="stepper"
-          [externalForm]="freelancerProfileForm">
+          [externalForm]="freelancerProfileForm"
+        >
         </app-freelancer-profile-form>
       </mat-step>
     </mat-horizontal-stepper>
