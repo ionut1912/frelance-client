@@ -41,33 +41,26 @@ export abstract class BaseProfilePageComponent implements OnInit {
       streetNumber: ['', Validators.required],
       zipCode: ['', Validators.required],
     });
-    this.userDataForm = this.fb.group({
-      bio: ['', Validators.required],
-    });
+    this.userDataForm = this.fb.group({ bio: ['', Validators.required] });
   }
 
   ngOnInit(): void {
     this.store.dispatch(CountryActions.loadCountries());
-    // When country value changes in the parent's addressForm, dispatch the city load action.
     this.addressForm
       .get('country')!
-      .valueChanges.subscribe((selectedCountry) => {
+      .valueChanges.subscribe((selectedCountry: Country) => {
         if (selectedCountry) {
           this.store.dispatch(
             CityActions.loadCities({ country: selectedCountry })
           );
         }
       });
-
-    // Subscribe for full list of countries from the store
     this.store
       .select((state) => state.countries.countries)
       .subscribe((countries) => {
         this.fullCountries = countries;
         this.filteredCountries = countries;
       });
-
-    // Subscribe for cities from the store and apply filtering
     this.store
       .select((state) => state.cities.cities)
       .subscribe((cities) => {
@@ -79,8 +72,6 @@ export abstract class BaseProfilePageComponent implements OnInit {
             )
           : cities;
       });
-
-    // Subscribe to changes in the city filter control
     this.cityFilterCtrl.valueChanges.subscribe((search: string) => {
       this.filteredCitiesList = search
         ? this.fullCities.filter((city) =>
@@ -88,13 +79,9 @@ export abstract class BaseProfilePageComponent implements OnInit {
           )
         : this.fullCities;
     });
-
-    // Subscribe to cities loading flag from the store
     this.store
       .select((state) => state.cities.loading)
       .subscribe((loading) => (this.citiesLoading = loading));
-
-    // Filtering countries based on parent's country filter control
     this.countryFilterCtrl.valueChanges.subscribe((search: string) => {
       this.filteredCountries = search
         ? this.fullCountries.filter((country) =>

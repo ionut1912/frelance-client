@@ -24,7 +24,7 @@
 
 <ng-template #form>
   <div class="flex items-center justify-center min-h-screen p-4">
-    <mat-horizontal-stepper linear class="w-full max-w-3xl">
+    <mat-horizontal-stepper linear class="w-full max-w-3xl" #stepper>
       <mat-step [stepControl]="addressForm" label="Address">
         <app-address-form
           [countries]="filteredCountries"
@@ -33,12 +33,15 @@
           [citiesLoading]="citiesLoading"
           [countryFilterCtrl]="countryFilterCtrl"
           [cityFilterCtrl]="cityFilterCtrl"
-        ></app-address-form>
+          [stepper]="stepper"
+        >
+        </app-address-form>
       </mat-step>
       <mat-step [stepControl]="userDataForm" label="User Data">
         <app-user-data-form
           [isFreelancer]="true"
           (imageCaptured)="setImage($event)"
+          [stepper]="stepper"
         >
         </app-user-data-form>
       </mat-step>
@@ -51,6 +54,7 @@
           [uniqueAreas$]="uniqueAreas$"
           [filteredForeignLanguages$]="filteredForeignLanguages$"
           (completeStepper)="completeStepper()"
+          [stepper]="stepper"
         >
         </app-freelancer-profile-form>
       </mat-step>

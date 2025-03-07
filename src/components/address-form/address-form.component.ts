@@ -4,10 +4,15 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  AfterViewInit,
+  ViewChild,
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import * as CityActions from '../../store/actions/city.actions';
 import { Country } from '../../models/ExternalApis';
 import { Field, FormComponent } from '../generic/form/form.component';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-address-form',
@@ -15,18 +20,36 @@ import { Field, FormComponent } from '../generic/form/form.component';
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss'],
 })
-export class AddressFormComponent implements OnInit, OnChanges {
+export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() countries: Country[] = [];
   @Input() filteredCountries: Country[] = [];
   @Input() filteredCitiesList: string[] = [];
   @Input() citiesLoading: boolean = false;
   @Input() countryFilterCtrl!: FormControl;
   @Input() cityFilterCtrl!: FormControl;
+  @Input() stepper!: MatStepper;
+
+  @ViewChild(FormComponent) formComponent!: FormComponent<any>;
 
   fields: Field<Country | string>[] = [];
 
+  constructor(private store: Store) {}
+
   ngOnInit(): void {
     this.initializeFields();
+  }
+
+  ngAfterViewInit(): void {
+    const countryControl = this.formComponent.form.get('country');
+    if (countryControl) {
+      countryControl.valueChanges.subscribe((selectedCountry: Country) => {
+        if (selectedCountry) {
+          this.store.dispatch(
+            CityActions.loadCities({ country: selectedCountry })
+          );
+        }
+      });
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -43,8 +66,22 @@ export class AddressFormComponent implements OnInit, OnChanges {
           : this.countries;
     }
     const cityFieldIndex = this.fields.findIndex((f) => f.name === 'city');
-    if (cityFieldIndex !== -1 && changes['filteredCitiesList']) {
-      this.fields[cityFieldIndex].options = this.filteredCitiesList;
+    if (cityFieldIndex !== -1) {
+      if (changes['citiesLoading'] && this.citiesLoading) {
+        this.fields[cityFieldIndex].extra = {
+          ...this.fields[cityFieldIndex].extra,
+          loader: true,
+        };
+        this.fields[cityFieldIndex].options = [];
+      } else if (changes['citiesLoading'] && !this.citiesLoading) {
+        this.fields[cityFieldIndex].extra = {
+          ...this.fields[cityFieldIndex].extra,
+          loader: false,
+        };
+        this.fields[cityFieldIndex].options = this.filteredCitiesList;
+      } else if (changes['filteredCitiesList']) {
+        this.fields[cityFieldIndex].options = this.filteredCitiesList;
+      }
     }
   }
 
@@ -78,6 +115,7 @@ export class AddressFormComponent implements OnInit, OnChanges {
           search: true,
           searchControl: this.cityFilterCtrl,
           required: true,
+          loader: this.citiesLoading,
         },
       },
       {
@@ -107,7 +145,5 @@ export class AddressFormComponent implements OnInit, OnChanges {
     ];
   }
 
-  onFormSubmit(): void {
-    // Further processing can be implemented here
-  }
+  onFormSubmit(): void {}
 }

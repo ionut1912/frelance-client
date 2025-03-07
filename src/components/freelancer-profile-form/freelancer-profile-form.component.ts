@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SkillDto } from '../../models/UserProfile';
 import { Language } from '../../models/ExternalApis';
 import { Field, FormComponent } from '../generic/form/form.component';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-freelancer-profile-form',
@@ -15,6 +16,7 @@ export class FreelancerProfileFormComponent implements OnInit {
   @Input() freelancerProfileSkills$!: Observable<SkillDto[]>;
   @Input() uniqueAreas$!: Observable<string[]>;
   @Input() filteredForeignLanguages$!: Observable<Language[]>;
+  @Input() stepper!: MatStepper;
   @Output() completeStepper = new EventEmitter<void>();
 
   fields: Field<SkillDto | string | Language>[] = [];

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { Field, FormComponent } from '../generic/form/form.component';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-user-data-form',
@@ -10,6 +11,7 @@ import { Field, FormComponent } from '../generic/form/form.component';
 })
 export class UserDataFormComponent implements OnInit {
   @Input() isFreelancer!: boolean;
+  @Input() stepper!: MatStepper;
   @Output() imageCaptured = new EventEmitter<string>();
 
   fields: Field<any>[] = [];
@@ -25,19 +27,15 @@ export class UserDataFormComponent implements OnInit {
         validators: [Validators.required],
         errorMessages: { required: 'Bio is required' },
       },
-    ];
-    if (this.isFreelancer) {
-      this.fields.push({
+      {
         name: 'profileImage',
         type: 'camera',
         label: 'Capture Profile Image',
         validators: [Validators.required],
         errorMessages: { required: 'Image is required' },
-      });
-    }
+      },
+    ];
   }
 
-  onFormSubmit(): void {
-    // Further processing can be implemented here
-  }
+  onFormSubmit(): void {}
 }

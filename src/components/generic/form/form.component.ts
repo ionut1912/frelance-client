@@ -3,9 +3,10 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   ValidatorFn,
+  ReactiveFormsModule,
 } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import {
   NgForOf,
@@ -22,8 +23,8 @@ import { MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { CameraCaptureComponent } from '../../canera-capture/camera-capture.component';
 import { PasswordLegendComponent } from '../../password-legend/password-legend.component';
-import { MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
 import { MatCard } from '@angular/material/card';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 export interface FieldExtra {
   hide?: boolean;
@@ -32,6 +33,7 @@ export interface FieldExtra {
   labelKey?: string;
   multiple?: boolean;
   required?: boolean;
+  loader?: boolean;
 }
 
 export interface Field<T> {
@@ -73,9 +75,8 @@ export interface Field<T> {
     NgSwitchDefault,
     MatButton,
     PasswordLegendComponent,
-    MatStepperPrevious,
-    MatStepperNext,
     MatCard,
+    MatProgressSpinner,
   ],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
@@ -92,6 +93,8 @@ export class FormComponent<T> implements OnInit {
   @Input() nextButtonDisabled: boolean = false;
   @Input() cardWrapper: boolean = false;
   @Output() formSubmit = new EventEmitter<Record<string, unknown>>();
+
+  @Input() stepper!: MatStepper;
 
   form!: FormGroup;
   passwordFieldFocused: { [key: string]: boolean } = {};

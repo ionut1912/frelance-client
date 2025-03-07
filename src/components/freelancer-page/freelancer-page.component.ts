@@ -49,6 +49,7 @@ import { VerifyPhotoComponent } from '../verify-photo/verify-photo.component';
     UserDataFormComponent,
     FreelancerProfileFormComponent,
     VerifyPhotoComponent,
+    AddressFormComponent,
   ],
   templateUrl: './freelancer-page.component.html',
   styleUrls: ['./freelancer-page.component.scss'],
