@@ -1,34 +1,29 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  AfterViewInit,
-  ViewChild,
-} from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, AfterViewInit, ViewChild } from '@angular/core';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as CityActions from '../../store/actions/city.actions';
 import { Country } from '../../models/ExternalApis';
-import { FormComponent } from '../generic/form/form.component';
-import { MatStepper } from '@angular/material/stepper';
 import { Field } from '../../models/generics';
+import { MatStepper } from '@angular/material/stepper';
+import { FormComponent } from '../generic/form/form.component';
 
 @Component({
   selector: 'app-address-form',
-  imports: [FormComponent],
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss'],
+  standalone: true,
+  imports: [FormComponent]
 })
 export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() countries: Country[] = [];
   @Input() filteredCountries: Country[] = [];
   @Input() filteredCitiesList: string[] = [];
-  @Input() citiesLoading: boolean = false;
+  @Input() citiesLoading = false;
   @Input() countryFilterCtrl!: FormControl;
   @Input() cityFilterCtrl!: FormControl;
   @Input() stepper!: MatStepper;
+  // Parent form passed from the page.
+  @Input() externalForm!: FormGroup;
 
   @ViewChild(FormComponent) formComponent!: FormComponent<any>;
 
@@ -45,43 +40,27 @@ export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
     if (countryControl) {
       countryControl.valueChanges.subscribe((selectedCountry: Country) => {
         if (selectedCountry) {
-          this.store.dispatch(
-            CityActions.loadCities({ country: selectedCountry })
-          );
+          this.store.dispatch(CityActions.loadCities({ country: selectedCountry }));
         }
       });
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const countryFieldIndex = this.fields.findIndex(
-      (f) => f.name === 'country'
-    );
-    if (
-      countryFieldIndex !== -1 &&
-      (changes['countries'] || changes['filteredCountries'])
-    ) {
-      this.fields[countryFieldIndex].options =
-        this.filteredCountries && this.filteredCountries.length
-          ? this.filteredCountries
-          : this.countries;
+    const countryIndex = this.fields.findIndex(f => f.name === 'country');
+    if (countryIndex !== -1 && (changes['countries'] || changes['filteredCountries'])) {
+      this.fields[countryIndex].options = (this.filteredCountries && this.filteredCountries.length) ? this.filteredCountries : this.countries;
     }
-    const cityFieldIndex = this.fields.findIndex((f) => f.name === 'city');
-    if (cityFieldIndex !== -1) {
+    const cityIndex = this.fields.findIndex(f => f.name === 'city');
+    if (cityIndex !== -1) {
       if (changes['citiesLoading'] && this.citiesLoading) {
-        this.fields[cityFieldIndex].extra = {
-          ...this.fields[cityFieldIndex].extra,
-          loader: true,
-        };
-        this.fields[cityFieldIndex].options = [];
+        this.fields[cityIndex].extra = { ...this.fields[cityIndex].extra, loader: true };
+        this.fields[cityIndex].options = [];
       } else if (changes['citiesLoading'] && !this.citiesLoading) {
-        this.fields[cityFieldIndex].extra = {
-          ...this.fields[cityFieldIndex].extra,
-          loader: false,
-        };
-        this.fields[cityFieldIndex].options = this.filteredCitiesList;
+        this.fields[cityIndex].extra = { ...this.fields[cityIndex].extra, loader: false };
+        this.fields[cityIndex].options = this.filteredCitiesList;
       } else if (changes['filteredCitiesList']) {
-        this.fields[cityFieldIndex].options = this.filteredCitiesList;
+        this.fields[cityIndex].options = this.filteredCitiesList;
       }
     }
   }
@@ -92,18 +71,10 @@ export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
         name: 'country',
         type: 'select',
         label: 'Select a Country',
-        options:
-          this.filteredCountries && this.filteredCountries.length
-            ? this.filteredCountries
-            : this.countries,
+        options: (this.filteredCountries && this.filteredCountries.length) ? this.filteredCountries : this.countries,
         validators: [Validators.required],
         errorMessages: { required: 'Country is required' },
-        extra: {
-          search: true,
-          searchControl: this.countryFilterCtrl,
-          labelKey: 'name.common',
-          required: true,
-        },
+        extra: { search: true, searchControl: this.countryFilterCtrl, labelKey: 'name.common', required: true }
       },
       {
         name: 'city',
@@ -112,37 +83,11 @@ export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
         options: this.filteredCitiesList,
         validators: [Validators.required],
         errorMessages: { required: 'City is required' },
-        extra: {
-          search: true,
-          searchControl: this.cityFilterCtrl,
-          required: true,
-          loader: this.citiesLoading,
-        },
+        extra: { search: true, searchControl: this.cityFilterCtrl, required: true, loader: this.citiesLoading }
       },
-      {
-        name: 'street',
-        type: 'text',
-        label: 'Street',
-        placeholder: 'Enter street',
-        validators: [Validators.required],
-        errorMessages: { required: 'Street is required' },
-      },
-      {
-        name: 'streetNumber',
-        type: 'text',
-        label: 'Street Number',
-        placeholder: 'Enter street number',
-        validators: [Validators.required],
-        errorMessages: { required: 'Street number is required' },
-      },
-      {
-        name: 'zipCode',
-        type: 'text',
-        label: 'Zipcode',
-        placeholder: 'Enter zipcode',
-        validators: [Validators.required],
-        errorMessages: { required: 'Zipcode is required' },
-      },
+      { name: 'street', type: 'text', label: 'Street', placeholder: 'Enter street', validators: [Validators.required], errorMessages: { required: 'Street is required' } },
+      { name: 'streetNumber', type: 'text', label: 'Street Number', placeholder: 'Enter street number', validators: [Validators.required], errorMessages: { required: 'Street number is required' } },
+      { name: 'zipCode', type: 'text', label: 'Zipcode', placeholder: 'Enter zipcode', validators: [Validators.required], errorMessages: { required: 'Zipcode is required' } }
     ];
   }
 

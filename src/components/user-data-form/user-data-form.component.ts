@@ -1,22 +1,24 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormComponent } from '../generic/form/form.component';
-import { MatStepper } from '@angular/material/stepper';
+import { ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { Field } from '../../models/generics';
+import { MatStepper } from '@angular/material/stepper';
+import { FormComponent } from '../generic/form/form.component';
 
 @Component({
   selector: 'app-user-data-form',
   templateUrl: './user-data-form.component.html',
   styleUrls: ['./user-data-form.component.scss'],
-  imports: [ReactiveFormsModule, FormComponent],
+  standalone: true,
+  imports: [ReactiveFormsModule, FormComponent]
 })
 export class UserDataFormComponent implements OnInit {
   @Input() isFreelancer!: boolean;
   @Input() stepper!: MatStepper;
+  @Input() externalForm!: FormGroup;
+
   @Output() imageCaptured = new EventEmitter<string>();
 
   fields: Field<string>[] = [];
-  base64Image: string = '';
 
   ngOnInit(): void {
     this.fields = [
@@ -26,17 +28,22 @@ export class UserDataFormComponent implements OnInit {
         label: 'Bio',
         placeholder: 'Enter your bio',
         validators: [Validators.required],
-        errorMessages: { required: 'Bio is required' },
+        errorMessages: { required: 'Bio is required' }
       },
       {
         name: 'profileImage',
         type: 'camera',
         label: 'Capture Profile Image',
         validators: [Validators.required],
-        errorMessages: { required: 'Image is required' },
-      },
+        errorMessages: { required: 'Image is required' }
+      }
     ];
   }
 
   onFormSubmit(): void {}
+
+  // Forward camera capture from the generic form upward
+  handleCameraCapture(image: string): void {
+    this.imageCaptured.emit(image);
+  }
 }

@@ -1,10 +1,12 @@
 <app-form
   [fields]="fields"
+  [externalForm]="externalForm"
   [previousButton]="true"
   [nextButton]="isFreelancer"
   [previousButtonLabel]="'Back'"
   [nextButtonLabel]="'Next'"
   [stepper]="stepper"
   (formSubmit)="onFormSubmit()"
+  (cameraCaptured)="handleCameraCapture($event)"
 >
 </app-form>

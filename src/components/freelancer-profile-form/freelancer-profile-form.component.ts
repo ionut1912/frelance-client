@@ -1,23 +1,27 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Field } from '../../models/generics';
 import { SkillDto } from '../../models/UserProfile';
 import { Language } from '../../models/ExternalApis';
-import { FormComponent } from '../generic/form/form.component';
 import { MatStepper } from '@angular/material/stepper';
-import { Field } from '../../models/generics';
+import { FormComponent } from '../generic/form/form.component';
 
 @Component({
   selector: 'app-freelancer-profile-form',
   templateUrl: './freelancer-profile-form.component.html',
-  imports: [ReactiveFormsModule, FormComponent],
   styleUrls: ['./freelancer-profile-form.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, FormComponent]
 })
 export class FreelancerProfileFormComponent implements OnInit {
   @Input() freelancerProfileSkills$!: Observable<SkillDto[]>;
   @Input() uniqueAreas$!: Observable<string[]>;
   @Input() filteredForeignLanguages$!: Observable<Language[]>;
   @Input() stepper!: MatStepper;
+  // Parent form passed down
+  @Input() externalForm!: FormGroup;
+
   @Output() completeStepper = new EventEmitter<void>();
 
   fields: Field<SkillDto | string | Language>[] = [];
@@ -93,25 +97,19 @@ export class FreelancerProfileFormComponent implements OnInit {
       }
     ];
 
-    this.freelancerProfileSkills$.subscribe((skills: SkillDto[]) => {
-      const field = this.fields.find((f) => f.name === 'programmingLanguages');
-      if (field) {
-        field.options = skills.map((s: SkillDto) => s.programmingLanguage);
-      }
+    this.freelancerProfileSkills$.subscribe(skills => {
+      const field = this.fields.find(f => f.name === 'programmingLanguages');
+      if (field) field.options = skills.map((s: SkillDto) => s.programmingLanguage);
     });
 
-    this.uniqueAreas$.subscribe((areas: string[]) => {
-      const field = this.fields.find((f) => f.name === 'areas');
-      if (field) {
-        field.options = areas;
-      }
+    this.uniqueAreas$.subscribe(areas => {
+      const field = this.fields.find(f => f.name === 'areas');
+      if (field) field.options = areas;
     });
 
-    this.filteredForeignLanguages$.subscribe((langs: Language[]) => {
-      const field = this.fields.find((f) => f.name === 'foreignLanguages');
-      if (field) {
-        field.options = langs;
-      }
+    this.filteredForeignLanguages$.subscribe(langs => {
+      const field = this.fields.find(f => f.name === 'foreignLanguages');
+      if (field) field.options = langs;
     });
   }
 
