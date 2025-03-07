@@ -17,13 +17,29 @@
           ></app-dynamic-field>
         </ng-container>
         <div class="flex justify-end mt-4">
-          <button *ngIf="previousButton" mat-button type="button" (click)="stepper.previous()">
+          <button
+            *ngIf="previousButton"
+            mat-button
+            type="button"
+            (click)="stepper.previous()"
+          >
             {{ previousButtonLabel }}
           </button>
-          <button *ngIf="nextButton" mat-button type="button" [disabled]="form.invalid || nextButtonDisabled" (click)="stepper.next()">
+          <button
+            *ngIf="nextButton"
+            mat-button
+            type="button"
+            [disabled]="form.invalid || nextButtonDisabled"
+            (click)="stepper.next()"
+          >
             {{ nextButtonLabel }}
           </button>
-          <button *ngIf="!previousButton && !nextButton && submitLabel" mat-button type="submit" [disabled]="form.invalid">
+          <button
+            *ngIf="!previousButton && !nextButton && submitLabel"
+            mat-button
+            type="submit"
+            [disabled]="form.invalid"
+          >
             {{ submitLabel }}
           </button>
         </div>
@@ -46,13 +62,29 @@
       ></app-dynamic-field>
     </ng-container>
     <div class="flex justify-end mt-4">
-      <button *ngIf="previousButton" mat-button type="button" (click)="stepper.previous()">
+      <button
+        *ngIf="previousButton"
+        mat-button
+        type="button"
+        (click)="stepper.previous()"
+      >
         {{ previousButtonLabel }}
       </button>
-      <button *ngIf="nextButton" mat-button type="button" [disabled]="form.invalid || nextButtonDisabled" (click)="stepper.next()">
+      <button
+        *ngIf="nextButton"
+        mat-button
+        type="button"
+        [disabled]="form.invalid || nextButtonDisabled"
+        (click)="stepper.next()"
+      >
         {{ nextButtonLabel }}
       </button>
-      <button *ngIf="!nextButton && submitLabel" mat-button type="submit" [disabled]="form.invalid">
+      <button
+        *ngIf="!nextButton && submitLabel"
+        mat-button
+        type="submit"
+        [disabled]="form.invalid"
+      >
         {{ submitLabel }}
       </button>
     </div>

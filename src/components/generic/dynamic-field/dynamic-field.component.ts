@@ -2,7 +2,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Field } from '../../../models/generics';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
-import { NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import {
+  NgForOf,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault,
+} from '@angular/common';
 import { MatInput } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
@@ -34,21 +40,25 @@ import { CameraCaptureComponent } from '../../canera-capture/camera-capture.comp
     MatProgressSpinner,
     CameraCaptureComponent,
     NgSwitchDefault,
-    MatLabel
+    MatLabel,
   ],
 })
 export class DynamicFieldComponent<T> {
   @Input() field!: Field<T>;
   @Input() form!: FormGroup;
   @Input() passwordFieldFocused: { [key: string]: boolean } = {};
-  @Output() cameraCaptured = new EventEmitter<{ fieldName: string, image: string }>();
+  @Output() cameraCaptured = new EventEmitter<{
+    fieldName: string;
+    image: string;
+  }>();
   @Output() passwordFocus = new EventEmitter<string>();
   @Output() passwordBlur = new EventEmitter<string>();
   @Output() togglePasswordEvent = new EventEmitter<string>();
 
   getErrors(): string[] {
     const control = this.form.get(this.field.name);
-    if (!control || !control.errors || !(control.touched || control.dirty)) return [];
+    if (!control || !control.errors || !(control.touched || control.dirty))
+      return [];
     return Object.keys(control.errors);
   }
 

@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ValidatorFn, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidatorFn,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Field } from '../../../models/generics';
 import { NgForOf, NgIf } from '@angular/common';
@@ -50,7 +56,10 @@ export class FormComponent<T> implements OnInit {
         if (!this.form.contains(field.name)) {
           this.form.addControl(
             field.name,
-            new FormControl(this.initialData[field.name] || (field.extra?.multiple ? [] : ''), field.validators || [])
+            new FormControl(
+              this.initialData[field.name] || (field.extra?.multiple ? [] : ''),
+              field.validators || []
+            )
           );
           if (field.type === 'password') {
             field.extra = field.extra || {};
@@ -63,8 +72,10 @@ export class FormComponent<T> implements OnInit {
       const group: Record<string, [unknown, ValidatorFn[]]> = {};
       this.fields.forEach((field) => {
         group[field.name] = [
-          field.extra?.multiple ? this.initialData[field.name] || [] : this.initialData[field.name] || '',
-          field.validators || []
+          field.extra?.multiple
+            ? this.initialData[field.name] || []
+            : this.initialData[field.name] || '',
+          field.validators || [],
         ];
         if (field.type === 'password') {
           field.extra = field.extra || {};
