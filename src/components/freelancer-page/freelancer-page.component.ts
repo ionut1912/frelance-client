@@ -141,10 +141,6 @@ export class FreelancerPageComponent extends BaseProfilePageComponent implements
   }
 
   completeStepper(): void {
-    console.log('Address Form:', this.addressForm.value);
-    console.log('User Data Form:', this.userDataForm.value);
-    console.log('Freelancer Profile Form:', this.freelancerProfileForm.value);
-    console.log('Captured image:', this.imageSrc);
     const payload: CreateFreelancerProfileRequest = {
       addressCountry: this.addressForm.value.country.name.common,
       addressStreet: this.addressForm.value.street,
@@ -162,7 +158,6 @@ export class FreelancerPageComponent extends BaseProfilePageComponent implements
       rating: this.freelancerProfileForm.value.rating,
       portfolioUrl: this.freelancerProfileForm.value.portfolioUrl,
     };
-console.log(payload);
     this.store.dispatch(FreelancerProfileActions.createFreelancerProfile({ payload }));
   }
 }

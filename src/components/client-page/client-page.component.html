@@ -20,7 +20,7 @@
 </ng-template>
 <ng-template #profileForm>
   <div class="flex items-center justify-center min-h-screen p-4">
-    <mat-horizontal-stepper  class="w-full max-w-3xl">
+    <mat-horizontal-stepper  class="w-full max-w-3xl" #stepper>
       <mat-step [stepControl]="addressForm" label="Address">
         <app-address-form
           [countries]="filteredCountries"
@@ -29,13 +29,17 @@
           [citiesLoading]="citiesLoading"
           [countryFilterCtrl]="countryFilterCtrl"
           [cityFilterCtrl]="cityFilterCtrl"
-        ></app-address-form>
+          [stepper]="stepper"
+          [externalForm]="addressForm">
+        </app-address-form>
       </mat-step>
       <mat-step [stepControl]="userDataForm" label="User Data">
         <app-user-data-form
           [isFreelancer]="false"
           (imageCaptured)="setImage($event)"
-        ></app-user-data-form>
+          [stepper]="stepper"
+          [externalForm]="userDataForm">
+        </app-user-data-form>
         <div class="flex justify-end mt-4">
           <button
             mat-button
