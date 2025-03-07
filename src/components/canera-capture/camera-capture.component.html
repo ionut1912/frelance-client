@@ -8,8 +8,8 @@
   <video #video autoplay class="w-full h-auto" *ngIf="!base64Image"></video>
   <button
     *ngIf="!base64Image"
-    (click)="this.capture()"
-    [disabled]="this.isCameraLoading"
+    (click)="capture()"
+    [disabled]="isCameraLoading"
     class="mx-auto block w-full max-w-sm px-4 py-2 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors disabled:opacity-50"
   >
     Capture

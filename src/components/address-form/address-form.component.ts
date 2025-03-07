@@ -5,10 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import {
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Country } from '../../models/ExternalApis';
 import { Field, FormComponent } from '../generic/form/form.component';
 
@@ -27,7 +24,6 @@ export class AddressFormComponent implements OnInit, OnChanges {
   @Input() cityFilterCtrl!: FormControl;
 
   fields: Field<Country | string>[] = [];
-
 
   ngOnInit(): void {
     this.initializeFields();

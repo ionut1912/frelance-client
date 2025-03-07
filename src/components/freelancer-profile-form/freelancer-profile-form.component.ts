@@ -1,8 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SkillDto } from '../../models/UserProfile';
 import { Language } from '../../models/ExternalApis';

@@ -26,7 +26,7 @@ export class CameraCaptureComponent implements AfterViewInit, OnDestroy {
   streamSub?: Subscription;
 
   ngAfterViewInit(): void {
-    this.initializeCamera();
+    setTimeout(() => this.initializeCamera(), 0);
   }
 
   initializeCamera(): void {
@@ -40,7 +40,9 @@ export class CameraCaptureComponent implements AfterViewInit, OnDestroy {
         videoElement.srcObject = stream;
         videoElement.onloadedmetadata = () => {
           videoElement.play().then(() => {});
-          this.isCameraLoading = false;
+          setTimeout(() => {
+            this.isCameraLoading = false;
+          }, 0);
         };
       });
     }

@@ -1,8 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { Field, FormComponent } from '../generic/form/form.component';
 
 @Component({
@@ -17,7 +14,6 @@ export class UserDataFormComponent implements OnInit {
 
   fields: Field<any>[] = [];
   base64Image: string = '';
-
 
   ngOnInit(): void {
     this.fields = [
