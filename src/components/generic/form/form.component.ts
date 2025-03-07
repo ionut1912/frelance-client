@@ -1,30 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ValidatorFn,
-  FormControl,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ValidatorFn, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Field } from '../../../models/generics';
-import {
-  NgForOf,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-} from '@angular/common';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { PasswordLegendComponent } from '../../password-legend/password-legend.component';
-import { MatSelect, MatOption } from '@angular/material/select';
+import { NgForOf, NgIf } from '@angular/common';
+import { MatButton } from '@angular/material/button';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { CameraCaptureComponent } from '../../canera-capture/camera-capture.component';
 import { MatCard } from '@angular/material/card';
+import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
   selector: 'app-form',
@@ -35,23 +17,10 @@ import { MatCard } from '@angular/material/card';
     ReactiveFormsModule,
     NgIf,
     NgForOf,
-    NgSwitch,
-    NgSwitchCase,
-    NgSwitchDefault,
-    MatFormField,
-    MatInput,
     MatButton,
-    MatIconButton,
-    MatIcon,
-    PasswordLegendComponent,
-    MatSelect,
-    MatOption,
     NgxMatSelectSearchModule,
-    MatProgressSpinner,
-    CameraCaptureComponent,
-    MatLabel,
     MatCard,
-    MatError,
+    DynamicFieldComponent,
   ],
 })
 export class FormComponent<T> implements OnInit {
@@ -66,14 +35,9 @@ export class FormComponent<T> implements OnInit {
   @Input() nextButtonDisabled = false;
   @Input() cardWrapper = false;
   @Input() stepper!: MatStepper;
-
-  // Use an external FormGroup if provided
   @Input() externalForm?: FormGroup;
-
-  // Emit camera-captured image
   @Output() cameraCaptured = new EventEmitter<string>();
   @Output() formSubmit = new EventEmitter<Record<string, unknown>>();
-
   form!: FormGroup;
   passwordFieldFocused: { [key: string]: boolean } = {};
 
@@ -82,15 +46,11 @@ export class FormComponent<T> implements OnInit {
   ngOnInit(): void {
     if (this.externalForm) {
       this.form = this.externalForm;
-      // Ensure each field is added to the external form if missing.
       this.fields.forEach((field) => {
         if (!this.form.contains(field.name)) {
           this.form.addControl(
             field.name,
-            new FormControl(
-              this.initialData[field.name] || (field.extra?.multiple ? [] : ''),
-              field.validators || []
-            )
+            new FormControl(this.initialData[field.name] || (field.extra?.multiple ? [] : ''), field.validators || [])
           );
           if (field.type === 'password') {
             field.extra = field.extra || {};
@@ -100,14 +60,11 @@ export class FormComponent<T> implements OnInit {
         }
       });
     } else {
-      // Otherwise, create our own form
       const group: Record<string, [unknown, ValidatorFn[]]> = {};
       this.fields.forEach((field) => {
         group[field.name] = [
-          field.extra?.multiple
-            ? this.initialData[field.name] || []
-            : this.initialData[field.name] || '',
-          field.validators || [],
+          field.extra?.multiple ? this.initialData[field.name] || [] : this.initialData[field.name] || '',
+          field.validators || []
         ];
         if (field.type === 'password') {
           field.extra = field.extra || {};
@@ -134,7 +91,6 @@ export class FormComponent<T> implements OnInit {
     }
   }
 
-  // This method is called from the camera-capture component inside the template.
   onCameraCaptured(fieldName: string, image: string): void {
     this.form.get(fieldName)?.setValue(image);
     this.cameraCaptured.emit(image);
@@ -146,29 +102,5 @@ export class FormComponent<T> implements OnInit {
 
   onPasswordBlur(fieldName: string): void {
     this.passwordFieldFocused[fieldName] = false;
-  }
-
-  getErrors(name: string): string[] {
-    const control = this.form.get(name);
-    if (!control || !control.errors || !(control.touched || control.dirty))
-      return [];
-    return Object.keys(control.errors);
-  }
-
-  getOptionLabel(option: unknown, field: Field<T>): string {
-    if (typeof option === 'object' && field.extra?.labelKey) {
-      const keys = field.extra.labelKey.split('.');
-      let value: any = option;
-      for (const key of keys) {
-        if (value && typeof value === 'object' && key in value) {
-          value = value[key];
-        } else {
-          value = null;
-          break;
-        }
-      }
-      if (value !== null) return String(value);
-    }
-    return String(option);
   }
 }
