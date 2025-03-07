@@ -3,12 +3,8 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-unauthorized',
-  imports: [
-    RouterLink,
-  ],
+  imports: [RouterLink],
   templateUrl: './unauthorized.component.html',
-  styleUrl: './unauthorized.component.scss'
+  styleUrl: './unauthorized.component.scss',
 })
-export class UnauthorizedComponent {
-
-}
+export class UnauthorizedComponent {}

@@ -1,5 +1,8 @@
-<app-account-form
-  [mode]="'register'"
-  [role]="role"
+<app-form
   [fields]="registerFields"
-></app-account-form>
+  [submitLabel]="'Create Account'"
+  [cardWrapper]="true"
+  [formText]="'register'"
+  (formSubmit)="onFormSubmit($event)"
+>
+</app-form>

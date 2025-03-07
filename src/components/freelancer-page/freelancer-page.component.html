@@ -27,18 +27,16 @@
     <mat-horizontal-stepper linear class="w-full max-w-3xl">
       <mat-step [stepControl]="addressForm" label="Address">
         <app-address-form
-          [formGroup]="addressForm"
-          [countryFilterCtrl]="countryFilterCtrl"
+          [countries]="filteredCountries"
           [filteredCountries]="filteredCountries"
-          [cityFilterCtrl]="cityFilterCtrl"
           [filteredCitiesList]="filteredCitiesList"
           [citiesLoading]="citiesLoading"
-        >
-        </app-address-form>
+          [countryFilterCtrl]="countryFilterCtrl"
+          [cityFilterCtrl]="cityFilterCtrl"
+        ></app-address-form>
       </mat-step>
       <mat-step [stepControl]="userDataForm" label="User Data">
         <app-user-data-form
-          [formGroup]="userDataForm"
           [isFreelancer]="true"
           (imageCaptured)="setImage($event)"
         >
@@ -49,7 +47,6 @@
         label="Freelancer profile"
       >
         <app-freelancer-profile-form
-          [freelancerProfileForm]="freelancerProfileForm"
           [freelancerProfileSkills$]="freelancerProfileSkills$"
           [uniqueAreas$]="uniqueAreas$"
           [filteredForeignLanguages$]="filteredForeignLanguages$"

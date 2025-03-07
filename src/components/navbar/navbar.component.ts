@@ -10,7 +10,6 @@ import { navigateTo } from '../../utils';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-
   @Input() links: { label: string; url: string }[] = [];
   isOpen: boolean = false;
   constructor(private router: Router) {}
@@ -20,6 +19,6 @@ export class NavbarComponent {
 
   logout(): void {
     sessionStorage.removeItem('JwtToken');
-    navigateTo(this.router,"/")
+    navigateTo(this.router, '/');
   }
 }

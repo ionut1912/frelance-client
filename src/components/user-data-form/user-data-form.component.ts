@@ -1,37 +1,47 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
-import { NgIf } from '@angular/common';
-import { MatInput } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
-import { MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
-import { CameraCaptureComponent } from '../canera-capture/camera-capture.component';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Field, FormComponent } from '../generic/form/form.component';
 
 @Component({
   selector: 'app-user-data-form',
   templateUrl: './user-data-form.component.html',
   styleUrls: ['./user-data-form.component.scss'],
-  imports: [
-    MatFormField,
-    NgIf,
-    MatInput,
-    MatError,
-    MatButton,
-    MatStepperPrevious,
-    MatStepperNext,
-    MatLabel,
-    ReactiveFormsModule,
-    CameraCaptureComponent,
-  ],
+  imports: [ReactiveFormsModule, FormComponent],
 })
-export class UserDataFormComponent {
-  @Input() formGroup!: FormGroup;
-  base64Image: string = '';
+export class UserDataFormComponent implements OnInit {
   @Input() isFreelancer!: boolean;
   @Output() imageCaptured = new EventEmitter<string>();
 
-  onImageCaptured(image: string): void {
-    this.base64Image = image;
-    this.imageCaptured.emit(this.base64Image);
+  fields: Field<any>[] = [];
+  base64Image: string = '';
+
+
+  ngOnInit(): void {
+    this.fields = [
+      {
+        name: 'bio',
+        type: 'textarea',
+        label: 'Bio',
+        placeholder: 'Enter your bio',
+        validators: [Validators.required],
+        errorMessages: { required: 'Bio is required' },
+      },
+    ];
+    if (this.isFreelancer) {
+      this.fields.push({
+        name: 'profileImage',
+        type: 'camera',
+        label: 'Capture Profile Image',
+        validators: [Validators.required],
+        errorMessages: { required: 'Image is required' },
+      });
+    }
+  }
+
+  onFormSubmit(): void {
+    // Further processing can be implemented here
   }
 }

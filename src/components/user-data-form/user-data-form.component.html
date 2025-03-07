@@ -1,30 +1,10 @@
-<div class="space-y-4" [formGroup]="formGroup">
-  <mat-form-field appearance="fill" class="w-full">
-    <mat-label>Bio</mat-label>
-    <textarea matInput formControlName="bio" required></textarea>
-    <mat-error *ngIf="formGroup.get('bio')?.hasError('required')">
-      Bio is required.
-    </mat-error>
-  </mat-form-field>
-
-  <app-camera-capture
-    (imageCaptured)="onImageCaptured($event)"
-  ></app-camera-capture>
-
-  <div class="flex justify-between mt-4">
-    <button
-      mat-button
-      matStepperPrevious
-    >
-      Back
-    </button>
-    <button
-      *ngIf="isFreelancer"
-      mat-button
-      matStepperNext
-      [disabled]="!base64Image || formGroup.invalid"
-    >
-      Next
-    </button>
-  </div>
-</div>
+<app-form
+  [fields]="fields"
+  [previousButton]="true"
+  [nextButton]="isFreelancer"
+  [previousButtonLabel]="'Back'"
+  [nextButtonLabel]="'Next'"
+  [nextButtonDisabled]="isFreelancer ? !base64Image : false"
+  (formSubmit)="onFormSubmit()"
+>
+</app-form>

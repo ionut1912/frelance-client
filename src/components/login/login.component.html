@@ -1,1 +1,8 @@
-<app-account-form [mode]="'login'" [fields]="loginFields"></app-account-form>
+<app-form
+  [fields]="loginFields"
+  [submitLabel]="'Log In'"
+  [cardWrapper]="true"
+  [formText]="'Log In'"
+  (formSubmit)="onFormSubmit($event)"
+>
+</app-form>
