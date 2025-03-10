@@ -17,7 +17,7 @@ export class UserDataFormComponent implements OnInit {
   @Input() externalForm!: FormGroup;
 
   @Output() imageCaptured = new EventEmitter<string>();
-
+  @Output() completeStepper = new EventEmitter<void>();
   fields: Field<string>[] = [];
 
   ngOnInit(): void {
@@ -40,9 +40,13 @@ export class UserDataFormComponent implements OnInit {
     ];
   }
 
-  onFormSubmit(): void {}
+  onFormSubmit(): void {
+    if(!this.isFreelancer){
+      this.completeStepper.emit();
+    }
+  }
 
-  // Forward camera capture from the generic form upward
+
   handleCameraCapture(image: string): void {
     this.imageCaptured.emit(image);
   }

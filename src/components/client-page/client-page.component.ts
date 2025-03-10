@@ -12,10 +12,8 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatStep, MatStepper } from '@angular/material/stepper';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { UserDataFormComponent } from '../user-data-form/user-data-form.component';
-import { MatButton } from '@angular/material/button';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { VerifyPhotoComponent } from '../verify-photo/verify-photo.component';
-
 @Component({
   selector: 'app-client-page',
   templateUrl: './client-page.component.html',
@@ -28,7 +26,6 @@ import { VerifyPhotoComponent } from '../verify-photo/verify-photo.component';
     MatStep,
     AddressFormComponent,
     UserDataFormComponent,
-    MatButton,
     MatProgressSpinner,
     VerifyPhotoComponent,
   ],

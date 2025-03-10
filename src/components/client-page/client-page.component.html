@@ -40,18 +40,9 @@
           (imageCaptured)="setImage($event)"
           [stepper]="stepper"
           [externalForm]="userDataForm"
+          (completeStepper)="completeStepper()"
         >
         </app-user-data-form>
-        <div class="flex justify-end mt-4">
-          <button
-            mat-button
-            (click)="completeStepper()"
-            class="bg-green-500 text-white px-4 py-2 rounded"
-            [disabled]="userDataForm.invalid"
-          >
-            Complete
-          </button>
-        </div>
       </mat-step>
     </mat-horizontal-stepper>
   </div>
