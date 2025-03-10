@@ -41,11 +41,10 @@ export class UserDataFormComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    if(!this.isFreelancer){
+    if (!this.isFreelancer) {
       this.completeStepper.emit();
     }
   }
-
 
   handleCameraCapture(image: string): void {
     this.imageCaptured.emit(image);
