@@ -4,12 +4,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ClientProfileDto } from '../../models/UserProfile';
 
 export interface ClientProfileState {
-  clientProfile: ClientProfileDto | null | undefined;
+  clientProfiles: ClientProfileDto[];
   error: HttpErrorResponse | null;
 }
 
 const initialState: ClientProfileState = {
-  clientProfile: undefined,
+  clientProfiles: [],
   error: null,
 };
 
@@ -22,24 +22,29 @@ export const clientProfileReducer = createReducer(
   on(ClientProfileActions.getCurrentClientProfile, (state) => ({ ...state })),
   on(
     ClientProfileActions.getCurrentClientProfileResult,
-    (state, { clientProfile }) => ({
+    (state, { clientProfiles }) => ({
       ...state,
-      clientProfile,
+      clientProfiles,
     })
   ),
-  on(ClientProfileActions.verifyClientProfile, (state) => ({
+  on(ClientProfileActions.verifyClientProfile, (state, { profileId }) => ({
     ...state,
-    clientProfile: state.clientProfile
-      ? { ...state.clientProfile, isVerified: true }
-      : state.clientProfile,
+    clientProfiles: state.clientProfiles.map((profile) =>
+      profile.id === profileId ? { ...profile, isVerified: true } : profile
+    ),
   })),
   on(ClientProfileActions.deleteClientProfileFailure, (state, { error }) => ({
     ...state,
     error,
   })),
-  on(ClientProfileActions.deleteClientProfileSuccess, (state) => ({
-    ...state,
-    clientProfile: null,
-    error: null,
-  }))
+  on(
+    ClientProfileActions.deleteClientProfileSuccess,
+    (state, { clientProfileId }) => ({
+      ...state,
+      clientProfiles: state.clientProfiles.filter(
+        (profile) => profile.id !== clientProfileId
+      ),
+      error: null,
+    })
+  )
 );

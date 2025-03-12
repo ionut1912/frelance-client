@@ -22,9 +22,9 @@ export class FreelancerProfileEffects {
           this.freelancerProfileService.getCurrentFreelancerProfile(),
           (freelancerProfile) =>
             FreelancerProfileActions.getCurrentFreelancerProfileResult({
-              freelancerProfile,
+              freelancerProfiles: [freelancerProfile],
             }),
-          (error) => ({ type: 'NO_OP' })
+          (_) => ({ type: 'NO_OP' })
         )
       )
     )
@@ -73,7 +73,11 @@ export class FreelancerProfileEffects {
       ofType(FreelancerProfileActions.deleteFreelancerProfile),
       mergeMap((action) =>
         this.freelancerProfileService.deleteFreelancerProfile(action.id).pipe(
-          map(() => FreelancerProfileActions.deleteFreelancerProfileSuccess()),
+          map(() =>
+            FreelancerProfileActions.deleteFreelancerProfileSuccess({
+              freelancerProfileId: action.id,
+            })
+          ),
           catchError((error: HttpErrorResponse) =>
             of(
               FreelancerProfileActions.deleteFreelancerProfileFailure({ error })

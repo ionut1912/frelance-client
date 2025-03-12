@@ -19,16 +19,19 @@ const createClientProfileFailure = createAction(
 const getCurrentClientProfile = createAction('[Data] Get Client Profiles');
 const getCurrentClientProfileResult = createAction(
   '[Data] Get Client Profiles Result',
-  props<{ clientProfile: ClientProfileDto }>()
+  props<{ clientProfiles: ClientProfileDto[] }>()
 );
-const verifyClientProfile = createAction('[Client Profile] verify profile');
-
+const verifyClientProfile = createAction(
+  '[Client Profile] verify profile',
+  props<{ profileId: number }>()
+);
 const deleteClientProfile = createAction(
   '[Client Profile] delete client profile',
-  props<{ id: number }>()
+  props<{ clientProfileId: number }>()
 );
 const deleteClientProfileSuccess = createAction(
-  '[Client Profile] delete client profile success'
+  '[Client Profile] delete client profile success',
+  props<{ clientProfileId: number }>()
 );
 const deleteClientProfileFailure = createAction(
   '[Client Profile] delete client profile failure',

@@ -4,12 +4,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FreelancerProfileDto } from '../../models/UserProfile';
 
 export interface FreelancersState {
-  freelancerProfile: FreelancerProfileDto | null | undefined;
+  freelancerProfiles: FreelancerProfileDto[];
   error: HttpErrorResponse | null;
 }
 
 const initialState: FreelancersState = {
-  freelancerProfile: undefined,
+  freelancerProfiles: [],
   error: null,
 };
 
@@ -18,25 +18,30 @@ export const freelancerProfileReducer = createReducer(
   on(FreelancerActions.getCurrentFreelancerProfile, (state) => ({ ...state })),
   on(
     FreelancerActions.getCurrentFreelancerProfileResult,
-    (state, { freelancerProfile }) => ({ ...state, freelancerProfile })
+    (state, { freelancerProfiles }) => ({ ...state, freelancerProfiles })
   ),
   on(FreelancerActions.createFreelancerProfileFailure, (state, { error }) => ({
     ...state,
     error,
   })),
-  on(FreelancerActions.verifyFreelancerProfile, (state) => ({
+  on(FreelancerActions.verifyFreelancerProfile, (state, { profileId }) => ({
     ...state,
-    freelancerProfile: state.freelancerProfile
-      ? { ...state.freelancerProfile, isVerified: true }
-      : state.freelancerProfile,
+    freelancerProfiles: state.freelancerProfiles.map((profile) =>
+      profile.id === profileId ? { ...profile, isVerified: true } : profile
+    ),
   })),
   on(FreelancerActions.deleteFreelancerProfileFailure, (state, { error }) => ({
     ...state,
     error,
   })),
-  on(FreelancerActions.deleteFreelancerProfileSuccess, (state) => ({
-    ...state,
-    clientProfile: null,
-    error: null,
-  }))
+  on(
+    FreelancerActions.deleteFreelancerProfileSuccess,
+    (state, { freelancerProfileId }) => ({
+      ...state,
+      freelancerProfiles: state.freelancerProfiles.filter(
+        (profile) => profile.id !== freelancerProfileId
+      ),
+      error: null,
+    })
+  )
 );

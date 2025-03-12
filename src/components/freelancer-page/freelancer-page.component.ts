@@ -58,7 +58,7 @@ export class FreelancerPageComponent
   extends BaseProfilePageComponent
   implements OnInit
 {
-  freelancerProfile$: Observable<FreelancerProfileDto | null | undefined>;
+  freelancerProfile$: Observable<FreelancerProfileDto[]>;
   // External forms for each section.
   override addressForm: FormGroup;
   override userDataForm: FormGroup;
@@ -92,7 +92,7 @@ export class FreelancerPageComponent
   ) {
     super(fb, store as Store<{ countries: CountryState; cities: CityState }>);
     this.freelancerProfile$ = this.store.select(
-      (state) => state.freelancerProfile.freelancerProfile
+      (state) => state.freelancerProfile.freelancerProfiles
     );
     this.freelancerProfileLanguages$ = this.store.select(
       (state) => state.languages.languages
@@ -139,7 +139,7 @@ export class FreelancerPageComponent
     this.store.dispatch(FreelancerProfileActions.getCurrentFreelancerProfile());
     this.store.dispatch(LanguageActions.loadLanguages());
     this.store.dispatch(SkillsActions.getSkills());
-    this.freelancerProfile$.subscribe((val) => (this.profile = val));
+    this.freelancerProfile$.subscribe((val) => (this.profile = val[0]));
     this.filteredForeignLanguages$ = combineLatest([
       this.freelancerProfileLanguages$,
       this.foreignLanguageFilterCtrl.valueChanges.pipe(startWith('')),

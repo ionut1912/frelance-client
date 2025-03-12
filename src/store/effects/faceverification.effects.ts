@@ -9,11 +9,12 @@ import * as ClientProfileActions from '../actions/clientprofile.actions';
 import * as AuthActions from '../actions/auth.actions';
 import { mergeMap, catchError, map, tap, take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { navigateTo } from '../../utils';
 import { Router } from '@angular/router';
+import { Action } from '@ngrx/store';
 import {
   ClientProfileDto,
   FreelancerProfileDto,
@@ -79,14 +80,26 @@ export class FaceVerificationEffects {
     role: Role,
     profile: ClientProfileDto | FreelancerProfileDto
   ): void {
-    const verify$ =
+    const verify$: Observable<Action> =
       role === 'Freelancer'
         ? this.freelancerService
             .verifyFreelancerProfile(profile.id)
-            .pipe(map(() => FreelancerProfileActions.verifyFreelancerProfile()))
+            .pipe(
+              map(() =>
+                FreelancerProfileActions.verifyFreelancerProfile({
+                  profileId: profile.id,
+                })
+              )
+            )
         : this.clientService
             .verifyClientProfile(profile.id)
-            .pipe(map(() => ClientProfileActions.verifyClientProfile()));
+            .pipe(
+              map(() =>
+                ClientProfileActions.verifyClientProfile({
+                  profileId: profile.id,
+                })
+              )
+            );
     verify$.subscribe(() => {
       window.location.reload();
       this.store.dispatch(FaceVerificationActions.resetFalseCount());
@@ -136,7 +149,9 @@ export class FaceVerificationEffects {
   ): void {
     if (role === 'Client') {
       this.store.dispatch(
-        ClientProfileActions.deleteClientProfile({ id: profile.id })
+        ClientProfileActions.deleteClientProfile({
+          clientProfileId: profile.id,
+        })
       );
     } else if (role === 'Freelancer') {
       this.store.dispatch(

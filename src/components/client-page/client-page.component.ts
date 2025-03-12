@@ -58,8 +58,8 @@ export class ClientPageComponent
     super.ngOnInit();
     this.store.dispatch(ClientProfileActions.getCurrentClientProfile());
     this.store
-      .select((state) => state.clientProfile.clientProfile)
-      .subscribe((profile) => (this.profile = profile));
+      .select((state) => state.clientProfile.clientProfiles)
+      .subscribe((profile) => (this.profile = profile[0]));
   }
 
   setImage(image: string): void {

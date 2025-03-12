@@ -23,9 +23,9 @@ export class ClientProfilesEffects {
           this.clientProfileService.getCurrentClientProfiles(),
           (clientProfile) =>
             ClientProfileActions.getCurrentClientProfileResult({
-              clientProfile,
+              clientProfiles: [clientProfile],
             }),
-          (error) => ({ type: 'NO_OP' }) as Action<string>
+          (_) => ({ type: 'NO_OP' }) as Action<string>
         )
       )
     )
@@ -68,12 +68,18 @@ export class ClientProfilesEffects {
     this.actions$.pipe(
       ofType(ClientProfileActions.deleteClientProfile),
       mergeMap((action) =>
-        this.clientProfileService.deleteClientProfile(action.id).pipe(
-          map(() => ClientProfileActions.deleteClientProfileSuccess()),
-          catchError((error: HttpErrorResponse) =>
-            of(ClientProfileActions.deleteClientProfileFailure({ error }))
+        this.clientProfileService
+          .deleteClientProfile(action.clientProfileId)
+          .pipe(
+            map(() =>
+              ClientProfileActions.deleteClientProfileSuccess({
+                clientProfileId: action.clientProfileId,
+              })
+            ),
+            catchError((error: HttpErrorResponse) =>
+              of(ClientProfileActions.deleteClientProfileFailure({ error }))
+            )
           )
-        )
       )
     )
   );
