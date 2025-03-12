@@ -30,9 +30,7 @@ export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() countryFilterCtrl!: FormControl;
   @Input() cityFilterCtrl!: FormControl;
   @Input() stepper!: MatStepper;
-  // Parent form passed from the page.
   @Input() externalForm!: FormGroup;
-
   @ViewChild(FormComponent) formComponent!: FormComponent<any>;
 
   fields: Field<Country | string>[] = [];

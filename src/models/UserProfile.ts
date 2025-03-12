@@ -34,7 +34,6 @@ interface CreateFreelancerProfileRequest {
   experience: string;
   rate: number;
   currency: string;
-  rating: number;
   portfolioUrl: string;
 }
 

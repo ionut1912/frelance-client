@@ -80,14 +80,6 @@ export class FreelancerProfileFormComponent implements OnInit {
         errorMessages: { required: 'Currency is required' },
       },
       {
-        name: 'rating',
-        type: 'text',
-        label: 'Rating',
-        placeholder: 'Enter rating',
-        validators: [Validators.required],
-        errorMessages: { required: 'Rating is required' },
-      },
-      {
         name: 'portfolioUrl',
         type: 'text',
         label: 'Portfolio URL',

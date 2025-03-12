@@ -130,7 +130,6 @@ export class FreelancerPageComponent
       experience: ['', Validators.required],
       rate: ['', Validators.required],
       currency: ['', Validators.required],
-      rating: ['', Validators.required],
       portfolioUrl: ['', Validators.required],
     });
   }
@@ -187,7 +186,6 @@ export class FreelancerPageComponent
       experience: this.freelancerProfileForm.value.experience,
       rate: this.freelancerProfileForm.value.rate,
       currency: this.freelancerProfileForm.value.currency,
-      rating: this.freelancerProfileForm.value.rating,
       portfolioUrl: this.freelancerProfileForm.value.portfolioUrl,
     };
     this.store.dispatch(
