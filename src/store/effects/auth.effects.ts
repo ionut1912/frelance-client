@@ -14,6 +14,7 @@ import {
   navigateByRole,
   navigateTo,
 } from '../../utils';
+import { RoleService } from '../../services/role.service';
 
 @Injectable()
 export class AuthEffects {
@@ -58,6 +59,7 @@ export class AuthEffects {
               sessionStorage.setItem('JwtToken', loginSuccessful.user.token);
               const role = getRoleFromToken(loginSuccessful.user.token);
               if (role) {
+                this.roleService.setRole(role);
                 navigateByRole(role, this.router);
               }
             })
@@ -99,5 +101,8 @@ export class AuthEffects {
     )
   );
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private roleService: RoleService
+  ) {}
 }

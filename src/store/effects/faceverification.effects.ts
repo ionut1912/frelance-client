@@ -82,24 +82,20 @@ export class FaceVerificationEffects {
   ): void {
     const verify$: Observable<Action> =
       role === 'Freelancer'
-        ? this.freelancerService
-            .verifyFreelancerProfile(profile.id)
-            .pipe(
-              map(() =>
-                FreelancerProfileActions.verifyFreelancerProfile({
-                  profileId: profile.id,
-                })
-              )
+        ? this.freelancerService.verifyFreelancerProfile(profile.id).pipe(
+            map(() =>
+              FreelancerProfileActions.verifyFreelancerProfile({
+                profileId: profile.id,
+              })
             )
-        : this.clientService
-            .verifyClientProfile(profile.id)
-            .pipe(
-              map(() =>
-                ClientProfileActions.verifyClientProfile({
-                  profileId: profile.id,
-                })
-              )
-            );
+          )
+        : this.clientService.verifyClientProfile(profile.id).pipe(
+            map(() =>
+              ClientProfileActions.verifyClientProfile({
+                profileId: profile.id,
+              })
+            )
+          );
     verify$.subscribe(() => {
       window.location.reload();
       this.store.dispatch(FaceVerificationActions.resetFalseCount());

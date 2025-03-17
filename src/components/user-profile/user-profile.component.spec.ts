@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DynamicFieldComponent } from './dynamic-field.component';
+import { UserProfileComponent } from './user-profile.component';
 
-describe('DynamicFieldComponent', () => {
-  let component: DynamicFieldComponent<any>;
-  let fixture: ComponentFixture<DynamicFieldComponent<any>>;
+describe('UserProfileComponent', () => {
+  let component: UserProfileComponent;
+  let fixture: ComponentFixture<UserProfileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicFieldComponent],
+      imports: [UserProfileComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DynamicFieldComponent);
+    fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

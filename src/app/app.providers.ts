@@ -33,21 +33,25 @@ import { FreelancerProfileEffects } from '../store/effects/freelancerprofile.eff
 import { freelancerProfileReducer } from '../store/reducers/freelancerprofile.reducers';
 import { faceVerificationReducer } from '../store/reducers/faceverification.reducers';
 import { FaceVerificationEffects } from '../store/effects/faceverification.effects';
+import { metaReducers } from '../store/reducers/metaReducers';
 
 export const APP_PROVIDERS = [
   provideAnimations(),
   provideRouter(routes),
   provideHttpClient(withFetch(), withInterceptors([jwtInterceptor])),
-  provideStore({
-    auth: authReducer,
-    clientProfile: clientProfileReducer,
-    countries: countryReducers,
-    cities: cityReducers,
-    languages: languageReducer,
-    skills: skillReducer,
-    freelancerProfile: freelancerProfileReducer,
-    faceVerification: faceVerificationReducer,
-  }),
+  provideStore(
+    {
+      auth: authReducer,
+      clientProfile: clientProfileReducer,
+      countries: countryReducers,
+      cities: cityReducers,
+      languages: languageReducer,
+      skills: skillReducer,
+      freelancerProfile: freelancerProfileReducer,
+      faceVerification: faceVerificationReducer,
+    },
+    { metaReducers }
+  ),
   provideEffects([
     AuthEffects,
     ClientProfilesEffects,

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatStep, MatStepper } from '@angular/material/stepper';
-import { NavbarComponent } from '../navbar/navbar.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {
   FormBuilder,
@@ -43,7 +42,6 @@ import { VerifyPhotoComponent } from '../verify-photo/verify-photo.component';
     MatProgressSpinner,
     MatStep,
     MatStepper,
-    NavbarComponent,
     NgIf,
     NgxMatSelectSearchModule,
     ReactiveFormsModule,
@@ -70,13 +68,6 @@ export class FreelancerPageComponent
   freelancerProfileSkills$: Observable<SkillDto[]>;
   uniqueAreas$: Observable<string[]>;
   profile: FreelancerProfileDto | null | undefined = undefined;
-  links = [
-    { label: 'My Profile', url: '/user-profile' },
-    { label: 'Projects', url: '/projects' },
-    { label: 'Invoices', url: '/invoices' },
-    { label: 'Contracts:', url: '/cotracts' },
-    { label: 'Proposals:', url: '/proposals' },
-  ];
   // Variable to store captured image
   override imageSrc: string | null = null;
 

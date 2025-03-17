@@ -48,12 +48,13 @@
         <div class="hidden sm:block sm:ml-6">
           <div class="flex space-x-4">
             <a
-              *ngFor="let link of links"
-              [href]="link.url"
+              *ngFor="let link of navLinks"
+              [routerLink]="link.url"
               class="text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white px-3 py-2 rounded-md text-sm font-medium"
             >
               {{ link.label }}
             </a>
+
             <a
               (click)="logout()"
               class="cursor-pointer text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -73,12 +74,13 @@
   >
     <div class="px-2 pt-2 pb-3 space-y-1">
       <a
-        *ngFor="let link of links"
-        [href]="link.url"
-        class="text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white block px-3 py-2 rounded-md text-base font-medium"
+        *ngFor="let link of navLinks"
+        [routerLink]="link.url"
+        class="text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white px-3 py-2 rounded-md text-sm font-medium"
       >
         {{ link.label }}
       </a>
+
       <a
         (click)="logout()"
         class="text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white block px-3 py-2 rounded-md text-base font-medium"

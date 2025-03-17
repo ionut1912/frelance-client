@@ -7,17 +7,23 @@ import { FreelancerPageComponent } from '../components/freelancer-page/freelance
 import { NotFoundComponent } from '../components/not-found/not-found.component';
 import { AuthGuard } from '../services/guards/auth.guard';
 import { UnauthorizedComponent } from '../components/unauthorized/unauthorized.component';
+import { UserProfileComponent } from '../components/user-profile/user-profile.component';
+import { AuthenticatedLayoutComponent } from '../components/authenticated-layout/authenticated-layout.component';
 
 export const routes: Routes = [
   { path: '', component: JoinComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
-    path: 'freelancer',
-    component: FreelancerPageComponent,
+    path: '',
+    component: AuthenticatedLayoutComponent,
     canActivate: [AuthGuard],
+    children: [
+      { path: 'freelancer', component: FreelancerPageComponent },
+      { path: 'client', component: ClientPageComponent },
+      { path: 'user-profile', component: UserProfileComponent },
+    ],
   },
-  { path: 'client', component: ClientPageComponent, canActivate: [AuthGuard] },
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: '**', component: NotFoundComponent },
 ];
