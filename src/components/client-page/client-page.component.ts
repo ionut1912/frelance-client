@@ -13,6 +13,7 @@ import { AddressFormComponent } from '../address-form/address-form.component';
 import { UserDataFormComponent } from '../user-data-form/user-data-form.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { VerifyPhotoComponent } from '../verify-photo/verify-photo.component';
+
 @Component({
   selector: 'app-client-page',
   templateUrl: './client-page.component.html',
@@ -43,7 +44,6 @@ export class ClientPageComponent
   ) {
     super(fb, store);
   }
-
   override ngOnInit(): void {
     super.ngOnInit();
     this.store.dispatch(ClientProfileActions.getCurrentClientProfile());
@@ -51,11 +51,9 @@ export class ClientPageComponent
       .select((state) => state.clientProfile.clientProfiles)
       .subscribe((profile) => (this.profile = profile[0]));
   }
-
   setImage(image: string): void {
     this.imageSrc = image;
   }
-
   completeStepper(): void {
     const payload = {
       addressCountry: this.addressForm.value.country.name.common,

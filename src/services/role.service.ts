@@ -11,9 +11,9 @@ export class RoleService {
   role$: Observable<Role>;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    let storedRole:Role="Client";
+    let storedRole: Role = 'Client';
     if (isPlatformBrowser(this.platformId)) {
-      storedRole = localStorage.getItem('role') as Role|| 'Client';
+      storedRole = (localStorage.getItem('role') as Role) || 'Client';
     }
     this.roleSubject = new BehaviorSubject<Role>(storedRole);
     this.role$ = this.roleSubject.asObservable();

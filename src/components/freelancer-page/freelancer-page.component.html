@@ -11,7 +11,7 @@
 <ng-template #profileCreated>
   <div class="text-center p-4">
     Hello, {{ profile?.user?.username }}!
-    <div *ngIf="!profile?.isVerified">
+    <div *ngIf="profile?.isVerified === false">
       <app-verify-photo
         [profile]="profile"
         [role]="'Freelancer'"

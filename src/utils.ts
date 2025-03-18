@@ -14,8 +14,9 @@ function getRoleFromToken(token: string): Role | null {
   const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
   const decoded = JSON.parse(atob(payload));
   return (
-    decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as Role||
-    null
+    (decoded[
+      'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+    ] as Role) || null
   );
 }
 

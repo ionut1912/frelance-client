@@ -36,17 +36,13 @@ export class ClientProfilesEffects {
       ofType(ClientProfileActions.createClientProfile),
       mergeMap((action) =>
         this.clientProfileService.createClientProfile(action.payload).pipe(
-          map(() => ClientProfileActions.createClientProfileSuccess()),
-          tap(() =>
-            handleSuccess(
-              this.zone,
-              this.toaster,
-              'Client Profile Created',
-              () => {
-                window.location.reload();
-              }
-            )
-          ),
+          mergeMap(() => [
+            ClientProfileActions.createClientProfileSuccess(),
+            ClientProfileActions.getCurrentClientProfile(),
+          ]),
+          tap(() => {
+            handleSuccess(this.zone, this.toaster, 'Client Profile Created');
+          }),
           catchError((error: HttpErrorResponse) => {
             handleHttpError(
               error,

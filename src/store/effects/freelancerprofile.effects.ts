@@ -37,19 +37,17 @@ export class FreelancerProfileEffects {
         this.freelancerProfileService
           .createFreelancerProfile(action.payload)
           .pipe(
-            map(() =>
-              FreelancerProfileActions.createFreelancerProfileSuccess()
-            ),
-            tap(() =>
+            mergeMap(() => [
+              FreelancerProfileActions.createFreelancerProfileSuccess(),
+              FreelancerProfileActions.getCurrentFreelancerProfile(),
+            ]),
+            tap(() => {
               handleSuccess(
                 this.zone,
                 this.toaster,
-                'Successfully created FreelancerProfile',
-                () => {
-                  window.location.reload();
-                }
-              )
-            ),
+                'Freelancer Profile Created'
+              );
+            }),
             catchError((error: HttpErrorResponse) => {
               handleHttpError(
                 error,
