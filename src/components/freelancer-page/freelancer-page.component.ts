@@ -57,7 +57,6 @@ export class FreelancerPageComponent
   implements OnInit
 {
   freelancerProfile$: Observable<FreelancerProfileDto[]>;
-  // External forms for each section.
   override addressForm: FormGroup;
   override userDataForm: FormGroup;
   freelancerProfileForm: FormGroup;
@@ -68,7 +67,6 @@ export class FreelancerPageComponent
   freelancerProfileSkills$: Observable<SkillDto[]>;
   uniqueAreas$: Observable<string[]>;
   profile: FreelancerProfileDto | null | undefined = undefined;
-  // Variable to store captured image
   override imageSrc: string | null = null;
 
   constructor(
@@ -102,7 +100,6 @@ export class FreelancerPageComponent
           .filter((area, index, self) => self.indexOf(area) === index);
       })
     );
-    // Initialize external forms with default empty values
     this.addressForm = this.fb.group({
       country: ['', Validators.required],
       city: ['', Validators.required],
@@ -153,7 +150,6 @@ export class FreelancerPageComponent
     );
   }
 
-  // Called from UserDataFormComponent when the camera image is captured.
   setImage(image: string): void {
     this.userDataForm.get('profileImage')?.setValue(image);
     this.imageSrc = image;

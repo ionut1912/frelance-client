@@ -6,14 +6,15 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { Role } from './models/UserProfile';
 
-function getRoleFromToken(token: string): string | null {
+function getRoleFromToken(token: string): Role | null {
   const parts = token.split('.');
   if (parts.length !== 3) return null;
   const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
   const decoded = JSON.parse(atob(payload));
   return (
-    decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
+    decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as Role||
     null
   );
 }
