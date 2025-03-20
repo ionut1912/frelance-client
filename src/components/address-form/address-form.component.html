@@ -1,9 +1,20 @@
-<app-form
-  [fields]="fields"
-  [externalForm]="externalForm"
-  [nextButton]="true"
-  [nextButtonLabel]="'Next'"
-  [stepper]="stepper"
-  (formSubmit)="onFormSubmit()"
->
-</app-form>
+<div *ngIf="!isDialog">
+  <app-form
+    [fields]="fields"
+    [externalForm]="externalForm"
+    [nextButton]="true"
+    [nextButtonLabel]="'Next'"
+    [stepper]="stepper"
+    (formSubmit)="onFormSubmit()"
+  >
+  </app-form>
+</div>
+<div *ngIf="isDialog">
+  <app-form
+    [fields]="fields"
+    [externalForm]="externalForm"
+    [initialData]="addressData"
+  >
+  </app-form>
+</div>
+

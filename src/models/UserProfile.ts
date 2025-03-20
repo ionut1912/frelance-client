@@ -8,7 +8,15 @@ type Role = 'Freelancer' | 'Client';
 interface ForeignLanguageDto {
   language: string;
 }
-
+interface BaseUpdateProfile{
+  addressCountry?: string;
+  addressStreet?: string;
+  addressStreetNumber?: string;
+  addressCity?: string;
+  addressZip?: string;
+  bio?: string;
+  image?: string;
+}
 interface BaseProfileDto {
   id: number;
   user: UserProfileDto;
@@ -49,14 +57,7 @@ interface FreelancerProfileDto extends BaseProfileDto {
   portfolioUrl: string;
 }
 
-interface UpdateFreelancerProfileRequest {
-  addressCountry?: string;
-  addressStreet?: string;
-  addressStreetNumber?: string;
-  addressCity?: string;
-  addressZip?: string;
-  bio?: string;
-  profileImage?: File;
+interface UpdateFreelancerProfileRequest extends  BaseUpdateProfile{
   programingLanguages?: string[];
   areas?: string[];
   foreignLanguages?: string[];
@@ -87,17 +88,12 @@ interface AddressDto {
 
 interface ClientProfileDto extends BaseProfileDto {}
 
-interface UpdateClientProfileRequest {
-  addressCountry?: string;
-  addressStreet?: string;
-  addressStreetNumber?: string;
-  addressCity?: string;
-  addressZip?: string;
-  bio?: string;
-  image?: string;
+interface UpdateClientProfileRequest extends  BaseUpdateProfile{
+
 }
+
 interface SkillDto {
-  id: number;
+  id?: number;
   programmingLanguage: string;
   area: string;
 }
@@ -127,4 +123,5 @@ export type {
   VerifyFacePayload,
   FaceVerificationRequest,
   Role,
+  AddressDto,
 };

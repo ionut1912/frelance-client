@@ -1,0 +1,41 @@
+<div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Programming Data</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="space-y-4">
+        <div>
+          <span class="font-semibold">Programming Languages:</span>
+          <ul class="list-disc list-inside ml-4">
+            <li *ngFor="let lang of profile.programmingLanguages">{{ lang }}</li>
+          </ul>
+        </div>
+        <div>
+          <span class="font-semibold">Areas:</span>
+          <ul class="list-disc list-inside ml-4">
+            <li *ngFor="let area of profile.areas">{{ area }}</li>
+          </ul>
+        </div>
+        <div>
+          <span class="font-semibold">Foreign Languages:</span>
+          <ul class="list-disc list-inside ml-4">
+            <li *ngFor="let language of profile.foreignLanguages">{{ language }}</li>
+          </ul>
+        </div>
+        <div><span class="font-semibold">Experience:</span> {{ profile.experience }}</div>
+        <div><span class="font-semibold">Rate:</span> {{ profile.rate }}</div>
+        <div><span class="font-semibold">Currency:</span> {{ profile.currency }}</div>
+        <div>
+          <span class="font-semibold">Portfolio URL:</span>
+          <a [href]="profile.portfolioUrl" target="_blank" class="text-blue-500 underline">
+            {{ profile.portfolioUrl }}
+          </a>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="openEditFreelancerDataDialog()">Edit</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

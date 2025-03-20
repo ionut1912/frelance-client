@@ -1,10 +1,21 @@
-<app-form
-  [fields]="fields"
-  [externalForm]="externalForm"
-  [previousButton]="true"
-  [previousButtonLabel]="'Back'"
-  submitLabel="Complete"
-  [stepper]="stepper"
-  (formSubmit)="onFormSubmit()"
->
-</app-form>
+<div *ngIf="!isDialog">
+  <app-form
+    [fields]="fields"
+    [externalForm]="externalForm"
+    [previousButton]="true"
+    [previousButtonLabel]="'Back'"
+    submitLabel="Complete"
+    [stepper]="stepper"
+    (formSubmit)="onFormSubmit()"
+  >
+  </app-form>
+</div>
+
+<div *ngIf="isDialog">
+  <app-form
+    [fields]="fields"
+    [externalForm]="externalForm"
+    [initialData]="freelancerData"
+  >
+  </app-form>
+</div>

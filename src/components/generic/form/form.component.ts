@@ -31,8 +31,8 @@ import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component'
 })
 export class FormComponent<T> implements OnInit {
   @Input() fields: Field<T>[] = [];
-  @Input() submitLabel = 'Submit';
-  @Input() initialData: Record<string, unknown> = {};
+  @Input() submitLabel = '';
+  @Input() initialData: any = {};
   @Input() formText = '';
   @Input() previousButton = false;
   @Input() nextButton = false;

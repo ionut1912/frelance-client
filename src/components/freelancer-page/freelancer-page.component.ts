@@ -5,25 +5,16 @@ import { MatStep, MatStepper } from '@angular/material/stepper';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {
   FormBuilder,
-  FormControl,
-  FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { Observable, combineLatest } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import {
-  FreelancerProfileDto,
   CreateFreelancerProfileRequest,
-  SkillDto,
 } from '../../models/UserProfile';
 import { Language } from '../../models/ExternalApis';
 import { Store } from '@ngrx/store';
 import { CountryState } from '../../store/reducers/country.reducers';
 import { CityState } from '../../store/reducers/city.reducers';
 import * as FreelancerProfileActions from '../../store/actions/freelancerprofile.actions';
-import * as LanguageActions from '../../store/actions/language.actions';
-import * as SkillsActions from '../../store/actions/skills.actions';
 import { LanguageState } from '../../store/reducers/lanuguage.reducer';
 import { SkillsState } from '../../store/reducers/skills.reducers';
 import { FreelancersState } from '../../store/reducers/freelancerprofile.reducers';
@@ -56,18 +47,8 @@ export class FreelancerPageComponent
   extends BaseProfilePageComponent
   implements OnInit
 {
-  freelancerProfile$: Observable<FreelancerProfileDto[]>;
-  override addressForm: FormGroup;
-  override userDataForm: FormGroup;
-  freelancerProfileForm: FormGroup;
-  foreignLanguageFilterCtrl: FormControl = new FormControl('');
-  filteredForeignLanguages$!: Observable<Language[]>;
-  freelancerProfileLanguages$: Observable<Language[]>;
-  freelancerLanguagesLoading$: Observable<boolean>;
-  freelancerProfileSkills$: Observable<SkillDto[]>;
-  uniqueAreas$: Observable<string[]>;
-  profile: FreelancerProfileDto | null | undefined = undefined;
-  override imageSrc: string | null = null;
+
+
 
   constructor(
     protected override store: Store<{
@@ -79,81 +60,14 @@ export class FreelancerPageComponent
     }>,
     protected override fb: FormBuilder
   ) {
-    super(fb, store as Store<{ countries: CountryState; cities: CityState }>);
-    this.freelancerProfile$ = this.store.select(
-      (state) => state.freelancerProfile.freelancerProfiles
-    );
-    this.freelancerProfileLanguages$ = this.store.select(
-      (state) => state.languages.languages
-    );
-    this.freelancerLanguagesLoading$ = this.store.select(
-      (state) => state.languages.loading
-    );
-    this.freelancerProfileSkills$ = this.store.select(
-      (state) => state.skills.skills
-    );
-    this.uniqueAreas$ = this.freelancerProfileSkills$.pipe(
-      map((skills) => {
-        if (!skills) return [];
-        return skills
-          .map((skill) => skill.area)
-          .filter((area, index, self) => self.indexOf(area) === index);
-      })
-    );
-    this.addressForm = this.fb.group({
-      country: ['', Validators.required],
-      city: ['', Validators.required],
-      street: ['', Validators.required],
-      streetNumber: ['', Validators.required],
-      zipCode: ['', Validators.required],
-    });
-    this.userDataForm = this.fb.group({
-      bio: ['', Validators.required],
-      profileImage: ['', Validators.required],
-    });
-    this.freelancerProfileForm = this.fb.group({
-      programmingLanguages: ['', Validators.required],
-      areas: ['', Validators.required],
-      foreignLanguages: ['', Validators.required],
-      experience: ['', Validators.required],
-      rate: ['', Validators.required],
-      currency: ['', Validators.required],
-      portfolioUrl: ['', Validators.required],
-    });
+    super(fb, store);
+
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.store.dispatch(FreelancerProfileActions.getCurrentFreelancerProfile());
-    this.store.dispatch(LanguageActions.loadLanguages());
-    this.store.dispatch(SkillsActions.getSkills());
-    this.freelancerProfile$.subscribe((val) => (this.profile = val[0]));
-    this.filteredForeignLanguages$ = combineLatest([
-      this.freelancerProfileLanguages$,
-      this.foreignLanguageFilterCtrl.valueChanges.pipe(startWith('')),
-    ]).pipe(
-      map(([languages, search]) => {
-        if (!search) return languages;
-        return languages.filter((language) =>
-          language.name.toLowerCase().includes(search.toLowerCase())
-        );
-      })
-    );
-    this.uniqueAreas$ = this.freelancerProfileSkills$.pipe(
-      map((skills) =>
-        skills
-          ? skills
-              .map((s) => s.area)
-              .filter((area, i, arr) => arr.indexOf(area) === i)
-          : []
-      )
-    );
   }
 
-  setImage(image: string): void {
-    this.userDataForm.get('profileImage')?.setValue(image);
-    this.imageSrc = image;
-  }
 
   completeStepper(): void {
     const payload: CreateFreelancerProfileRequest = {

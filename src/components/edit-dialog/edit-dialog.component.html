@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Edit {{ data.dialogName }}</h1>
+<div *ngIf="data.dialogName==='Address'" mat-dialog-content>
+  <app-address-form
+    [countries]="filteredCountries"
+    [filteredCountries]="filteredCountries"
+    [filteredCitiesList]="filteredCitiesList"
+    [citiesLoading]="citiesLoading"
+    [countryFilterCtrl]="countryFilterCtrl"
+    [cityFilterCtrl]="cityFilterCtrl"
+    [externalForm]="addressForm"
+    [addressData]="data.address!"
+    [isDialog]="true"
+  >
+  </app-address-form>
+</div>
+<div *ngIf="data.dialogName==='UserData'" mat-dialog-content>
+  <app-user-data-form
+    [isFreelancer]="false"
+    (imageCaptured)="setImage($event)"
+    [externalForm]="userDataForm"
+  >
+  </app-user-data-form>
+</div>
+<div *ngIf="data.dialogName==='FreelancerData'" mat-dialog-content>
+  <app-freelancer-profile-form
+    [freelancerProfileSkills$]="freelancerProfileSkills$"
+    [uniqueAreas$]="uniqueAreas$"
+    [filteredForeignLanguages$]="filteredForeignLanguages$"
+    [externalForm]="freelancerProfileForm"
+  >
+  </app-freelancer-profile-form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onSave()" [disabled]="addressForm.invalid">Save</button>
+</div>

@@ -6,20 +6,23 @@ import { SkillDto } from '../../models/UserProfile';
 import { Language } from '../../models/ExternalApis';
 import { MatStepper } from '@angular/material/stepper';
 import { FormComponent } from '../generic/form/form.component';
+import { FreelancerProfileData } from '../../models/Ui';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-freelancer-profile-form',
   templateUrl: './freelancer-profile-form.component.html',
   styleUrls: ['./freelancer-profile-form.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, FormComponent],
+  imports: [ReactiveFormsModule, FormComponent, NgIf],
 })
 export class FreelancerProfileFormComponent implements OnInit {
   @Input() freelancerProfileSkills$!: Observable<SkillDto[]>;
   @Input() uniqueAreas$!: Observable<string[]>;
   @Input() filteredForeignLanguages$!: Observable<Language[]>;
   @Input() stepper!: MatStepper;
-  // Parent form passed down
+  @Input() freelancerData!:FreelancerProfileData;
+  @Input() isDialog: boolean = false;
   @Input() externalForm!: FormGroup;
 
   @Output() completeStepper = new EventEmitter<void>();

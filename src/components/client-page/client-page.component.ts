@@ -51,9 +51,7 @@ export class ClientPageComponent
       .select((state) => state.clientProfile.clientProfiles)
       .subscribe((profile) => (this.profile = profile[0]));
   }
-  setImage(image: string): void {
-    this.imageSrc = image;
-  }
+
   completeStepper(): void {
     const payload = {
       addressCountry: this.addressForm.value.country.name.common,

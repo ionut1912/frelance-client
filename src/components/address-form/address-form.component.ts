@@ -14,13 +14,15 @@ import { Country } from '../../models/ExternalApis';
 import { Field } from '../../models/generics';
 import { MatStepper } from '@angular/material/stepper';
 import { FormComponent } from '../generic/form/form.component';
+import { AddressDto } from '../../models/UserProfile';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-address-form',
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss'],
   standalone: true,
-  imports: [FormComponent],
+  imports: [FormComponent, NgIf],
 })
 export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() countries: Country[] = [];
@@ -31,6 +33,8 @@ export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() cityFilterCtrl!: FormControl;
   @Input() stepper!: MatStepper;
   @Input() externalForm!: FormGroup;
+  @Input() addressData!:AddressDto;
+  @Input() isDialog=false;
   @ViewChild(FormComponent) formComponent!: FormComponent<any>;
 
   fields: Field<Country | string>[] = [];

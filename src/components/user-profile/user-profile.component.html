@@ -1,3 +1,7 @@
-<div>
-  {{ profile.user.email }}
+
+<div *ngIf="role==='Client'">
+  <app-client-profile [profile]="clientProfileData" (addressChanged)="onAddressChanged($event)" (userDataChanged)="onUserDataChanges($event)"></app-client-profile>
+</div>
+<div *ngIf="role==='Freelancer'">
+  <app-freelancer-profile [profile]="freelancerProfileData" (addressChanged)="onAddressChanged($event)" (userDataChanged)="onUserDataChanges($event)" (freelancerDataChanged)="onFreelancerDataChanged($event)"></app-freelancer-profile>
 </div>

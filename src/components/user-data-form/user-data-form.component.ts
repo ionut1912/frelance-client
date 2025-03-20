@@ -3,19 +3,22 @@ import { ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { Field } from '../../models/generics';
 import { MatStepper } from '@angular/material/stepper';
 import { FormComponent } from '../generic/form/form.component';
+import { UserDetailsData } from '../../models/Ui';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-user-data-form',
   templateUrl: './user-data-form.component.html',
   styleUrls: ['./user-data-form.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, FormComponent],
+  imports: [ReactiveFormsModule, FormComponent, NgIf],
 })
 export class UserDataFormComponent implements OnInit {
   @Input() isFreelancer!: boolean;
   @Input() stepper!: MatStepper;
   @Input() externalForm!: FormGroup;
-
+  @Input() userData!:UserDetailsData;
+  @Input() isDialog: boolean = false;
   @Output() imageCaptured = new EventEmitter<string>();
   @Output() completeStepper = new EventEmitter<void>();
   fields: Field<string>[] = [];
