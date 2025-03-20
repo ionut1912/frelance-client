@@ -24,9 +24,9 @@ import { SkillsState } from '../../store/reducers/skills.reducers';
 export interface BaseStore {
   countries: CountryState;
   cities: CityState;
-  freelancerProfile:FreelancersState;
+  freelancerProfile: FreelancersState;
   languages: LanguageState;
-  skills:SkillsState;
+  skills: SkillsState;
 }
 
 @Directive()
@@ -46,7 +46,7 @@ export abstract class BaseProfilePageComponent implements OnInit {
   filteredForeignLanguages$!: Observable<Language[]>;
   freelancerProfileLanguages$: Observable<Language[]>;
   freelancerLanguagesLoading$: Observable<boolean>;
-  freelancerProfile$:Observable<FreelancerProfileDto[]>;
+  freelancerProfile$: Observable<FreelancerProfileDto[]>;
   freelancerProfileSkills$: Observable<SkillDto[]>;
   uniqueAreas$: Observable<string[]>;
   profile: FreelancerProfileDto | null | undefined = undefined;
@@ -162,8 +162,8 @@ export abstract class BaseProfilePageComponent implements OnInit {
       map((skills) =>
         skills
           ? skills
-            .map((s) => s.area)
-            .filter((area, i, arr) => arr.indexOf(area) === i)
+              .map((s) => s.area)
+              .filter((area, i, arr) => arr.indexOf(area) === i)
           : []
       )
     );

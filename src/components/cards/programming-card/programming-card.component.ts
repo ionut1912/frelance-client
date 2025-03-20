@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
 import { NgForOf } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { DialogData, FreelancerDetailsData } from '../../../models/Ui';
@@ -17,30 +23,28 @@ import { MatDialog } from '@angular/material/dialog';
     MatCardActions,
   ],
   templateUrl: './programming-card.component.html',
-  styleUrl: './programming-card.component.scss'
+  styleUrl: './programming-card.component.scss',
 })
 export class ProgrammingCardComponent {
-@Input()profile!: FreelancerDetailsData;
-@Output() freelancerDataChanged = new EventEmitter<FreelancerDetailsData>();
+  @Input() profile!: FreelancerDetailsData;
+  @Output() freelancerDataChanged = new EventEmitter<FreelancerDetailsData>();
 
-constructor(private  dialog: MatDialog) {
-}
+  constructor(private dialog: MatDialog) {}
 
   openEditFreelancerDataDialog(): void {
-    const data:DialogData={
-      dialogName:"FreelancerData",
-      freelancerData:this.profile,
-    }
+    const data: DialogData = {
+      dialogName: 'FreelancerData',
+      freelancerData: this.profile,
+    };
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '400px',
-      data: data
+      data: data,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.freelancerDataChanged.emit(result);
       }
-
     });
   }
 }

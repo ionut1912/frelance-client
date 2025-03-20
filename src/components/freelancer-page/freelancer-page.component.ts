@@ -3,13 +3,8 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatStep, MatStepper } from '@angular/material/stepper';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import {
-  CreateFreelancerProfileRequest,
-} from '../../models/UserProfile';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { CreateFreelancerProfileRequest } from '../../models/UserProfile';
 import { Language } from '../../models/ExternalApis';
 import { Store } from '@ngrx/store';
 import { CountryState } from '../../store/reducers/country.reducers';
@@ -47,9 +42,6 @@ export class FreelancerPageComponent
   extends BaseProfilePageComponent
   implements OnInit
 {
-
-
-
   constructor(
     protected override store: Store<{
       freelancerProfile: FreelancersState;
@@ -61,13 +53,11 @@ export class FreelancerPageComponent
     protected override fb: FormBuilder
   ) {
     super(fb, store);
-
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
   }
-
 
   completeStepper(): void {
     const payload: CreateFreelancerProfileRequest = {

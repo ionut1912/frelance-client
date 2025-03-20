@@ -1,14 +1,14 @@
 import { AddressDto } from './UserProfile';
 
-interface BaseProfileData{
-  address:AddressDto;
-  bio:string;
-  image:string;
+interface BaseProfileData {
+  address: AddressDto;
+  bio: string;
+  image: string;
 }
 
-interface ClientProfileData extends  BaseProfileData{}
+interface ClientProfileData extends BaseProfileData {}
 
-interface FreelancerProfileData extends BaseProfileData{
+interface FreelancerProfileData extends BaseProfileData {
   programmingLanguages: string[];
   areas: string[];
   foreignLanguages: string[];
@@ -18,12 +18,12 @@ interface FreelancerProfileData extends BaseProfileData{
   portfolioUrl: string;
 }
 
-interface UserDetailsData{
-  bio:string;
-  image:string;
+interface UserDetailsData {
+  bio: string;
+  image: string;
 }
 
-interface  FreelancerDetailsData{
+interface FreelancerDetailsData {
   programmingLanguages: string[];
   areas: string[];
   foreignLanguages: string[];
@@ -33,11 +33,17 @@ interface  FreelancerDetailsData{
   portfolioUrl: string;
 }
 
-interface DialogData{
+interface DialogData {
   dialogName: string;
-  address?:AddressDto;
-  userDetails?:UserDetailsData;
-  freelancerData?:FreelancerDetailsData;
+  address?: AddressDto;
+  userDetails?: UserDetailsData;
+  freelancerData?: FreelancerDetailsData;
 }
 
-export type {ClientProfileData,FreelancerProfileData,FreelancerDetailsData,UserDetailsData,DialogData};
+export type {
+  ClientProfileData,
+  FreelancerProfileData,
+  FreelancerDetailsData,
+  UserDetailsData,
+  DialogData,
+};

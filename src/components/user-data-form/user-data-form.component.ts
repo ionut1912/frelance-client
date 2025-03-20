@@ -17,7 +17,7 @@ export class UserDataFormComponent implements OnInit {
   @Input() isFreelancer!: boolean;
   @Input() stepper!: MatStepper;
   @Input() externalForm!: FormGroup;
-  @Input() userData!:UserDetailsData;
+  @Input() userData!: UserDetailsData;
   @Input() isDialog: boolean = false;
   @Output() imageCaptured = new EventEmitter<string>();
   @Output() completeStepper = new EventEmitter<void>();

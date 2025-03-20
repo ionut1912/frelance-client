@@ -9,7 +9,10 @@ import {
 import { MatButton } from '@angular/material/button';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { NgIf } from '@angular/common';
-import { BaseProfilePageComponent, BaseStore } from '../base-profille/base-profile-page.component';
+import {
+  BaseProfilePageComponent,
+  BaseStore,
+} from '../base-profille/base-profile-page.component';
 import { FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { DialogData } from '../../models/Ui';
@@ -29,14 +32,14 @@ import { FreelancerProfileFormComponent } from '../freelancer-profile-form/freel
     FreelancerProfileFormComponent,
   ],
   templateUrl: './edit-dialog.component.html',
-  styleUrl: './edit-dialog.component.scss'
+  styleUrl: './edit-dialog.component.scss',
 })
 export class EditDialogComponent extends BaseProfilePageComponent {
   constructor(
     protected override fb: FormBuilder,
     protected override store: Store<BaseStore>,
     public dialogRef: MatDialogRef<EditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     super(fb, store);
   }
@@ -46,10 +49,10 @@ export class EditDialogComponent extends BaseProfilePageComponent {
     if (this.data.address) {
       this.addressForm.patchValue(this.data.address);
     }
-    if(this.data.userDetails){
+    if (this.data.userDetails) {
       this.userDataForm.patchValue(this.data.userDetails);
     }
-    if(this.data.freelancerData){
+    if (this.data.freelancerData) {
       this.freelancerProfileForm.patchValue(this.data.freelancerData);
     }
   }
@@ -62,10 +65,10 @@ export class EditDialogComponent extends BaseProfilePageComponent {
     if (this.addressForm.valid) {
       this.dialogRef.close(this.addressForm.value);
     }
-    if(this.userDataForm.valid){
+    if (this.userDataForm.valid) {
       this.dialogRef.close(this.userDataForm.value);
     }
-    if(this.freelancerProfileForm.valid){
+    if (this.freelancerProfileForm.valid) {
       this.dialogRef.close(this.freelancerProfileForm.value);
     }
   }

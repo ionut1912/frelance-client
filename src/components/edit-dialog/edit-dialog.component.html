@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Edit {{ data.dialogName }}</h1>
-<div *ngIf="data.dialogName==='Address'" mat-dialog-content>
+<div *ngIf="data.dialogName === 'Address'" mat-dialog-content>
   <app-address-form
     [countries]="filteredCountries"
     [filteredCountries]="filteredCountries"
@@ -13,7 +13,7 @@
   >
   </app-address-form>
 </div>
-<div *ngIf="data.dialogName==='UserData'" mat-dialog-content>
+<div *ngIf="data.dialogName === 'UserData'" mat-dialog-content>
   <app-user-data-form
     [isFreelancer]="false"
     (imageCaptured)="setImage($event)"
@@ -21,7 +21,7 @@
   >
   </app-user-data-form>
 </div>
-<div *ngIf="data.dialogName==='FreelancerData'" mat-dialog-content>
+<div *ngIf="data.dialogName === 'FreelancerData'" mat-dialog-content>
   <app-freelancer-profile-form
     [freelancerProfileSkills$]="freelancerProfileSkills$"
     [uniqueAreas$]="uniqueAreas$"
@@ -32,5 +32,12 @@
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button color="primary" (click)="onSave()" [disabled]="addressForm.invalid">Save</button>
+  <button
+    mat-button
+    color="primary"
+    (click)="onSave()"
+    [disabled]="addressForm.invalid"
+  >
+    Save
+  </button>
 </div>

@@ -6,23 +6,20 @@ import { AddressDto } from '../../../models/UserProfile';
 
 @Component({
   selector: 'app-client-profile',
-  imports: [
-    AddressCardComponent,
-    UserDataCardComponent,
-  ],
+  imports: [AddressCardComponent, UserDataCardComponent],
   templateUrl: './client-profile.component.html',
-  styleUrl: './client-profile.component.scss'
+  styleUrl: './client-profile.component.scss',
 })
 export class ClientProfileComponent {
-  @Input() profile!:ClientProfileData;
+  @Input() profile!: ClientProfileData;
   @Output() addressChanged = new EventEmitter<AddressDto>();
   @Output() userDataChanged = new EventEmitter<UserDetailsData>();
 
-  onAddressChanged(address:AddressDto){
+  onAddressChanged(address: AddressDto) {
     this.addressChanged.emit(address);
   }
 
-  onUserDetailsChanged(userDetailsData:UserDetailsData){
+  onUserDetailsChanged(userDetailsData: UserDetailsData) {
     this.userDataChanged.emit(userDetailsData);
   }
 }

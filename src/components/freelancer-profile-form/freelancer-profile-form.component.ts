@@ -21,7 +21,7 @@ export class FreelancerProfileFormComponent implements OnInit {
   @Input() uniqueAreas$!: Observable<string[]>;
   @Input() filteredForeignLanguages$!: Observable<Language[]>;
   @Input() stepper!: MatStepper;
-  @Input() freelancerData!:FreelancerProfileData;
+  @Input() freelancerData!: FreelancerProfileData;
   @Input() isDialog: boolean = false;
   @Input() externalForm!: FormGroup;
 

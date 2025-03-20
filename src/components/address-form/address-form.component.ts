@@ -33,8 +33,8 @@ export class AddressFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() cityFilterCtrl!: FormControl;
   @Input() stepper!: MatStepper;
   @Input() externalForm!: FormGroup;
-  @Input() addressData!:AddressDto;
-  @Input() isDialog=false;
+  @Input() addressData!: AddressDto;
+  @Input() isDialog = false;
   @ViewChild(FormComponent) formComponent!: FormComponent<any>;
 
   fields: Field<Country | string>[] = [];

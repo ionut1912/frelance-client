@@ -8,7 +8,9 @@
         <div>
           <span class="font-semibold">Programming Languages:</span>
           <ul class="list-disc list-inside ml-4">
-            <li *ngFor="let lang of profile.programmingLanguages">{{ lang }}</li>
+            <li *ngFor="let lang of profile.programmingLanguages">
+              {{ lang }}
+            </li>
           </ul>
         </div>
         <div>
@@ -20,15 +22,26 @@
         <div>
           <span class="font-semibold">Foreign Languages:</span>
           <ul class="list-disc list-inside ml-4">
-            <li *ngFor="let language of profile.foreignLanguages">{{ language }}</li>
+            <li *ngFor="let language of profile.foreignLanguages">
+              {{ language }}
+            </li>
           </ul>
         </div>
-        <div><span class="font-semibold">Experience:</span> {{ profile.experience }}</div>
+        <div>
+          <span class="font-semibold">Experience:</span>
+          {{ profile.experience }}
+        </div>
         <div><span class="font-semibold">Rate:</span> {{ profile.rate }}</div>
-        <div><span class="font-semibold">Currency:</span> {{ profile.currency }}</div>
+        <div>
+          <span class="font-semibold">Currency:</span> {{ profile.currency }}
+        </div>
         <div>
           <span class="font-semibold">Portfolio URL:</span>
-          <a [href]="profile.portfolioUrl" target="_blank" class="text-blue-500 underline">
+          <a
+            [href]="profile.portfolioUrl"
+            target="_blank"
+            class="text-blue-500 underline"
+          >
             {{ profile.portfolioUrl }}
           </a>
         </div>

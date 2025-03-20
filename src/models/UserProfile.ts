@@ -8,7 +8,7 @@ type Role = 'Freelancer' | 'Client';
 interface ForeignLanguageDto {
   language: string;
 }
-interface BaseUpdateProfile{
+interface BaseUpdateProfile {
   addressCountry?: string;
   addressStreet?: string;
   addressStreetNumber?: string;
@@ -57,7 +57,7 @@ interface FreelancerProfileDto extends BaseProfileDto {
   portfolioUrl: string;
 }
 
-interface UpdateFreelancerProfileRequest extends  BaseUpdateProfile{
+interface UpdateFreelancerProfileRequest extends BaseUpdateProfile {
   programingLanguages?: string[];
   areas?: string[];
   foreignLanguages?: string[];
@@ -88,9 +88,7 @@ interface AddressDto {
 
 interface ClientProfileDto extends BaseProfileDto {}
 
-interface UpdateClientProfileRequest extends  BaseUpdateProfile{
-
-}
+interface UpdateClientProfileRequest extends BaseUpdateProfile {}
 
 interface SkillDto {
   id?: number;

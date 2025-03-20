@@ -1,6 +1,16 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-<app-address-card [address]="profile.address" (addressChanged)="onAddressChanged($event)"></app-address-card>
+  <app-address-card
+    [address]="profile.address"
+    (addressChanged)="onAddressChanged($event)"
+  ></app-address-card>
 
-<app-user-data-card [bio]="profile.bio" [image]="profile.image" (userDataChanged)="onUserDetailsChanged($event)"></app-user-data-card>
-  <app-programming-card [profile]="programmingData" (freelancerDataChanged)="onFreelancerDataChanged($event)"></app-programming-card>
+  <app-user-data-card
+    [bio]="profile.bio"
+    [image]="profile.image"
+    (userDataChanged)="onUserDetailsChanged($event)"
+  ></app-user-data-card>
+  <app-programming-card
+    [profile]="programmingData"
+    (freelancerDataChanged)="onFreelancerDataChanged($event)"
+  ></app-programming-card>
 </div>
