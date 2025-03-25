@@ -8,9 +8,7 @@ import {
   SkillDto,
 } from '../../models/UserProfile';
 import { Store } from '@ngrx/store';
-import { ClientProfileState } from '../../store/reducers/clientprofile.reducers';
 import { RoleService } from '../../services/role.service';
-import { FreelancersState } from '../../store/reducers/freelancerprofile.reducers';
 import { NgIf } from '@angular/common';
 import { ClientProfileComponent } from './client-profile/client-profile.component';
 import { FreelancerProfileComponent } from './freelancer-profile/freelancer-profile.component';
@@ -20,6 +18,7 @@ import {
   FreelancerProfileData,
   UserDetailsData,
 } from '../../models/Ui';
+import { UserProfileState } from '../../store/reducers/userprofile.reducers';
 
 @Component({
   selector: 'app-user-profile',
@@ -37,8 +36,7 @@ export class UserProfileComponent implements OnInit {
   foreignLanguages!: ForeignLanguageDto[];
   constructor(
     private store: Store<{
-      clientProfile: ClientProfileState;
-      freelancerProfile: FreelancersState;
+      userProfile: UserProfileState;
     }>,
     private roleService: RoleService
   ) {}
@@ -49,9 +47,9 @@ export class UserProfileComponent implements OnInit {
         this.role = role;
         if (role === 'Client') {
           this.store
-            .select((state) => state.clientProfile.clientProfiles)
+            .select((state) => state.userProfile.clientProfiles)
             .subscribe((profiles) => {
-              this.clientProfile = profiles[0];
+              this.clientProfile = profiles![0];
               this.clientProfileData = {
                 address: this.clientProfile.address,
                 bio: this.clientProfile.bio,
@@ -60,9 +58,9 @@ export class UserProfileComponent implements OnInit {
             });
         } else if (role === 'Freelancer') {
           this.store
-            .select((state) => state.freelancerProfile.freelancerProfiles)
+            .select((state) => state.userProfile.freelancerProfiles)
             .subscribe((profiles) => {
-              this.freelancerProfile = profiles[0];
+              this.freelancerProfile = profiles![0];
               this.freelancerProfileData = {
                 address: this.freelancerProfile.address,
                 bio: this.freelancerProfile.bio,

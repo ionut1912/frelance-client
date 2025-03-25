@@ -14,17 +14,17 @@ import { CityState } from '../../store/reducers/city.reducers';
 import { map, startWith } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 import { FreelancerProfileDto, SkillDto } from '../../models/UserProfile';
-import * as FreelancerProfileActions from '../../store/actions/freelancerprofile.actions';
 import * as LanguageActions from '../../store/actions/language.actions';
 import * as SkillsActions from '../../store/actions/skills.actions';
-import { FreelancersState } from '../../store/reducers/freelancerprofile.reducers';
 import { LanguageState } from '../../store/reducers/lanuguage.reducer';
 import { SkillsState } from '../../store/reducers/skills.reducers';
+import { UserProfileState } from '../../store/reducers/userprofile.reducers';
+import * as UserActions from '../../store/actions/userprofile.actions';
 
 export interface BaseStore {
   countries: CountryState;
   cities: CityState;
-  freelancerProfile: FreelancersState;
+  userProfile: UserProfileState;
   languages: LanguageState;
   skills: SkillsState;
 }
@@ -73,7 +73,7 @@ export abstract class BaseProfilePageComponent implements OnInit {
       portfolioUrl: ['', Validators.required],
     });
     this.freelancerProfile$ = this.store.select(
-      (state) => state.freelancerProfile.freelancerProfiles
+      (state) => state.userProfile.freelancerProfiles!
     );
     this.freelancerProfileLanguages$ = this.store.select(
       (state) => state.languages.languages
@@ -143,7 +143,7 @@ export abstract class BaseProfilePageComponent implements OnInit {
           )
         : this.fullCountries;
     });
-    this.store.dispatch(FreelancerProfileActions.getCurrentFreelancerProfile());
+    this.store.dispatch(UserActions.getCurrentUserProfile());
     this.store.dispatch(LanguageActions.loadLanguages());
     this.store.dispatch(SkillsActions.getSkills());
     this.freelancerProfile$.subscribe((val) => (this.profile = val[0]));

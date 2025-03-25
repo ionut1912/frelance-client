@@ -4,8 +4,8 @@ import { BASE_API_URL } from '../app/base_url';
 import { Observable } from 'rxjs';
 import {
   CreateFreelancerProfileRequest,
-  FreelancerProfileDto,
 } from '../models/UserProfile';
+import { FreelancerDetailsData } from '../models/Ui';
 
 @Injectable({
   providedIn: 'root',
@@ -15,16 +15,6 @@ export class FreelancerProfileService {
     private http: HttpClient,
     @Inject(BASE_API_URL) private baseUrl: string
   ) {}
-
-  getCurrentFreelancerProfile(): Observable<FreelancerProfileDto> {
-    const headers = new HttpHeaders({
-      'requires-auth': '',
-    });
-    return this.http.get<FreelancerProfileDto>(
-      `${this.baseUrl}/api/current/freelancerProfiles`,
-      { headers }
-    );
-  }
 
   createFreelancerProfile(
     payload: CreateFreelancerProfileRequest
@@ -37,18 +27,15 @@ export class FreelancerProfileService {
     });
   }
 
-  verifyFreelancerProfile(id: number): Observable<any> {
+  updateFreelancerProfileData(
+    id: number,
+    freelancerData: FreelancerDetailsData
+  ): Observable<any> {
     const headers = new HttpHeaders({ 'requires-auth': '' });
     return this.http.patch(
-      `${this.baseUrl}/api/freelancerProfiles/verify/${id}`,
-      {},
+      `${this.baseUrl}/api/freelancerProfiles/freelancerDetails/${id}`,
+      freelancerData,
       { headers }
     );
-  }
-  deleteFreelancerProfile(id: number): Observable<any> {
-    const headers = new HttpHeaders({ 'requires-auth': '' });
-    return this.http.delete(`${this.baseUrl}/api/freelancerProfiles/${id}`, {
-      headers,
-    });
   }
 }

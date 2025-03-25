@@ -17,6 +17,7 @@
   <app-user-data-form
     [isFreelancer]="false"
     (imageCaptured)="setImage($event)"
+    [isDialog]="true"
     [externalForm]="userDataForm"
   >
   </app-user-data-form>
@@ -26,17 +27,42 @@
     [freelancerProfileSkills$]="freelancerProfileSkills$"
     [uniqueAreas$]="uniqueAreas$"
     [filteredForeignLanguages$]="filteredForeignLanguages$"
+    [isDialog]="true"
     [externalForm]="freelancerProfileForm"
   >
   </app-freelancer-profile-form>
 </div>
-<div mat-dialog-actions align="end">
+<div *ngIf="data.dialogName==='Address'" mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Cancel</button>
   <button
     mat-button
     color="primary"
     (click)="onSave()"
     [disabled]="addressForm.invalid"
+  >
+    Save
+  </button>
+</div>
+
+<div *ngIf="data.dialogName==='FreelancerData'" mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-button
+    color="primary"
+    (click)="onSave()"
+    [disabled]="freelancerProfileForm.invalid"
+  >
+    Save
+  </button>
+</div>
+
+<div *ngIf="data.dialogName==='UserData'" mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-button
+    color="primary"
+    (click)="onSave()"
+    [disabled]="userDataForm.invalid"
   >
     Save
   </button>

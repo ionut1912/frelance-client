@@ -34,6 +34,7 @@ interface FreelancerDetailsData {
 }
 
 interface DialogData {
+  userProfileId: number;
   dialogName: string;
   address?: AddressDto;
   userDetails?: UserDetailsData;

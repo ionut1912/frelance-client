@@ -1,6 +1,7 @@
 <div *ngIf="role === 'Client'">
   <app-client-profile
     [profile]="clientProfileData"
+    [userProfileId]="clientProfile.id"
     (addressChanged)="onAddressChanged($event)"
     (userDataChanged)="onUserDataChanges($event)"
   ></app-client-profile>
@@ -8,6 +9,7 @@
 <div *ngIf="role === 'Freelancer'">
   <app-freelancer-profile
     [profile]="freelancerProfileData"
+    [userProfileId]="freelancerProfile.id"
     (addressChanged)="onAddressChanged($event)"
     (userDataChanged)="onUserDataChanges($event)"
     (freelancerDataChanged)="onFreelancerDataChanged($event)"

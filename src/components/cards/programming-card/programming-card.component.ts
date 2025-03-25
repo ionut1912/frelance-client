@@ -27,12 +27,14 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ProgrammingCardComponent {
   @Input() profile!: FreelancerDetailsData;
+  @Input() userProfileId!: number;
   @Output() freelancerDataChanged = new EventEmitter<FreelancerDetailsData>();
 
   constructor(private dialog: MatDialog) {}
 
   openEditFreelancerDataDialog(): void {
     const data: DialogData = {
+      userProfileId: this.userProfileId,
       dialogName: 'FreelancerData',
       freelancerData: this.profile,
     };

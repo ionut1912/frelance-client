@@ -21,6 +21,7 @@ import {
 })
 export class FreelancerProfileComponent implements OnInit {
   @Input() profile!: FreelancerProfileData;
+  @Input() userProfileId!: number;
   @Output() addressChanged = new EventEmitter<AddressDto>();
   @Output() userDataChanged = new EventEmitter<UserDetailsData>();
   @Output() freelancerDataChanged = new EventEmitter<FreelancerDetailsData>();

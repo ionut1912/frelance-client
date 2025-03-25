@@ -12,6 +12,7 @@ import { AddressDto } from '../../../models/UserProfile';
 })
 export class ClientProfileComponent {
   @Input() profile!: ClientProfileData;
+  @Input() userProfileId!: number;
   @Output() addressChanged = new EventEmitter<AddressDto>();
   @Output() userDataChanged = new EventEmitter<UserDetailsData>();
 

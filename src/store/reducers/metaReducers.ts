@@ -1,20 +1,19 @@
 import { ActionReducer, MetaReducer } from '@ngrx/store';
 import { AuthState } from './auth.reducers';
-import { ClientProfileState } from './clientprofile.reducers';
 import { CountryState } from './country.reducers';
 import { CityState } from './city.reducers';
 import { LanguageState } from './lanuguage.reducer';
 import { SkillsState } from './skills.reducers';
-import { FreelancersState } from './freelancerprofile.reducers';
 import { FaceVerificationState } from './faceverification.reducers';
+import { UserProfileState } from './userprofile.reducers';
+
 interface AppState {
   auth: AuthState;
-  clientProfile: ClientProfileState;
+  userProfile: UserProfileState;
   countries: CountryState;
   cities: CityState;
   languages: LanguageState;
   skills: SkillsState;
-  freelancerProfile: FreelancersState;
   faceVerification: FaceVerificationState;
 }
 export function localStorageMetaReducer(

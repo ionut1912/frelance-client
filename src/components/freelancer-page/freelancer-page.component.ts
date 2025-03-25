@@ -9,15 +9,15 @@ import { Language } from '../../models/ExternalApis';
 import { Store } from '@ngrx/store';
 import { CountryState } from '../../store/reducers/country.reducers';
 import { CityState } from '../../store/reducers/city.reducers';
-import * as FreelancerProfileActions from '../../store/actions/freelancerprofile.actions';
 import { LanguageState } from '../../store/reducers/lanuguage.reducer';
 import { SkillsState } from '../../store/reducers/skills.reducers';
-import { FreelancersState } from '../../store/reducers/freelancerprofile.reducers';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { UserDataFormComponent } from '../user-data-form/user-data-form.component';
 import { BaseProfilePageComponent } from '../base-profille/base-profile-page.component';
 import { FreelancerProfileFormComponent } from '../freelancer-profile-form/freelancer-profile-form.component';
 import { VerifyPhotoComponent } from '../verify-photo/verify-photo.component';
+import { UserProfileState } from '../../store/reducers/userprofile.reducers';
+import * as UserProfileActions from '../../store/actions/userprofile.actions';
 
 @Component({
   selector: 'app-freelancer-page',
@@ -44,7 +44,7 @@ export class FreelancerPageComponent
 {
   constructor(
     protected override store: Store<{
-      freelancerProfile: FreelancersState;
+      userProfile: UserProfileState;
       countries: CountryState;
       cities: CityState;
       languages: LanguageState;
@@ -80,7 +80,7 @@ export class FreelancerPageComponent
       portfolioUrl: this.freelancerProfileForm.value.portfolioUrl,
     };
     this.store.dispatch(
-      FreelancerProfileActions.createFreelancerProfile({ payload })
+      UserProfileActions.createFreelancerProfile({ payload })
     );
   }
 }

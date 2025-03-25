@@ -18,8 +18,6 @@ import { importProvidersFrom } from '@angular/core';
 import { ToastrModule } from 'ngx-toastr';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { environment } from './envitonments/environment';
-import { clientProfileReducer } from '../store/reducers/clientprofile.reducers';
-import { ClientProfilesEffects } from '../store/effects/clientprofiles.effects';
 import { jwtInterceptor } from '../services/interceptors/TokenInterceptor';
 import { CountryEffects } from '../store/effects/country.effects';
 import { countryReducers } from '../store/reducers/country.reducers';
@@ -29,11 +27,11 @@ import { languageReducer } from '../store/reducers/lanuguage.reducer';
 import { LanguageEffects } from '../store/effects/languages.effects';
 import { SkillsEffects } from '../store/effects/skills.effects';
 import { skillReducer } from '../store/reducers/skills.reducers';
-import { FreelancerProfileEffects } from '../store/effects/freelancerprofile.effects';
-import { freelancerProfileReducer } from '../store/reducers/freelancerprofile.reducers';
 import { faceVerificationReducer } from '../store/reducers/faceverification.reducers';
 import { FaceVerificationEffects } from '../store/effects/faceverification.effects';
 import { metaReducers } from '../store/reducers/metaReducers';
+import { userProfileReducer } from '../store/reducers/userprofile.reducers';
+import { UserProfilesEffects } from '../store/effects/userProfiles.effects';
 
 export const APP_PROVIDERS = [
   provideAnimations(),
@@ -42,24 +40,22 @@ export const APP_PROVIDERS = [
   provideStore(
     {
       auth: authReducer,
-      clientProfile: clientProfileReducer,
+      userProfile: userProfileReducer,
       countries: countryReducers,
       cities: cityReducers,
       languages: languageReducer,
       skills: skillReducer,
-      freelancerProfile: freelancerProfileReducer,
       faceVerification: faceVerificationReducer,
     },
     { metaReducers }
   ),
   provideEffects([
     AuthEffects,
-    ClientProfilesEffects,
+    UserProfilesEffects,
     CountryEffects,
     CityEffects,
     LanguageEffects,
     SkillsEffects,
-    FreelancerProfileEffects,
     FaceVerificationEffects,
   ]),
   importProvidersFrom(BrowserAnimationsModule),

@@ -26,6 +26,7 @@ import { DialogData } from '../../../models/Ui';
   styleUrl: './address-card.component.scss',
 })
 export class AddressCardComponent {
+  @Input() userProfileId!: number;
   @Input() address!: AddressDto;
   @Output() addressChanged = new EventEmitter<AddressDto>();
 
@@ -33,6 +34,7 @@ export class AddressCardComponent {
 
   openEditAddressDialog(): void {
     const data: DialogData = {
+      userProfileId: this.userProfileId,
       dialogName: 'Address',
       address: this.address,
     };

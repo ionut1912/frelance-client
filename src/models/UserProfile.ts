@@ -108,6 +108,7 @@ interface VerifyFacePayload {
   role: Role;
   profile: FreelancerProfileDto | ClientProfileDto;
 }
+
 export type {
   CreateClientProfileRequest,
   ClientProfileDto,

@@ -26,6 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class UserDataCardComponent {
   @Input() bio!: string;
   @Input() image!: string;
+  @Input() userProfileId!: number;
   @Output() userDataChanged = new EventEmitter<UserDetailsData>();
 
   constructor(private dialog: MatDialog) {}
@@ -36,6 +37,7 @@ export class UserDataCardComponent {
       image: this.image,
     };
     const data: DialogData = {
+      userProfileId: this.userProfileId,
       dialogName: 'UserData',
       userDetails: userData,
     };

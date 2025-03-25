@@ -1,11 +1,8 @@
 import { Injectable, NgZone, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FaceVerificationService } from '../../services/faceverification.service';
-import { FreelancerProfileService } from '../../services/freelancerprofile.service';
-import { ClientProfileService } from '../../services/clientprofile.service';
 import * as FaceVerificationActions from '../actions/faceverification.actions';
-import * as FreelancerProfileActions from '../actions/freelancerprofile.actions';
-import * as ClientProfileActions from '../actions/clientprofile.actions';
+import * as UserProfileActions from '../actions/userprofile.actions';
 import * as AuthActions from '../actions/auth.actions';
 import { mergeMap, catchError, map, tap, take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
@@ -20,6 +17,7 @@ import {
   FreelancerProfileDto,
   Role,
 } from '../../models/UserProfile';
+import { UserProfileService } from '../../services/user-profile.service';
 
 @Injectable()
 export class FaceVerificationEffects {
@@ -31,8 +29,7 @@ export class FaceVerificationEffects {
 
   constructor(
     private faceVerificationService: FaceVerificationService,
-    private freelancerService: FreelancerProfileService,
-    private clientService: ClientProfileService
+    private userProfileService: UserProfileService
   ) {}
 
   verifyFace$ = createEffect(() =>
@@ -50,7 +47,7 @@ export class FaceVerificationEffects {
               if (successAction.verifyFaceResult.isMatch) {
                 this.processMatch(action.payload.role, profile);
               } else {
-                this.processNoMatch(action.payload.role, profile);
+                this.processNoMatch(profile);
               }
             }),
             catchError((error: HttpErrorResponse) => {
@@ -64,10 +61,7 @@ export class FaceVerificationEffects {
                 this.toaster.warning(
                   'We will delete your profile data,because we don t find a face in one of your images'
                 );
-                this.dispatchProfileDeletion(
-                  action.payload.role,
-                  action.payload.profile
-                );
+                this.dispatchProfileDeletion(action.payload.profile);
               }
               return of(FaceVerificationActions.verifyFaceFailure({ error }));
             })
@@ -82,16 +76,16 @@ export class FaceVerificationEffects {
   ): void {
     const verify$: Observable<Action> =
       role === 'Freelancer'
-        ? this.freelancerService.verifyFreelancerProfile(profile.id).pipe(
+        ? this.userProfileService.verifyUserProfile(profile.id).pipe(
             map(() =>
-              FreelancerProfileActions.verifyFreelancerProfile({
+              UserProfileActions.verifyFreelancerProfile({
                 profileId: profile.id,
               })
             )
           )
-        : this.clientService.verifyClientProfile(profile.id).pipe(
+        : this.userProfileService.verifyUserProfile(profile.id).pipe(
             map(() =>
-              ClientProfileActions.verifyClientProfile({
+              UserProfileActions.verifyClientProfile({
                 profileId: profile.id,
               })
             )
@@ -103,7 +97,6 @@ export class FaceVerificationEffects {
   }
 
   private processNoMatch(
-    role: Role,
     profile: ClientProfileDto | FreelancerProfileDto
   ): void {
     this.store.dispatch(FaceVerificationActions.incrementFalseCount());
@@ -115,7 +108,7 @@ export class FaceVerificationEffects {
           this.store.dispatch(
             AuthActions.blockAccount({ id: profile.user.id })
           );
-          this.dispatchProfileDeletion(role, profile);
+          this.dispatchProfileDeletion(profile);
           this.toaster.error(
             `Your account will be locked for 1h because you attempted verification ${count} times`
           );
@@ -124,7 +117,7 @@ export class FaceVerificationEffects {
           this.store.dispatch(
             AuthActions.deleteAccount({ id: profile.user.id })
           );
-          this.dispatchProfileDeletion(role, profile);
+          this.dispatchProfileDeletion(profile);
           this.store.dispatch(FaceVerificationActions.resetFalseCount());
           this.toaster.error(
             'Your account will be deleted because you attempted verification too many times'
@@ -140,19 +133,12 @@ export class FaceVerificationEffects {
   }
 
   private dispatchProfileDeletion(
-    role: Role,
     profile: ClientProfileDto | FreelancerProfileDto
   ): void {
-    if (role === 'Client') {
-      this.store.dispatch(
-        ClientProfileActions.deleteClientProfile({
-          clientProfileId: profile.id,
-        })
-      );
-    } else if (role === 'Freelancer') {
-      this.store.dispatch(
-        FreelancerProfileActions.deleteFreelancerProfile({ id: profile.id })
-      );
-    }
+    this.store.dispatch(
+      UserProfileActions.deleteUserProfile({
+        profileId: profile.id,
+      })
+    );
   }
 }
