@@ -2,9 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BASE_API_URL } from '../app/base_url';
 import { Observable } from 'rxjs';
-import {
-  CreateFreelancerProfileRequest,
-} from '../models/UserProfile';
+import { CreateFreelancerProfileRequest } from '../models/UserProfile';
 import { FreelancerDetailsData } from '../models/Ui';
 
 @Injectable({

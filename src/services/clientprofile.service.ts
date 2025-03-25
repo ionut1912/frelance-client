@@ -2,9 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BASE_API_URL } from '../app/base_url';
 import { Observable } from 'rxjs';
-import {
-  CreateClientProfileRequest,
-} from '../models/UserProfile';
+import { CreateClientProfileRequest } from '../models/UserProfile';
 
 @Injectable({
   providedIn: 'root',

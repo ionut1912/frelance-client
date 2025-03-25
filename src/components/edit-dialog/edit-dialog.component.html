@@ -32,7 +32,7 @@
   >
   </app-freelancer-profile-form>
 </div>
-<div *ngIf="data.dialogName==='Address'" mat-dialog-actions align="end">
+<div *ngIf="data.dialogName === 'Address'" mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Cancel</button>
   <button
     mat-button
@@ -44,7 +44,11 @@
   </button>
 </div>
 
-<div *ngIf="data.dialogName==='FreelancerData'" mat-dialog-actions align="end">
+<div
+  *ngIf="data.dialogName === 'FreelancerData'"
+  mat-dialog-actions
+  align="end"
+>
   <button mat-button (click)="onCancel()">Cancel</button>
   <button
     mat-button
@@ -56,7 +60,7 @@
   </button>
 </div>
 
-<div *ngIf="data.dialogName==='UserData'" mat-dialog-actions align="end">
+<div *ngIf="data.dialogName === 'UserData'" mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Cancel</button>
   <button
     mat-button
