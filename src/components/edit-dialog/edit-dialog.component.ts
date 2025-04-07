@@ -70,7 +70,6 @@ export class EditDialogComponent extends BaseProfilePageComponent {
 
   onSave(): void {
     if (this.addressForm.valid) {
-      console.log(this.addressForm.value);
       const addressDto: AddressDto = {
         id: this.data.address?.id!,
         country: this.addressForm.value.country.name.common,
@@ -79,7 +78,6 @@ export class EditDialogComponent extends BaseProfilePageComponent {
         streetNumber: this.addressForm.value.streetNumber,
         zipCode: this.addressForm.value.zipCode,
       };
-      console.log(addressDto);
       this.dialogRef.close(addressDto);
       this.store.dispatch(
         UserProfileActions.patchUserProfileAddress({
@@ -93,7 +91,6 @@ export class EditDialogComponent extends BaseProfilePageComponent {
         bio: this.userDataForm.value.bio,
         image: this.imageSrc!,
       };
-      console.log(userDetailsData);
       this.dialogRef.close(userDetailsData);
       this.store.dispatch(
         UserProfileActions.patchUserProfileDetails({
