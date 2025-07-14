@@ -1,64 +1,74 @@
 {
-  "name": "frelance-client",
-  "version": "0.0.0",
-  "scripts": {
-    "prepare": "husky install",
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:frelance-client": "node dist/frelance-client/server/server.mjs"
-  },
+  "name": "freelance-client-react",
+  "version": "0.3.1",
   "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "webpack serve --config webpack.config.js --env development --open",
+    "build": "webpack --config webpack.config.js --env production",
+    "type-check": "tsc --noEmit",
+    "test": "jest"
+  },
   "dependencies": {
-    "@angular/animations": "19.1.6",
-    "@angular/cdk": "19.1.4",
-    "@angular/common": "19.1.6",
-    "@angular/compiler": "19.1.6",
-    "@angular/core": "19.1.6",
-    "@angular/forms": "19.1.6",
-    "@angular/material": "19.1.4",
-    "@angular/platform-browser": "19.1.6",
-    "@angular/platform-browser-dynamic": "19.1.6",
-    "@angular/platform-server": "19.1.6",
-    "@angular/router": "19.1.6",
-    "@angular/ssr": "19.1.7",
-    "@ngrx/effects": "19.0.1",
-    "@ngrx/store": "19.0.1",
-    "@ngrx/store-devtools": "^19.0.1",
-    "autoprefixer": "10.4.20",
-    "domino": "2.1.6",
-    "express": "4.21.2",
-    "ngx-mat-select-search": "^8.0.0",
-    "ngx-toastr": "19.0.0",
-    "postcss": "8.5.1",
-    "rxjs": "7.8.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.2.0",
+    "@mui/material": "^7.2.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "clsx": "^2.1.1",
+    "formik": "^2.4.6",
+    "mini-css-extract-plugin": "^2.9.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.3",
     "tailwindcss": "3.4.17",
-    "tslib": "2.3.0",
-    "zone.js": "0.15.0"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "19.1.7",
-    "@angular/cli": "19.1.7",
-    "@angular/compiler-cli": "19.1.6",
-    "@types/express": "4.17.17",
-    "@types/jasmine": "5.1.0",
-    "@types/node": "18.18.0",
-    "husky": "^9.1.7",
-    "jasmine-core": "5.5.0",
-    "karma": "6.4.0",
-    "karma-chrome-launcher": "3.2.0",
-    "karma-coverage": "2.2.0",
-    "karma-jasmine": "5.1.0",
-    "karma-jasmine-html-reporter": "2.1.0",
-    "prettier": "^3.5.1",
-    "typescript": "5.7.2"
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-react": "^7.24.5",
+    "@babel/preset-typescript": "^7.24.5",
+    "@types/node": "^22.12.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "autoprefixer": "^10.4.21",
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.3",
+    "postcss": "^8.5.6",
+    "postcss-loader": "^8.1.1",
+    "style-loader": "^4.0.0",
+    "typescript": "^5.8.3",
+    "webpack": "^5.100.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.2"
   },
-  "overrides": {
-    "body-parser": "1.20.3",
-    "path-to-regexp": "0.1.12",
-    "send": "0.19.0",
-    "esbuild": "^0.25.0"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
   }
 }
