@@ -12,23 +12,24 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import PasswordLegend from "../PasswordLegend";
 import { loginUser } from "../../store/auth/thunks";
 import { LoginDto } from "../../models/Accounts";
 
 const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const togglePasswordVisibility = useCallback(() => {
     setShowPassword((prev) => !prev);
   }, []);
-  const INITIAL_VALUES: LoginDto = {
-    username: "",
-    password: "",
-  };
+const INITIAL_VALUES: LoginDto= {
+
+  username: '',
+  password: '',
+}
   const validationSchema = useMemo(
     () =>
       Yup.object({
@@ -37,14 +38,17 @@ const LoginForm: React.FC = () => {
       }),
     []
   );
-
+ 
   const formik = useFormik<LoginDto>({
     initialValues: INITIAL_VALUES,
     validationSchema,
-    onSubmit: (values) => {
-      dispatch(loginUser(values, navigate));
-    },
-  });
+    onSubmit: values => {
+   
+
+        dispatch(loginUser(values, navigate))
+      
+    }
+  })
 
   return (
     <Box

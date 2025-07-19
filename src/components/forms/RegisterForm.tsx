@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback, useMemo } from "react";
+import React, { memo, useState, useCallback, useMemo } from 'react'
 import {
   Box,
   Card,
@@ -7,69 +7,60 @@ import {
   TextField,
   Button,
   IconButton,
-  InputAdornment,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import PasswordLegend from "../PasswordLegend";
-import { RegisterDto } from "../../models/Accounts";
-import { registerUser } from "../../store/auth/thunks";
-import { RootState } from "../../store";
+  InputAdornment
+} from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import PasswordLegend from '../PasswordLegend'
+import { RegisterDto } from '../../models/Accounts'
+import { registerUser } from '../../store/auth/thunks'
+import { RootState } from '../../store'
 
-const INITIAL_VALUES: Omit<RegisterDto, "role"> = {
-  email: "",
-  username: "",
-  password: "",
-  phoneNumber: "",
-};
+const INITIAL_VALUES: Omit<RegisterDto, 'role'> = {
+  email: '',
+  username: '',
+  password: '',
+  phoneNumber: ''
+}
 
 const RegisterForm: React.FC = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-  const role = useSelector((state: RootState) => state.auth.role);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false)
+  const role = useSelector((state: RootState) => state.auth.role)
 
   const validationSchema = useMemo(
     () =>
       Yup.object({
-        email: Yup.string().email("Invalid email").required("Required"),
-        username: Yup.string().required("Required"),
-        password: Yup.string().min(6, "Too short").required("Required"),
-        phoneNumber: Yup.string()
-          .matches(/^[0-9]+$/, "Only digits")
-          .required("Required"),
+        email: Yup.string().email('Invalid email').required('Required'),
+        username: Yup.string().required('Required'),
+        password: Yup.string().min(6, 'Too short').required('Required'),
+        phoneNumber: Yup.string().matches(/^[0-9]+$/, 'Only digits').required('Required')
       }),
     []
-  );
+  )
 
-  const formik = useFormik<Omit<RegisterDto, "role">>({
+  const formik = useFormik<Omit<RegisterDto, 'role'>>({
     initialValues: INITIAL_VALUES,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: values => {
       if (role) {
-        dispatch(registerUser({ ...values, role }, navigate));
-      }
-    },
-  });
+
+        dispatch(registerUser({ ...values, role }, navigate))
+      } 
+    }
+  })
 
   const togglePassword = useCallback(() => {
-    setShowPassword((prev) => !prev);
-  }, []);
+    setShowPassword(prev => !prev)
+  }, [])
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        p: 2,
-      }}
-    >
-      <Card sx={{ width: "100%", maxWidth: 600, boxShadow: 3 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', p: 2 }}>
+      <Card sx={{ width: '100%', maxWidth: 600, boxShadow: 3 }}>
         <CardContent>
           <Typography variant="h5" component="h2" align="center" mb={4}>
             Sign Up
@@ -105,7 +96,7 @@ const RegisterForm: React.FC = () => {
               name="password"
               label="Password"
               margin="normal"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -118,12 +109,10 @@ const RegisterForm: React.FC = () => {
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                ),
+                )
               }}
             />
-            {formik.touched.password && (
-              <PasswordLegend password={formik.values.password} />
-            )}
+            {formik.touched.password && <PasswordLegend password={formik.values.password} />}
             <TextField
               fullWidth
               id="phoneNumber"
@@ -133,19 +122,11 @@ const RegisterForm: React.FC = () => {
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={
-                formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-              }
-              helperText={
-                formik.touched.phoneNumber && formik.errors.phoneNumber
-              }
+              error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+              helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
             />
-            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={!formik.isValid || formik.isSubmitting}
-              >
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+              <Button type="submit" variant="contained" disabled={!formik.isValid || formik.isSubmitting}>
                 Create Account
               </Button>
             </Box>
@@ -153,7 +134,7 @@ const RegisterForm: React.FC = () => {
         </CardContent>
       </Card>
     </Box>
-  );
-};
+  )
+}
 
-export default memo(RegisterForm);
+export default memo(RegisterForm)

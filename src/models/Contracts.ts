@@ -1,4 +1,4 @@
-import { ProjectDto } from "./Projects";
+import { ProjectDto } from './Projects';
 
 interface CreateContractRequest {
   projectName: string;

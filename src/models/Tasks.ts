@@ -1,4 +1,4 @@
-import { TimeLogsDto } from "./TimeLogs";
+import { TimeLogsDto } from './TimeLogs';
 
 interface CreateProjectTaskRequest {
   projectTitle: string;

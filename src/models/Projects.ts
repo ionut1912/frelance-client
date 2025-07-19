@@ -1,4 +1,4 @@
-import { TaskDto } from "./Tasks";
+import { TaskDto } from './Tasks';
 
 interface CreateProjectRequest {
   title: string;

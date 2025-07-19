@@ -1,5 +1,5 @@
-import { ReviewsDto } from "./Reviews";
-import { ProposalsDto } from "./Proposals";
+import { ReviewsDto } from './Reviews';
+import { ProposalsDto } from './Proposals';
 
 interface LoginDto {
   username: string;

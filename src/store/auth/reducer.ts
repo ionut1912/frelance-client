@@ -13,41 +13,38 @@ import {
   DELETE_ACCOUNT_REQUEST,
   DELETE_ACCOUNT_SUCCESS,
   DELETE_ACCOUNT_FAILURE,
-  SET_ROLE,
-} from "./types";
+  SET_ROLE
+} from './types'
 
 const initialState: AuthState = {
   user: null,
   role: null,
   loading: false,
-  error: null,
-};
+  error: null
+}
 
-export function authReducer(
-  state = initialState,
-  action: AuthAction
-): AuthState {
+export function authReducer(state = initialState, action: AuthAction): AuthState {
   switch (action.type) {
     case REGISTER_REQUEST:
     case LOGIN_REQUEST:
     case BLOCK_ACCOUNT_REQUEST:
     case DELETE_ACCOUNT_REQUEST:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, error: null }
     case REGISTER_SUCCESS:
     case BLOCK_ACCOUNT_SUCCESS:
-      return { ...state, loading: false };
+      return { ...state, loading: false }
     case LOGIN_SUCCESS:
-      return { ...state, loading: false, user: action.user, error: null };
+      return { ...state, loading: false, user: action.user, error: null }
     case DELETE_ACCOUNT_SUCCESS:
-      return { ...state, loading: false, user: null, role: null, error: null };
+      return { ...state, loading: false, user: null, role: null, error: null }
     case SET_ROLE:
-      return { ...state, role: action.role };
+      return { ...state, role: action.role }
     case REGISTER_FAILURE:
     case LOGIN_FAILURE:
     case BLOCK_ACCOUNT_FAILURE:
     case DELETE_ACCOUNT_FAILURE:
-      return { ...state, loading: false, error: action.error };
+      return { ...state, loading: false, error: action.error }
     default:
-      return state;
+      return state
   }
 }
