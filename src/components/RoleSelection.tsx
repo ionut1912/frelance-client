@@ -38,7 +38,7 @@ export default function RoleSelection() {
       setRoleState(newRole);
       dispatch(setRole(newRole));
     },
-    [dispatch]
+    [dispatch],
   );
 
   return (

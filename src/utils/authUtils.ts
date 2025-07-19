@@ -40,7 +40,7 @@ export function createAuthAxios(baseURL: string): AxiosInstance {
 
 export function navigateByRole(
   role: string | null,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
 ): void {
   switch (role) {
     case "Freelancer":

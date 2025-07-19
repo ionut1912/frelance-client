@@ -25,7 +25,7 @@ const initialState: AuthState = {
 
 export function authReducer(
   state = initialState,
-  action: AuthAction
+  action: AuthAction,
 ): AuthState {
   switch (action.type) {
     case REGISTER_REQUEST:
