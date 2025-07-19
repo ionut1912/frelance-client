@@ -1,26 +1,41 @@
-import React from 'react';
-import { Typography } from '@mui/material';
+import { memo, useMemo } from "react";
+import { Typography } from "@mui/material";
 
-interface Props {
+export type PasswordLegendProps = {
   password: string;
-}
-
-const PasswordLegend: React.FC<Props> = ({ password }) => {
-  const isMinLengthMet = password.length >= 8;
-  const isSpecialCharMet = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-  const isUpperCaseMet = /[A-Z]/.test(password);
-  const isLowerCaseMet = /[a-z]/.test(password);
-
-  return (
-    <div className="text-sm text-gray-600 mt-2">
-      <Typography component="ul" sx={{ pl: 2, listStyleType: 'disc' }}>
-        {!isMinLengthMet && <li>min 8 characters</li>}
-        {!isSpecialCharMet && <li>a special character</li>}
-        {!isUpperCaseMet && <li>an uppercase letter</li>}
-        {!isLowerCaseMet && <li>a lowercase letter</li>}
-      </Typography>
-    </div>
-  );
 };
 
-export default PasswordLegend;
+const rules = [
+  { label: "min 8 characters", test: (s: string) => s.length >= 8 },
+  {
+    label: "a special character",
+    test: (s: string) => /[!@#$%^&*(),.?\":{}|<>]/.test(s),
+  },
+  { label: "an uppercase letter", test: (s: string) => /[A-Z]/.test(s) },
+  { label: "a lowercase letter", test: (s: string) => /[a-z]/.test(s) },
+] as const;
+
+function PasswordLegend({ password }: PasswordLegendProps) {
+  const unmetRules = useMemo(() => {
+    return rules.filter((rule) => !rule.test(password));
+  }, [password]);
+
+  // All checks passed – nothing to show.
+  if (unmetRules.length === 0) return null;
+
+  return (
+    <Typography
+      component="ul"
+      sx={{ pl: 2, listStyleType: "disc" }}
+      className="text-sm text-gray-600 mt-2"
+      role="list"
+      aria-label="password requirements"
+    >
+      {unmetRules.map((rule) => (
+        <li key={rule.label}>{rule.label}</li>
+      ))}
+    </Typography>
+  );
+}
+
+export default memo(PasswordLegend);

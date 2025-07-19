@@ -3,7 +3,6 @@ import { ProposalsDto } from './Proposals';
 
 interface LoginDto {
   username: string;
-  email: string;
   password: string;
 }
 

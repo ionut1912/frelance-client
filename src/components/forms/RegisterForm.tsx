@@ -1,97 +1,101 @@
-import React, { useState } from 'react';
+import React, { memo, useState, useCallback, useMemo } from 'react'
 import {
+  Box,
   Card,
   CardContent,
   Typography,
   TextField,
   Button,
   IconButton,
-  InputAdornment,
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-
+  InputAdornment
+} from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import PasswordLegend from '../PasswordLegend'
+import { RegisterDto } from '../../models/Accounts'
+import { registerUser } from '../../store/auth/thunks'
+import { RootState } from '../../store'
+
+const INITIAL_VALUES: Omit<RegisterDto, 'role'> = {
+  email: '',
+  username: '',
+  password: '',
+  phoneNumber: ''
+}
 
 const RegisterForm: React.FC = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false)
+  const role = useSelector((state: RootState) => state.auth.role)
 
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email('The given email address is not in an email format')
-      .required('Email is required'),
-    username: Yup.string().required('Username is required'),
-    password: Yup.string().required('Password is required'),
-    phoneNumber: Yup.string()
-      .matches(/^[0-9]+$/, 'Phone number should contains only digits')
-      .required('Phone number is required'),
-  });
+  const validationSchema = useMemo(
+    () =>
+      Yup.object({
+        email: Yup.string().email('Invalid email').required('Required'),
+        username: Yup.string().required('Required'),
+        password: Yup.string().min(6, 'Too short').required('Required'),
+        phoneNumber: Yup.string().matches(/^[0-9]+$/, 'Only digits').required('Required')
+      }),
+    []
+  )
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      username: '',
-      password: '',
-      phoneNumber: '',
-    },
+  const formik = useFormik<Omit<RegisterDto, 'role'>>({
+    initialValues: INITIAL_VALUES,
     validationSchema,
-    onSubmit: (values) => {
-      console.log('test', values);
-    },
-  });
+    onSubmit: values => {
+      if (role) {
+
+        dispatch(registerUser({ ...values, role }, navigate))
+      } 
+    }
+  })
+
+  const togglePassword = useCallback(() => {
+    setShowPassword(prev => !prev)
+  }, [])
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
-      <Card className="w-full max-w-lg shadow-lg">
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', p: 2 }}>
+      <Card sx={{ width: '100%', maxWidth: 600, boxShadow: 3 }}>
         <CardContent>
-          <Typography
-            variant="h5"
-            component="h2"
-            className="text-center mb-6"
-          >
+          <Typography variant="h5" component="h2" align="center" mb={4}>
             Sign Up
           </Typography>
-
           <form onSubmit={formik.handleSubmit} noValidate>
-            {/* Email */}
             <TextField
               fullWidth
               id="email"
               name="email"
               label="Email"
               margin="normal"
-              placeholder="Enter your email"
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
             />
-
-            {/* Username */}
             <TextField
               fullWidth
               id="username"
               name="username"
               label="Username"
               margin="normal"
-              placeholder="Enter your username"
               value={formik.values.username}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.username && Boolean(formik.errors.username)}
               helperText={formik.touched.username && formik.errors.username}
             />
-
-            {/* Password */}
             <TextField
               fullWidth
               id="password"
               name="password"
               label="Password"
               margin="normal"
-              placeholder="Enter your password"
               type={showPassword ? 'text' : 'password'}
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -101,57 +105,36 @@ const RegisterForm: React.FC = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      edge="end"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                    >
+                    <IconButton edge="end" onClick={togglePassword}>
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                ),
+                )
               }}
             />
-
-            {/* Password legend (only visible after focusing the field once) */}
-            {formik.touched.password && (
-              <PasswordLegend password={formik.values.password} />
-            )}
-
-            {/* Phone Number */}
+            {formik.touched.password && <PasswordLegend password={formik.values.password} />}
             <TextField
               fullWidth
               id="phoneNumber"
               name="phoneNumber"
               label="Phone Number"
               margin="normal"
-              placeholder="Enter your phone number"
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={
-                formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-              }
-              helperText={
-                formik.touched.phoneNumber && formik.errors.phoneNumber
-              }
+              error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+              helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
             />
-
-            <div className="flex justify-end mt-6">
-              <Button
-                color="primary"
-                variant="contained"
-                type="submit"
-                disabled={!formik.isValid}
-              >
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+              <Button type="submit" variant="contained" disabled={!formik.isValid || formik.isSubmitting}>
                 Create Account
               </Button>
-            </div>
+            </Box>
           </form>
         </CardContent>
       </Card>
-    </div>
-  );
-};
+    </Box>
+  )
+}
 
-export default RegisterForm;
+export default memo(RegisterForm)

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { memo, useState, useCallback, useMemo } from "react";
 import {
+  Box,
   Card,
   CardContent,
   Typography,
@@ -7,128 +8,134 @@ import {
   Button,
   IconButton,
   InputAdornment,
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-
-
-import PasswordLegend from '../PasswordLegend';
-
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import PasswordLegend from "../PasswordLegend";
+import { loginUser } from "../../store/auth/thunks";
+import { LoginDto } from "../../models/Accounts";
 
 const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const togglePasswordVisibility = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
+const INITIAL_VALUES: LoginDto= {
 
-
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email('The given email address is not in an email format')
-      .required('Email is required'),
-    username: Yup.string().required('Username is required'),
-    password: Yup.string().required('Password is required'),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      username: '',
-      password: '',
-    },
+  username: '',
+  password: '',
+}
+  const validationSchema = useMemo(
+    () =>
+      Yup.object({
+        username: Yup.string().required("Username is required"),
+        password: Yup.string().required("Password is required"),
+      }),
+    []
+  );
+ 
+  const formik = useFormik<LoginDto>({
+    initialValues: INITIAL_VALUES,
     validationSchema,
-    onSubmit: (values) => {
-      // dispatch(login({ payload: values }));
-      console.log('login payload', values);
-    },
-  });
+    onSubmit: values => {
+   
+
+        dispatch(loginUser(values, navigate))
+      
+    }
+  })
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
-      <Card className="w-full max-w-lg shadow-lg">
+    <Box
+      component="section"
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        p: 2,
+      }}
+    >
+      <Card sx={{ width: "100%", maxWidth: 400, boxShadow: 3 }}>
         <CardContent>
-          <Typography variant="h5" component="h2" className="text-center mb-6">
+          <Typography
+            variant="h5"
+            component="h2"
+            sx={{ textAlign: "center", mb: 3 }}
+          >
             Log In
           </Typography>
 
-          <form onSubmit={formik.handleSubmit} noValidate>
-            {/* Email */}
-            <TextField
-              fullWidth
-              id="email"
-              name="email"
-              label="Email"
-              margin="normal"
-              placeholder="Enter your email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-
-            {/* Username */}
+          <form noValidate onSubmit={formik.handleSubmit}>
             <TextField
               fullWidth
               id="username"
               name="username"
               label="Username"
-              margin="normal"
               placeholder="Enter your username"
+              margin="normal"
               value={formik.values.username}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.username && Boolean(formik.errors.username)}
+              error={!!(formik.touched.username && formik.errors.username)}
               helperText={formik.touched.username && formik.errors.username}
             />
 
-            {/* Password */}
             <TextField
               fullWidth
               id="password"
               name="password"
               label="Password"
-              margin="normal"
               placeholder="Enter your password"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
+              margin="normal"
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
+              error={!!(formik.touched.password && formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      edge="end"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                        edge="end"
+                        onClick={togglePasswordVisibility}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
 
-            {/* Password legend (visible after first focus/blur) */}
             {formik.touched.password && (
               <PasswordLegend password={formik.values.password} />
             )}
 
-            <div className="flex justify-end mt-6">
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
               <Button
-                color="primary"
                 variant="contained"
                 type="submit"
-                disabled={!formik.isValid}
+                disabled={!formik.isValid || !formik.dirty}
               >
                 Log In
               </Button>
-            </div>
+            </Box>
           </form>
         </CardContent>
       </Card>
-    </div>
+    </Box>
   );
 };
 
-export default LoginForm;
+export default memo(LoginForm);
