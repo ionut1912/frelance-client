@@ -1,4 +1,4 @@
-2// src/components/Spinner.tsx
+
 import React from 'react'
 import { Box, CircularProgress } from '@mui/material'
 

@@ -48,7 +48,6 @@ export const loginUser =
       const token=response.data.token;
       localStorage.setItem('jwt', token)
       const role = getRoleFromToken(token)
-      console.log(role);
       dispatch({ type: SET_ROLE, role })
       dispatch({ type: LOGIN_SUCCESS })
       navigateByRole(role, navigate)
