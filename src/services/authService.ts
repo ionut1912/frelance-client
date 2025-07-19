@@ -17,7 +17,7 @@ export function blockAccount(id: string): Promise<AxiosResponse<void>> {
   return api.post<void>(
     `${API_URL}/api/auth/block/${id}`,
     {},
-    { headers: { "requires-auth": "" } },
+    { headers: { "requires-auth": "" } }
   );
 }
 

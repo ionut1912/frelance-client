@@ -42,7 +42,7 @@ const RegisterForm: React.FC = () => {
           .matches(/^[0-9]+$/, "Only digits")
           .required("Required"),
       }),
-    [],
+    []
   );
 
   const formik = useFormik<Omit<RegisterDto, "role">>({

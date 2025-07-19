@@ -35,7 +35,7 @@ const LoginForm: React.FC = () => {
         username: Yup.string().required("Username is required"),
         password: Yup.string().required("Password is required"),
       }),
-    [],
+    []
   );
 
   const formik = useFormik<LoginDto>({
