@@ -1,10 +1,10 @@
-import { UserProfileDto } from './Accounts';
-import { TaskDto } from './Tasks';
-import { ProjectDto } from './Projects';
-import { ContractsDto } from './Contracts';
-import { InvoicesDto } from './Invoices';
+import { UserProfileDto } from "./Accounts";
+import { TaskDto } from "./Tasks";
+import { ProjectDto } from "./Projects";
+import { ContractsDto } from "./Contracts";
+import { InvoicesDto } from "./Invoices";
 
-type Role = 'Freelancer' | 'Client';
+type Role = "Freelancer" | "Client";
 interface ForeignLanguageDto {
   language: string;
 }

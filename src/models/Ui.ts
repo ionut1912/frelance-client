@@ -1,4 +1,4 @@
-import { AddressDto } from './UserProfile';
+import { AddressDto } from "./UserProfile";
 
 interface BaseProfileData {
   address: AddressDto;

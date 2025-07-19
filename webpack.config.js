@@ -11,12 +11,12 @@ export default (env = {}) => ({
     path: path.resolve("dist"),
     filename: env.production ? "static/[name].[contenthash].js" : "bundle.js",
     publicPath: "/",
-    clean: true
+    clean: true,
   },
 
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
-    fallback: { fs: false, path: false }      // silence node-core warnings
+    fallback: { fs: false, path: false }, // silence node-core warnings
   },
 
   devtool: env.production ? "source-map" : "eval-source-map",
@@ -25,7 +25,7 @@ export default (env = {}) => ({
     static: { directory: path.resolve("public") },
     historyApiFallback: true,
     hot: true,
-    port: 3000
+    port: 3000,
   },
 
   module: {
@@ -38,25 +38,27 @@ export default (env = {}) => ({
           presets: [
             ["@babel/preset-env", { targets: "defaults" }],
             ["@babel/preset-react", { runtime: "automatic" }],
-            "@babel/preset-typescript"
-          ]
-        }
+            "@babel/preset-typescript",
+          ],
+        },
       },
       {
         test: /\.css$/,
         use: [
           env.production ? MiniCssExtractPlugin.loader : "style-loader",
           "css-loader",
-          "postcss-loader"
-        ]
-      }
-    ]
+          "postcss-loader",
+        ],
+      },
+    ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({ template: "public/index.html" }),
     new MiniCssExtractPlugin({
-      filename: env.production ? "static/[name].[contenthash].css" : "[name].css"
-    })
-  ]
+      filename: env.production
+        ? "static/[name].[contenthash].css"
+        : "[name].css",
+    }),
+  ],
 });
