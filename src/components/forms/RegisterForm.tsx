@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import PasswordLegend from "../PasswordLegend";
 import { RegisterDto } from "../../models/Accounts";
 import { registerUser } from "../../store/auth/thunks";
-import { RootState } from "../../store";
+import { RootState, AppDispatch } from "../../store";
 
 const INITIAL_VALUES: Omit<RegisterDto, "role"> = {
   email: "",
@@ -27,7 +27,7 @@ const INITIAL_VALUES: Omit<RegisterDto, "role"> = {
 };
 
 const RegisterForm: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const role = useSelector((state: RootState) => state.auth.role);
@@ -50,7 +50,7 @@ const RegisterForm: React.FC = () => {
     validationSchema,
     onSubmit: (values) => {
       if (role) {
-        dispatch(registerUser({ ...values, role }, navigate));
+        dispatch(registerUser({ payload: { ...values, role }, navigate }));
       }
     },
   });

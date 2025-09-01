@@ -3,7 +3,7 @@ import { PaginatedDataRequest, PaginatedList } from "../models/Ui";
 import { api, API_URL } from "./utils";
 import {
   PatchUserDetailsRequest,
-  PatchUserProfileRequest,
+  PatchUserProfileAddressRequest,
 } from "../models/UserProfile";
 
 export function getUserProfiles(
@@ -24,7 +24,7 @@ export function getCurrentUserProfile(): Promise<AxiosResponse<object>> {
 }
 
 export function updateUserProfileAddress(
-  payload: PatchUserProfileRequest,
+  payload: PatchUserProfileAddressRequest,
 ): Promise<AxiosResponse<any>> {
   return api.patch(
     `${API_URL}/api/userProfiles/address/${payload.profileId}`,
