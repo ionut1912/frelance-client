@@ -12,12 +12,9 @@ import {
   Button,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setRole } from "../store/auth/actions";
 import { UserRole } from "../store/auth/types";
 
 export default function RoleSelection() {
-  const dispatch = useDispatch();
   const [role, setRoleState] = useState<UserRole>("Client");
 
   const roles = [
@@ -33,13 +30,9 @@ export default function RoleSelection() {
     },
   ];
 
-  const choose = useCallback(
-    (newRole: UserRole) => {
-      setRoleState(newRole);
-      dispatch(setRole(newRole));
-    },
-    [dispatch],
-  );
+  const choose = useCallback((newRole: UserRole) => {
+    setRoleState(newRole);
+  }, []);
 
   return (
     <Box className="flex flex-col items-center justify-center min-h-screen px-4">
