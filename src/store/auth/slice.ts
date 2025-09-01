@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { AuthState, UserRole } from "./types";
 import {
   loginUser,
@@ -16,11 +16,7 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    setRole(state, action: PayloadAction<UserRole>) {
-      state.role = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.rejected, (state, action) => {
@@ -48,5 +44,4 @@ const authSlice = createSlice({
   },
 });
 
-export const { setRole } = authSlice.actions;
 export default authSlice.reducer;
