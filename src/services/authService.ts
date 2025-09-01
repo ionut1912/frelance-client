@@ -1,9 +1,6 @@
 import { AxiosResponse } from "axios";
 import { LoginDto, RegisterDto, UserDto } from "../models/Accounts";
-import { createAuthAxios } from "../utils/authUtils";
-
-const API_URL = "https://localhost:7020";
-const api = createAuthAxios(API_URL);
+import { api, API_URL } from "./utils";
 
 export function register(payload: RegisterDto): Promise<AxiosResponse<void>> {
   return api.post<void>(`${API_URL}/api/auth/register`, payload);

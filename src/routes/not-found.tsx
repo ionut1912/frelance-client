@@ -1,9 +1,9 @@
-import LoginForm from "../components/forms/LoginForm";
+import NotFound from "../components/errors/NotFound";
 
 export default function Home() {
   return (
     <section className="prose flex justify-center">
-      <LoginForm />
+      <NotFound />
     </section>
   );
 }

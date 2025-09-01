@@ -6,7 +6,6 @@ export type UserRole = "Client" | "Freelancer";
 export interface AuthState {
   user: UserDto | null;
   role: UserRole | null;
-  loading: boolean;
   error: AxiosError | null;
 }
 

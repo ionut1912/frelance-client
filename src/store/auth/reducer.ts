@@ -19,7 +19,6 @@ import {
 const initialState: AuthState = {
   user: null,
   role: null,
-  loading: false,
   error: null,
 };
 
@@ -32,21 +31,21 @@ export function authReducer(
     case LOGIN_REQUEST:
     case BLOCK_ACCOUNT_REQUEST:
     case DELETE_ACCOUNT_REQUEST:
-      return { ...state, loading: true, error: null };
+      return { ...state, error: null };
     case REGISTER_SUCCESS:
     case BLOCK_ACCOUNT_SUCCESS:
-      return { ...state, loading: false };
+      return { ...state };
     case LOGIN_SUCCESS:
-      return { ...state, loading: false, user: action.user, error: null };
+      return { ...state, user: action.user, error: null };
     case DELETE_ACCOUNT_SUCCESS:
-      return { ...state, loading: false, user: null, role: null, error: null };
+      return { ...state, user: null, role: null, error: null };
     case SET_ROLE:
       return { ...state, role: action.role };
     case REGISTER_FAILURE:
     case LOGIN_FAILURE:
     case BLOCK_ACCOUNT_FAILURE:
     case DELETE_ACCOUNT_FAILURE:
-      return { ...state, loading: false, error: action.error };
+      return { ...state, error: action.error };
     default:
       return state;
   }

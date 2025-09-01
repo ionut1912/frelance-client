@@ -41,10 +41,25 @@ interface DialogData {
   freelancerData?: FreelancerDetailsData;
 }
 
+interface PaginatedDataRequest {
+  pageSize: number;
+  pageNumber: number;
+}
+
+interface PaginatedList<T> {
+  totalPages: number;
+  pageSize: number;
+  totalCount: number;
+  currentPage: number;
+  items: T[];
+}
+
 export type {
   ClientProfileData,
   FreelancerProfileData,
   FreelancerDetailsData,
   UserDetailsData,
   DialogData,
+  PaginatedList,
+  PaginatedDataRequest,
 };

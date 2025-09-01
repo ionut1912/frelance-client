@@ -1,13 +1,13 @@
-// routes.tsx
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import RootLayout from "./root";
-import Spinner from "./components/Spinner"; // ⬅️ tiny loader component
+import Spinner from "./components/Spinner";
+import ErrorBoundary from "./components/errors/ErrorBoundary";
 
 const routes: RouteObject[] = [
   {
     element: <RootLayout />,
-
-    hydrateFallbackElement: <Spinner />, // ⬅️ new line
+    errorElement: <ErrorBoundary />,
+    hydrateFallbackElement: <Spinner />,
     children: [
       {
         index: true,
@@ -27,6 +27,13 @@ const routes: RouteObject[] = [
         path: "/login",
         lazy: () =>
           import("./routes/login").then(({ default: Component }) => ({
+            Component,
+          })),
+      },
+      {
+        path: "*",
+        lazy: () =>
+          import("./routes/not-found").then(({ default: Component }) => ({
             Component,
           })),
       },

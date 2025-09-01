@@ -3,6 +3,7 @@ import { TaskDto } from "./Tasks";
 import { ProjectDto } from "./Projects";
 import { ContractsDto } from "./Contracts";
 import { InvoicesDto } from "./Invoices";
+import { FreelancerDetailsData, UserDetailsData } from "./Ui";
 
 type Role = "Freelancer" | "Client";
 interface ForeignLanguageDto {
@@ -86,6 +87,20 @@ interface AddressDto {
   zipCode: string;
 }
 
+interface PatchUserProfileAddressRequest {
+  profileId: number;
+  address: AddressDto;
+}
+
+interface PatchFreelancerProfielRequest {
+  profileId: number;
+  freelancerData: FreelancerDetailsData;
+}
+
+interface PatchUserDetailsRequest {
+  profileId: number;
+  userData: UserDetailsData;
+}
 interface ClientProfileDto extends BaseProfileDto {}
 
 interface UpdateClientProfileRequest extends BaseUpdateProfile {}
@@ -123,4 +138,7 @@ export type {
   FaceVerificationRequest,
   Role,
   AddressDto,
+  PatchFreelancerProfielRequest,
+  PatchUserProfileAddressRequest,
+  PatchUserDetailsRequest,
 };

@@ -20,7 +20,6 @@ function PasswordLegend({ password }: PasswordLegendProps) {
     return rules.filter((rule) => !rule.test(password));
   }, [password]);
 
-  // All checks passed – nothing to show.
   if (unmetRules.length === 0) return null;
 
   return (

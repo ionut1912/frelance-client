@@ -1,9 +1,9 @@
-import { AxiosError } from "axios";
+import axios from "axios";
 
-type BackendValidationError = {
+interface BackendValidationError {
   property: string;
   errorMessage: string;
-};
+}
 
 interface ValidationErrorResponse {
   status: number;
@@ -12,15 +12,21 @@ interface ValidationErrorResponse {
 }
 
 export function extractErrorMessages(err: unknown): string[] {
-  const ax = err as AxiosError<ValidationErrorResponse>;
+  if (axios.isAxiosError<ValidationErrorResponse>(err)) {
+    const data = err.response?.data;
 
-  if (ax?.isAxiosError) {
-    const data = ax.response?.data;
-    if (Array.isArray(data?.errors) && data.errors.length) {
+    if (Array.isArray(data?.errors) && data.errors.length > 0) {
       return data.errors.map((e) => `${e.property}: ${e.errorMessage}`);
     }
-    if (data?.detail) return [data.detail];
-    if (ax.message) return [ax.message];
+
+    if (data?.detail) {
+      return [data.detail];
+    }
+
+    if (err.message) {
+      return [err.message];
+    }
   }
+
   return ["Unexpected error"];
 }
