@@ -4,8 +4,10 @@ import { ProjectDto } from "./Projects";
 import { ContractsDto } from "./Contracts";
 import { InvoicesDto } from "./Invoices";
 import { FreelancerDetailsData, UserDetailsData } from "./Ui";
+import { NavigateFunction } from "react-router-dom";
 
-type Role = "Freelancer" | "Client";
+export type UserRole = "Client" | "Freelancer";
+
 interface ForeignLanguageDto {
   language: string;
 }
@@ -29,14 +31,8 @@ interface BaseProfileDto {
   image: string;
   isVerified: boolean;
 }
-interface CreateFreelancerProfileRequest {
-  addressCountry: string;
-  addressStreet: string;
-  addressStreetNumber: string;
-  addressCity: string;
-  addressZip: string;
-  bio: string;
-  image: string;
+
+interface FreelancerData {
   programmingLanguages: string[];
   areas: string[];
   foreignLanguages: string[];
@@ -44,6 +40,12 @@ interface CreateFreelancerProfileRequest {
   rate: number;
   currency: string;
   portfolioUrl: string;
+}
+
+interface CreateFreelancerProfileRequest {
+  address: AddressData;
+  user: UserData;
+  freelancer: FreelancerData;
 }
 
 interface FreelancerProfileDto extends BaseProfileDto {
@@ -69,14 +71,21 @@ interface UpdateFreelancerProfileRequest extends BaseUpdateProfile {
   portfolioUrl?: string;
 }
 
-interface CreateClientProfileRequest {
+interface AddressData {
   addressCountry: string;
   addressStreet: string;
   addressStreetNumber: string;
   addressCity: string;
   addressZip: string;
+}
+
+interface UserData {
   bio: string;
   image: string;
+}
+interface CreateClientProfileRequest {
+  address: AddressData;
+  user: UserData;
 }
 interface AddressDto {
   id: number;
@@ -123,8 +132,14 @@ interface FaceVerificationRequest {
 }
 interface VerifyFacePayload {
   faceVerificationRequest: FaceVerificationRequest;
-  role: Role;
+  role: UserRole;
   profile: FreelancerProfileDto | ClientProfileDto;
+}
+
+interface VerifyFaceRequest {
+  faceVerificationRequest: FaceVerificationRequest;
+  profile: ClientProfileDto | FreelancerProfileDto;
+  navigate: NavigateFunction;
 }
 
 export type {
@@ -139,10 +154,10 @@ export type {
   VerifyFaceResult,
   VerifyFacePayload,
   FaceVerificationRequest,
-  Role,
   AddressDto,
   PatchFreelancerProfielRequest,
   PatchUserProfileAddressRequest,
   PatchUserDetailsRequest,
   GetSkillsResult,
+  VerifyFaceRequest,
 };

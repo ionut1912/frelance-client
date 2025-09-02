@@ -1,7 +1,6 @@
 import { AxiosError } from "axios";
 import { UserDto } from "../../models/Accounts";
-
-export type UserRole = "Client" | "Freelancer";
+import { UserRole } from "../../models/UserProfile";
 
 export interface AuthState {
   user: UserDto | null;

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthState, UserRole } from "./types";
+import { AuthState } from "./types";
 import {
   loginUser,
   registerUser,
   blockUserAccount,
   deleteUserAccount,
 } from "./thunks";
+import { UserRole } from "../../models/UserProfile";
 
 const initialState: AuthState = {
   user: null,

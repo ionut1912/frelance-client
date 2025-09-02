@@ -3,9 +3,9 @@ import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import {
   ClientProfileDto,
-  FaceVerificationRequest,
   FreelancerProfileDto,
-  Role,
+  UserRole,
+  VerifyFaceRequest,
   VerifyFaceResult,
 } from "../../models/UserProfile";
 
@@ -20,13 +20,6 @@ import {
   verifyClientProfile,
 } from "../user-profile/slice";
 import { removeUserProfile } from "../user-profile/thunks";
-
-interface VerifyFaceRequest {
-  faceVerificationRequest: FaceVerificationRequest;
-  profile: ClientProfileDto | FreelancerProfileDto;
-  role: Role;
-  navigate: NavigateFunction;
-}
 
 export const verifyCapturedFace = createAsyncThunk<
   VerifyFaceResult,
@@ -44,7 +37,7 @@ export const verifyCapturedFace = createAsyncThunk<
       );
 
       if (verifyFaceResult.data.isMatch) {
-        await processMatch(appDispatch, payload.role, payload.profile);
+        await processMatch(appDispatch, state().auth.role!, payload.profile);
       } else {
         await processNoMatch(
           appDispatch,
@@ -74,7 +67,7 @@ export const verifyCapturedFace = createAsyncThunk<
 
 async function processMatch(
   dispatch: AppDispatch,
-  role: Role,
+  role: UserRole,
   profile: ClientProfileDto | FreelancerProfileDto,
 ) {
   if (role === "Freelancer") {

@@ -15,7 +15,7 @@ export const store = configureStore({
     city: cityReducer,
     country: countryReducer,
     language: languageReducer,
-    skill:skillReducer,
+    skill: skillReducer,
   },
 });
 

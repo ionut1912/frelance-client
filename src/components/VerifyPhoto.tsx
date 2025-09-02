@@ -1,12 +1,22 @@
 import React, { useRef, useState } from "react";
 import { Button, Card, CardContent, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { verifyCapturedFace } from "../store/face-verification/thunks";
+import { ClientProfileDto, FreelancerProfileDto } from "../models/UserProfile";
+import { useNavigate } from "react-router-dom";
 
-export default function CameraCapture() {
+interface CameraCaptureProps {
+  profile: ClientProfileDto | FreelancerProfileDto;
+}
+
+export default function CameraCapture({ profile }: CameraCaptureProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [streaming, setStreaming] = useState<boolean>(false);
   const [photoBase64, setPhotoBase64] = useState<string | null>(null);
-
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const startCamera = async (): Promise<void> => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -31,7 +41,6 @@ export default function CameraCapture() {
       if (!context) return;
 
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
       const base64Image: string = canvas.toDataURL("image/png");
       setPhotoBase64(base64Image);
     }
@@ -40,18 +49,21 @@ export default function CameraCapture() {
   const stopCamera = (): void => {
     const stream = videoRef.current?.srcObject as MediaStream | null;
     if (stream) {
-      stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
-      if (videoRef.current) {
-        videoRef.current.srcObject = null;
-      }
+      stream.getTracks().forEach((track) => track.stop());
+      if (videoRef.current) videoRef.current.srcObject = null;
     }
     setStreaming(false);
   };
 
   const verifyPhoto = (): void => {
     if (!photoBase64) return;
-    console.log("Verifying photo:", photoBase64);
-    alert("Photo verification started!");
+    dispatch(
+      verifyCapturedFace({
+        faceVerificationRequest: { faceBase64Image: photoBase64 },
+        profile,
+        navigate,
+      }),
+    );
   };
 
   return (
