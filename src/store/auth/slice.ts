@@ -16,7 +16,13 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.user = null;
+      state.role = null;
+      localStorage.removeItem("jwt");
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.rejected, (state, action) => {
@@ -43,5 +49,5 @@ const authSlice = createSlice({
       });
   },
 });
-
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -49,7 +49,7 @@ export const loginUser = createAsyncThunk<
 
 export const blockUserAccount = createAsyncThunk<
   void,
-  { id: string; navigate: NavigateFunction },
+  { id: number; navigate: NavigateFunction },
   { rejectValue: AxiosError }
 >("auth/blockUserAccount", async ({ id, navigate }, { rejectWithValue }) => {
   try {
@@ -65,7 +65,7 @@ export const blockUserAccount = createAsyncThunk<
 
 export const deleteUserAccount = createAsyncThunk<
   void,
-  string,
+  number,
   { rejectValue: AxiosError }
 >("auth/deleteUserAccount", async (id, { rejectWithValue }) => {
   try {

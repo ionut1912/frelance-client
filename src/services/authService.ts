@@ -10,7 +10,7 @@ export function login(payload: LoginDto): Promise<AxiosResponse<UserDto>> {
   return api.post<UserDto>(`${API_URL}/api/auth/login`, payload);
 }
 
-export function blockAccount(id: string): Promise<AxiosResponse<void>> {
+export function blockAccount(id: number): Promise<AxiosResponse<void>> {
   return api.post<void>(
     `${API_URL}/api/auth/block/${id}`,
     {},
@@ -18,7 +18,7 @@ export function blockAccount(id: string): Promise<AxiosResponse<void>> {
   );
 }
 
-export function deleteAccount(id: string): Promise<AxiosResponse<void>> {
+export function deleteAccount(id: number): Promise<AxiosResponse<void>> {
   return api.delete<void>(`${API_URL}/api/auth/account/${id}`, {
     headers: { "requires-auth": "" },
   });

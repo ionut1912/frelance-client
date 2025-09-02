@@ -9,4 +9,22 @@ interface Language {
   name: string;
 }
 
-export type { Country, Language };
+interface LoadCountriesResult {
+  countries: Country[];
+}
+
+interface LoadCitiesPayload {
+  country: Country;
+}
+
+interface LoadCitiesResult {
+  cities: string[];
+}
+
+export type {
+  Country,
+  LoadCountriesResult,
+  LoadCitiesPayload,
+  LoadCitiesResult,
+  Language,
+};

@@ -111,6 +111,9 @@ interface SkillDto {
   area: string;
 }
 
+interface GetSkillsResult {
+  skills: SkillDto[];
+}
 interface VerifyFaceResult {
   isMatch: boolean;
   similarity: number;
@@ -141,4 +144,5 @@ export type {
   PatchFreelancerProfielRequest,
   PatchUserProfileAddressRequest,
   PatchUserDetailsRequest,
+  GetSkillsResult,
 };
