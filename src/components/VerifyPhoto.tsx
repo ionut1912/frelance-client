@@ -10,7 +10,7 @@ interface CameraCaptureProps {
   profile: ClientProfileDto | FreelancerProfileDto;
 }
 
-export default function CameraCapture({ profile }: CameraCaptureProps) {
+export default function VerifyPhoto({ profile }: CameraCaptureProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [streaming, setStreaming] = useState<boolean>(false);

@@ -44,7 +44,7 @@ export default function Navbar({ role }: NavbarProps) {
   const isActive = (url: string) => location.pathname.startsWith(url);
   const logouutUser = () => {
     dispatch(logout());
-    navigate("/")
+    navigate("/");
   };
   const handleNavigate = (to: string) => {
     navigate(to);
