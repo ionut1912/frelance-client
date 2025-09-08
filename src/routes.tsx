@@ -2,6 +2,7 @@ import { createBrowserRouter, RouteObject } from "react-router-dom";
 import RootLayout from "./root";
 import Spinner from "./components/Spinner";
 import ErrorBoundary from "./components/errors/ErrorBoundary";
+import RequireAuth from "./components/auth/RequireAuth";
 
 const routes: RouteObject[] = [
   {
@@ -46,9 +47,22 @@ const routes: RouteObject[] = [
       },
     ],
   },
+  {
+    element: <RequireAuth />,
+    errorElement: <ErrorBoundary />,
+    hydrateFallbackElement: <Spinner />,
+    children: [
+      {
+        path: "/client",
+        lazy: () =>
+          import("./routes/clientProfile").then(({ default: Component }) => ({
+            Component,
+          })),
+      },
+    ],
+  },
 ];
 
-// turn on the experimental feature so RR knows we intend to hydrate gradually
 export const router = createBrowserRouter(routes, {
   future: { v7_partialHydration: true },
 });

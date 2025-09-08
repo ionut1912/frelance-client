@@ -14,7 +14,7 @@ interface LoadCountriesResult {
 }
 
 interface LoadCitiesPayload {
-  country: Country;
+  country: string;
 }
 
 interface LoadCitiesResult {

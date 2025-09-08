@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import {
   Box,
   Card,
@@ -19,7 +19,7 @@ import { loginUser } from "../../store/auth/thunks";
 import { LoginDto } from "../../models/Accounts";
 import { AppDispatch } from "../../store";
 
-const LoginForm: React.FC = () => {
+export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -135,6 +135,4 @@ const LoginForm: React.FC = () => {
       </Card>
     </Box>
   );
-};
-
-export default memo(LoginForm);
+}

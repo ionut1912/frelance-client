@@ -6,11 +6,11 @@ import { verifyCapturedFace } from "../store/face-verification/thunks";
 import { ClientProfileDto, FreelancerProfileDto } from "../models/UserProfile";
 import { useNavigate } from "react-router-dom";
 
-interface CameraCaptureProps {
+interface VerifyPhotoProps {
   profile: ClientProfileDto | FreelancerProfileDto;
 }
 
-export default function VerifyPhoto({ profile }: CameraCaptureProps) {
+export default function VerifyPhoto({ profile }: VerifyPhotoProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [streaming, setStreaming] = useState<boolean>(false);

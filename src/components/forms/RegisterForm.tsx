@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import {
   Box,
   Card,
@@ -26,7 +26,7 @@ const INITIAL_VALUES: Omit<RegisterDto, "role"> = {
   phoneNumber: "",
 };
 
-const RegisterForm: React.FC = () => {
+export default function RegisterForm() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -154,6 +154,4 @@ const RegisterForm: React.FC = () => {
       </Card>
     </Box>
   );
-};
-
-export default memo(RegisterForm);
+}

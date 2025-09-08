@@ -1,59 +1,89 @@
+import { useState } from "react";
 import {
   Box,
-  Button,
+  Stepper,
   Step,
   StepLabel,
-  Stepper,
-  TextField,
+  Button,
   Typography,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { loadCurrentUserProfile } from "../store/user-profile/thunks";
 import VerifyPhoto from "./VerifyPhoto";
+import {
+  AddressData,
+  CreateClientProfileRequest,
+  UserData,
+} from "../models/UserProfile";
+import AddressForm from "./forms/AddressForm";
+import UserDataForm from "./forms/UserDataForm";
+import { useNavigate } from "react-router-dom";
+import { saveClientProfile } from "../store/user-profile/thunks";
 
 export default function ClientPage() {
   const dispatch = useDispatch<AppDispatch>();
   const profile = useSelector(
     (state: RootState) => state.userProfile.clientProfiles?.[0],
   );
-
+  const navigate = useNavigate();
+  const steps = ["Address Details", "User Details"];
   const [activeStep, setActiveStep] = useState(0);
 
-  const steps = ["Address Details", "User Details"];
+  const initialAddressData: AddressData = {
+    addressCountry: "",
+    addressCity: "",
+    addressStreet: "",
+    addressStreetNumber: "",
+    addressZip: "",
+  };
+  const initialUserData: UserData = { bio: "", image: "" };
 
-  useEffect(() => {
-    dispatch(loadCurrentUserProfile());
-  }, [dispatch]);
+  const [addressData, setAddressData] =
+    useState<AddressData>(initialAddressData);
+  const [userData, setUserData] = useState<UserData>(initialUserData);
 
   const handleNext = () => {
-    setActiveStep((prev) => prev + 1);
+    if (activeStep === steps.length - 1) {
+      if (addressData && userData) {
+        const createClientProfileRequest: CreateClientProfileRequest = {
+          address: addressData,
+          user: userData,
+        };
+        dispatch(saveClientProfile(createClientProfileRequest));
+        navigate("/client");
+      }
+    } else {
+      setActiveStep((prev) => prev + 1);
+    }
   };
 
-  const handleBack = () => {
-    setActiveStep((prev) => prev - 1);
-  };
+  const handleBack = () => setActiveStep((prev) => prev - 1);
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  const isNextDisabled =
+    (activeStep === 0 &&
+      Object.values(addressData).every((value) => value === "")) ||
+    (activeStep === 1 &&
+      Object.values(userData).every((value) => value === ""));
 
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
         return (
-          <Box component="form" sx={{ mt: 2 }}>
-            <TextField label="First Name" fullWidth margin="normal" />
-            <TextField label="Last Name" fullWidth margin="normal" />
-          </Box>
+          <AddressForm
+            addressData={addressData}
+            onChange={(field, value) =>
+              setAddressData({ ...addressData, [field]: value })
+            }
+          />
         );
       case 1:
         return (
-          <Box component="form" sx={{ mt: 2 }}>
-            <TextField label="Email" fullWidth margin="normal" />
-            <TextField label="Phone" fullWidth margin="normal" />
-          </Box>
+          <UserDataForm
+            userData={userData}
+            onChange={(field, value) =>
+              setUserData({ ...userData, [field]: value })
+            }
+          />
         );
       default:
         return "Unknown step";
@@ -62,10 +92,10 @@ export default function ClientPage() {
 
   if (profile) {
     return (
-      <div className="text-center p-4">
+      <Box sx={{ textAlign: "center", p: 4 }}>
         <Typography variant="h2">Hello, {profile.user.username}</Typography>
         {!profile.isVerified && <VerifyPhoto profile={profile} />}
-      </div>
+      </Box>
     );
   }
 
@@ -78,14 +108,8 @@ export default function ClientPage() {
           </Step>
         ))}
       </Stepper>
-
       <Box sx={{ mt: 2 }}>
-        {activeStep === steps.length ? (
-          <Box>
-            <Typography>All steps completed!</Typography>
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        ) : (
+        {activeStep !== steps.length && (
           <Box>
             {getStepContent(activeStep)}
             <Box sx={{ mt: 2 }}>
@@ -96,7 +120,11 @@ export default function ClientPage() {
               >
                 Back
               </Button>
-              <Button variant="contained" onClick={handleNext}>
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                disabled={isNextDisabled}
+              >
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
               </Button>
             </Box>

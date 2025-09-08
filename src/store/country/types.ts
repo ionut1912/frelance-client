@@ -1,6 +1,4 @@
-import { Country } from "../../models/ExternalApis";
-
 export interface CountryState {
-  countries: Country[];
+  countries: string[];
   error: string | null;
 }

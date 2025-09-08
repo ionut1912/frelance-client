@@ -1,4 +1,8 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosError,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { NavigateFunction } from "react-router-dom";
 import { jwtDecode, JwtPayload as DefaultJwtPayload } from "jwt-decode";
 
@@ -21,15 +25,13 @@ export function getRoleFromToken(token: string): string | null {
 export function createAuthAxios(baseURL: string): AxiosInstance {
   const api = axios.create({ baseURL });
 
-  api.interceptors.request.use((config: AxiosRequestConfig) => {
+  api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     if (config.headers && "requires-auth" in config.headers) {
-      // remove fake header
       delete (config.headers as Record<string, unknown>)["requires-auth"];
-
-      // inject JWT (adapt the key if you store it under a different name)
       const token = localStorage.getItem("jwt");
       if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
+        (config.headers as Record<string, string>)["Authorization"] =
+          `Bearer ${token}`;
       }
     }
     return config;
