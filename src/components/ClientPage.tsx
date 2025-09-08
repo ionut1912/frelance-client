@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Box,
   Stepper,
@@ -9,86 +9,82 @@ import {
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../store";
+import { useNavigate } from "react-router-dom";
+import AddressForm from "./forms/AddressForm";
+import UserDataForm from "./forms/UserDataForm";
 import VerifyPhoto from "./VerifyPhoto";
+import {
+  loadCurrentUserProfile,
+  saveClientProfile,
+} from "../store/user-profile/thunks";
 import {
   AddressData,
   CreateClientProfileRequest,
   UserData,
 } from "../models/UserProfile";
-import AddressForm from "./forms/AddressForm";
-import UserDataForm from "./forms/UserDataForm";
-import { useNavigate } from "react-router-dom";
-import { saveClientProfile } from "../store/user-profile/thunks";
+
+const steps = ["Address Details", "User Details"];
 
 export default function ClientPage() {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const profile = useSelector(
     (state: RootState) => state.userProfile.clientProfiles?.[0],
   );
-  const navigate = useNavigate();
-  const steps = ["Address Details", "User Details"];
-  const [activeStep, setActiveStep] = useState(0);
 
-  const initialAddressData: AddressData = {
+  const [activeStep, setActiveStep] = useState(0);
+  const [addressData, setAddressData] = useState<AddressData>({
     addressCountry: "",
     addressCity: "",
     addressStreet: "",
     addressStreetNumber: "",
     addressZip: "",
-  };
-  const initialUserData: UserData = { bio: "", image: "" };
-
-  const [addressData, setAddressData] =
-    useState<AddressData>(initialAddressData);
-  const [userData, setUserData] = useState<UserData>(initialUserData);
-
-  const handleNext = () => {
+  });
+  const [userData, setUserData] = useState<UserData>({ bio: "", image: "" });
+  useEffect(() => {
+    dispatch(loadCurrentUserProfile());
+  }, [dispatch]);
+  const handleNext = useCallback(() => {
     if (activeStep === steps.length - 1) {
-      if (addressData && userData) {
-        const createClientProfileRequest: CreateClientProfileRequest = {
+      dispatch(
+        saveClientProfile({
           address: addressData,
           user: userData,
-        };
-        dispatch(saveClientProfile(createClientProfileRequest));
-        navigate("/client");
-      }
-    } else {
-      setActiveStep((prev) => prev + 1);
-    }
-  };
+        } as CreateClientProfileRequest),
+      );
+      navigate("/client");
+    } else setActiveStep((prev) => prev + 1);
+  }, [activeStep, addressData, userData, dispatch, navigate]);
 
-  const handleBack = () => setActiveStep((prev) => prev - 1);
+  const handleBack = useCallback(() => setActiveStep((prev) => prev - 1), []);
 
   const isNextDisabled =
-    (activeStep === 0 &&
-      Object.values(addressData).every((value) => value === "")) ||
-    (activeStep === 1 &&
-      Object.values(userData).every((value) => value === ""));
+    activeStep === 0
+      ? Object.values(addressData).every((v) => !v)
+      : Object.values(userData).every((v) => !v);
 
-  const getStepContent = (step: number) => {
-    switch (step) {
-      case 0:
-        return (
-          <AddressForm
-            addressData={addressData}
-            onChange={(field, value) =>
-              setAddressData({ ...addressData, [field]: value })
-            }
-          />
-        );
-      case 1:
-        return (
-          <UserDataForm
-            userData={userData}
-            onChange={(field, value) =>
-              setUserData({ ...userData, [field]: value })
-            }
-          />
-        );
-      default:
-        return "Unknown step";
-    }
-  };
+  const getStepContent = useCallback(
+    (step: number) => {
+      const handlers = [
+        <AddressForm
+          key={step}
+          addressData={addressData}
+          onChange={(field, value) =>
+            setAddressData({ ...addressData, [field]: value })
+          }
+        />,
+        <UserDataForm
+          key={step}
+          userData={userData}
+          onChange={(field, value) =>
+            setUserData({ ...userData, [field]: value })
+          }
+        />,
+      ];
+      return handlers[step] || null;
+    },
+    [addressData, userData],
+  );
 
   if (profile) {
     return (
@@ -109,27 +105,23 @@ export default function ClientPage() {
         ))}
       </Stepper>
       <Box sx={{ mt: 2 }}>
-        {activeStep !== steps.length && (
-          <Box>
-            {getStepContent(activeStep)}
-            <Box sx={{ mt: 2 }}>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Back
-              </Button>
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                disabled={isNextDisabled}
-              >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-            </Box>
-          </Box>
-        )}
+        {getStepContent(activeStep)}
+        <Box sx={{ mt: 2 }}>
+          <Button
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{ mr: 1 }}
+          >
+            Back
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleNext}
+            disabled={isNextDisabled}
+          >
+            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

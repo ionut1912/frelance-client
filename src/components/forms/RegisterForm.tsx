@@ -1,4 +1,3 @@
-import React, { useState, useCallback, useMemo } from "react";
 import {
   Box,
   Card,
@@ -6,18 +5,15 @@ import {
   Typography,
   TextField,
   Button,
-  IconButton,
-  InputAdornment,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import PasswordLegend from "../PasswordLegend";
-import { RegisterDto } from "../../models/Accounts";
+import { AppDispatch, RootState } from "../../store";
 import { registerUser } from "../../store/auth/thunks";
-import { RootState, AppDispatch } from "../../store";
+import { RegisterDto } from "../../models/Accounts";
+import { useForm } from "../../hooks/useForm";
+import * as Yup from "yup";
+import PasswordInput from "./common/PasswordInput";
 
 const INITIAL_VALUES: Omit<RegisterDto, "role"> = {
   email: "",
@@ -29,118 +25,71 @@ const INITIAL_VALUES: Omit<RegisterDto, "role"> = {
 export default function RegisterForm() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const role = useSelector((state: RootState) => state.auth.role);
 
-  const validationSchema = useMemo(
-    () =>
-      Yup.object({
-        email: Yup.string().email("Invalid email").required("Required"),
-        username: Yup.string().required("Required"),
-        password: Yup.string().min(6, "Too short").required("Required"),
-        phoneNumber: Yup.string()
-          .matches(/^[0-9]+$/, "Only digits")
-          .required("Required"),
-      }),
-    [],
+  const formik = useForm<Omit<RegisterDto, "role">>(
+    INITIAL_VALUES,
+    Yup.object({
+      email: Yup.string().email("Invalid email").required("Email is required"),
+      username: Yup.string().required("Username is required"),
+      password: Yup.string()
+        .min(6, "Password too short")
+        .required("Password is required"),
+      phoneNumber: Yup.string()
+        .matches(/^[0-9]+$/, "Only digits")
+        .required("Phone number is required"),
+    }),
+    (values) =>
+      role &&
+      dispatch(registerUser({ payload: { ...values, role }, navigate })),
+    true,
   );
-
-  const formik = useFormik<Omit<RegisterDto, "role">>({
-    initialValues: INITIAL_VALUES,
-    validationSchema,
-    onSubmit: (values) => {
-      if (role) {
-        dispatch(registerUser({ payload: { ...values, role }, navigate }));
-      }
-    },
-  });
-
-  const togglePassword = useCallback(() => {
-    setShowPassword((prev) => !prev);
-  }, []);
 
   return (
     <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        p: 2,
-      }}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+      p={2}
     >
       <Card sx={{ width: "100%", maxWidth: 600, boxShadow: 3 }}>
         <CardContent>
-          <Typography variant="h5" component="h2" align="center" mb={4}>
+          <Typography variant="h5" textAlign="center" mb={4}>
             Sign Up
           </Typography>
           <form onSubmit={formik.handleSubmit} noValidate>
-            <TextField
-              fullWidth
-              id="email"
-              name="email"
-              label="Email"
-              margin="normal"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-            <TextField
-              fullWidth
-              id="username"
-              name="username"
-              label="Username"
-              margin="normal"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.username && Boolean(formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
-            />
-            <TextField
-              fullWidth
-              id="password"
-              name="password"
+            {["email", "username", "phoneNumber"].map((field) => (
+              <TextField
+                key={field}
+                fullWidth
+                label={field.charAt(0).toUpperCase() + field.slice(1)}
+                margin="normal"
+                value={formik.values[field as keyof typeof INITIAL_VALUES]}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  !!(
+                    formik.touched[field as keyof typeof INITIAL_VALUES] &&
+                    formik.errors[field as keyof typeof INITIAL_VALUES]
+                  )
+                }
+                helperText={
+                  formik.touched[field as keyof typeof INITIAL_VALUES] &&
+                  formik.errors[field as keyof typeof INITIAL_VALUES]
+                }
+                name={field}
+              />
+            ))}
+            <PasswordInput
               label="Password"
-              margin="normal"
-              type={showPassword ? "text" : "password"}
               value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
+              onChange={(value) => formik.setFieldValue("password", value)}
+              onBlur={() => formik.setFieldTouched("password", true)}
+              error={!!(formik.touched.password && formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton edge="end" onClick={togglePassword}>
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
             />
-            {formik.touched.password && (
-              <PasswordLegend password={formik.values.password} />
-            )}
-            <TextField
-              fullWidth
-              id="phoneNumber"
-              name="phoneNumber"
-              label="Phone Number"
-              margin="normal"
-              value={formik.values.phoneNumber}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-              }
-              helperText={
-                formik.touched.phoneNumber && formik.errors.phoneNumber
-              }
-            />
-            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
+            <Box display="flex" justifyContent="flex-end" mt={3}>
               <Button
                 type="submit"
                 variant="contained"
