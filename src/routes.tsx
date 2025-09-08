@@ -37,6 +37,13 @@ const routes: RouteObject[] = [
             Component,
           })),
       },
+      {
+        path: "/unauthorized",
+        lazy: () =>
+          import("./routes/unauthorized").then(({ default: Component }) => ({
+            Component,
+          })),
+      },
     ],
   },
 ];

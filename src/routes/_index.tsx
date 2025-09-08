@@ -2,7 +2,7 @@ import RoleSelection from "../components/RoleSelection"; // 👈 adjust the path
 
 export default function Home() {
   return (
-    <section className="prose flex justify-center">
+    <section>
       <RoleSelection />
     </section>
   );
