@@ -19,7 +19,7 @@ import {
   getUserProfiles,
   updateUserProfileAddress,
   updateUserProfileDetails,
-} from "../../services/userProfileService,";
+} from "../../services/userProfileService";
 import { createClientProfile } from "../../services/clientProfileService";
 import {
   createFreelancerProfile,

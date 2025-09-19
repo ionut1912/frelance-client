@@ -9,7 +9,7 @@ import {
 export default function ErrorBoundary() {
   const error = useRouteError();
   const navigate = useNavigate();
-
+  console.log("Route error:", error);
   if (isRouteErrorResponse(error)) {
     return (
       <Container className="min-h-screen flex items-center justify-center">

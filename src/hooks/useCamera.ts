@@ -4,18 +4,27 @@ export function useCamera() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [streaming, setStreaming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const startCamera = useCallback(async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    if (videoRef.current) {
-      videoRef.current.srcObject = stream;
-      setStreaming(true);
+    try {
+      setError(null);
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        setStreaming(true);
+      }
+      return true;
+    } catch (e) {
+      setError((e as Error).message || "Could not start video source");
+      setStreaming(false);
+      return false;
     }
   }, []);
 
   const stopCamera = useCallback(() => {
     const stream = videoRef.current?.srcObject as MediaStream | null;
-    stream?.getTracks().forEach((track) => track.stop());
+    stream?.getTracks().forEach((t) => t.stop());
     if (videoRef.current) videoRef.current.srcObject = null;
     setStreaming(false);
   }, []);
@@ -24,7 +33,6 @@ export function useCamera() {
     const video = videoRef.current;
     const canvas = canvasRef.current;
     if (!video || !canvas) return null;
-
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext("2d");
@@ -40,5 +48,6 @@ export function useCamera() {
     startCamera,
     stopCamera,
     capturePhoto,
+    error,
   };
 }

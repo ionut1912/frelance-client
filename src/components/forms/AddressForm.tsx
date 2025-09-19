@@ -32,7 +32,7 @@ export default function AddressForm({
         )}
         disabled={!addressData.addressCountry}
       />
-      {["Street", "Street Number", "ZIP"].map((label) => {
+      {["Street", "Street Number", "Zip"].map((label) => {
         const key = `address${label.replace(" ", "")}` as keyof AddressData;
         return (
           <TextField

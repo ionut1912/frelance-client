@@ -25,7 +25,7 @@ export function getCurrentUserProfile(): Promise<AxiosResponse<object>> {
 
 export function updateUserProfileAddress(
   payload: PatchUserProfileAddressRequest,
-): Promise<AxiosResponse<any>> {
+): Promise<AxiosResponse<void>> {
   return api.patch(
     `${API_URL}/api/userProfiles/address/${payload.profileId}`,
     payload.address,
@@ -35,7 +35,7 @@ export function updateUserProfileAddress(
 
 export function updateUserProfileDetails(
   payload: PatchUserDetailsRequest,
-): Promise<AxiosResponse<any>> {
+): Promise<AxiosResponse<void>> {
   return api.patch(
     `${API_URL}/api/userProfiles/userDetails/${payload.profileId}`,
     payload.userData,
@@ -43,7 +43,7 @@ export function updateUserProfileDetails(
   );
 }
 
-export function verifyUserProfile(id: number): Promise<AxiosResponse<any>> {
+export function verifyUserProfile(id: number): Promise<AxiosResponse<void>> {
   return api.patch(
     `${API_URL}/api/userProfiles/verify/${id}`,
     {},
@@ -51,7 +51,7 @@ export function verifyUserProfile(id: number): Promise<AxiosResponse<any>> {
   );
 }
 
-export function deleteUserProfile(id: number): Promise<AxiosResponse<any>> {
+export function deleteUserProfile(id: number): Promise<AxiosResponse<void>> {
   return api.delete(`${API_URL}/api/userProfiles/${id}`, {
     headers: { "requires-auth": "" },
   });

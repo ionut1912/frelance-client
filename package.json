@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "webpack serve --config webpack.config.js --env development --open",
+    "dev": "webpack serve --config webpack.config.js --env development --host 0.0.0.0 --port 3000 --allowed-hosts all",
     "build": "webpack --config webpack.config.js --env production",
     "type-check": "tsc --noEmit",
     "test": "jest",
@@ -13,6 +13,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@microsoft/signalr": "^9.0.6",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
     "@reduxjs/toolkit": "^2.8.2",
@@ -27,8 +28,10 @@
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.542.0",
     "mini-css-extract-plugin": "^2.9.2",
+    "process": "^0.11.10",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-qr-code": "^2.0.18",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.7.0",
     "react-toastify": "^11.0.5",
@@ -58,6 +61,7 @@
     "autoprefixer": "^10.4.21",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
+    "dotenv": "^16.4.5",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
@@ -72,27 +76,5 @@
     "webpack": "^5.100.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.2.2"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "engines": {
-    "node": ">=20",
-    "npm": ">=10"
   }
 }

@@ -10,7 +10,7 @@ import {
 } from "../../models/UserProfile";
 
 import { NavigateFunction } from "react-router-dom";
-import { verifyUserProfile } from "../../services/userProfileService,";
+import { verifyUserProfile } from "../../services/userProfileService";
 import { AppDispatch, RootState } from "../../store";
 import { resetFalseCount, incrementFalseCount } from "./slice";
 import verifyFace from "../../services/faceVerificationService";

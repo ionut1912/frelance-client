@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 
 export function createClientProfile(
   payload: CreateClientProfileRequest,
-): Promise<AxiosResponse<any>> {
+): Promise<AxiosResponse<void>> {
   return api.post(`${API_URL}/api/clientProfiles`, payload, {
     headers: { "requires-auth": "" },
   });

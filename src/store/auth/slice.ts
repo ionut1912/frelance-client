@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthState } from "./types";
 import {
   loginUser,
@@ -22,6 +22,9 @@ const authSlice = createSlice({
       state.user = null;
       state.role = null;
       localStorage.removeItem("jwt");
+    },
+    setRole: (state, action: PayloadAction<UserRole>) => {
+      state.role = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -50,5 +53,5 @@ const authSlice = createSlice({
       });
   },
 });
-export const { logout } = authSlice.actions;
+export const { logout, setRole } = authSlice.actions;
 export default authSlice.reducer;

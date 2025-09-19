@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { Country } from "../../models/ExternalApis";
 
 export interface LoadCountriesResult {
   countries: string[];
@@ -14,7 +15,9 @@ export const loadCountries = createAsyncThunk<
 
   try {
     const response = await axios.get(apiUrl);
-    const countries: string[] = response.data.map((c: any) => c.name.common);
+    const countries: string[] = response.data.map(
+      (c: Country) => c.name.common,
+    );
     return { countries };
   } catch (error) {
     const err = error as AxiosError;

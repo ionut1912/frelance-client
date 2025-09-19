@@ -7,7 +7,7 @@ import { AxiosResponse } from "axios";
 ``;
 export function createFreelancerProfile(
   payload: CreateFreelancerProfileRequest,
-): Promise<AxiosResponse<any>> {
+): Promise<AxiosResponse<void>> {
   return api.post(`${API_URL}/api/freelancerProfiles`, payload, {
     headers: { "requires-auth": "" },
   });
@@ -15,7 +15,7 @@ export function createFreelancerProfile(
 
 export function updateFreelancerProfileData(
   payload: PatchFreelancerProfielRequest,
-): Promise<AxiosResponse<any>> {
+): Promise<AxiosResponse<void>> {
   return api.patch(
     `${API_URL}/api/freelancerProfiles/freelancerDetails/${payload.profileId}`,
     payload.freelancerData,

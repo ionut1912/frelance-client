@@ -39,11 +39,19 @@ export default function RegisterForm() {
         .matches(/^[0-9]+$/, "Only digits")
         .required("Phone number is required"),
     }),
-    (values) =>
-      role &&
-      dispatch(registerUser({ payload: { ...values, role }, navigate })),
+    (values) => {
+      if (role) {
+        dispatch(registerUser({ payload: { ...values, role }, navigate }));
+      }
+    },
     true,
   );
+
+  const fields: Array<keyof typeof INITIAL_VALUES> = [
+    "email",
+    "username",
+    "phoneNumber",
+  ];
 
   return (
     <Box
@@ -59,36 +67,38 @@ export default function RegisterForm() {
             Sign Up
           </Typography>
           <form onSubmit={formik.handleSubmit} noValidate>
-            {["email", "username", "phoneNumber"].map((field) => (
+            {fields.map((field) => (
               <TextField
                 key={field}
                 fullWidth
                 label={field.charAt(0).toUpperCase() + field.slice(1)}
                 margin="normal"
-                value={formik.values[field as keyof typeof INITIAL_VALUES]}
+                name={field}
+                value={formik.values[field]}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={
-                  !!(
-                    formik.touched[field as keyof typeof INITIAL_VALUES] &&
-                    formik.errors[field as keyof typeof INITIAL_VALUES]
-                  )
-                }
+                error={Boolean(formik.touched[field] && formik.errors[field])}
                 helperText={
-                  formik.touched[field as keyof typeof INITIAL_VALUES] &&
-                  formik.errors[field as keyof typeof INITIAL_VALUES]
+                  formik.touched[field]
+                    ? (formik.errors[field] as string | undefined)
+                    : undefined
                 }
-                name={field}
               />
             ))}
+
             <PasswordInput
               label="Password"
               value={formik.values.password}
               onChange={(value) => formik.setFieldValue("password", value)}
               onBlur={() => formik.setFieldTouched("password", true)}
-              error={!!(formik.touched.password && formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
+              error={Boolean(formik.touched.password && formik.errors.password)}
+              helperText={
+                formik.touched.password
+                  ? (formik.errors.password as string | undefined)
+                  : undefined
+              }
             />
+
             <Box display="flex" justifyContent="flex-end" mt={3}>
               <Button
                 type="submit"

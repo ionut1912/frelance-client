@@ -32,6 +32,15 @@ const routes: RouteObject[] = [
           })),
       },
       {
+        path: "/remote-capture",
+        lazy: () =>
+          import("./routes/mobileCameraCapture").then(
+            ({ default: Component }) => ({
+              Component,
+            }),
+          ),
+      },
+      {
         path: "*",
         lazy: () =>
           import("./routes/not-found").then(({ default: Component }) => ({
