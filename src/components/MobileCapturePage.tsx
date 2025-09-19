@@ -4,13 +4,11 @@ import { createHubConnection } from "../lib/signalr";
 
 const API_BASE = process.env.REACT_APP_API_BASE || "";
 
-// ~30KB limită "safe" pentru servere cu setări implicite
-const MAX_BASE64_CHARS = 40_000; // ~30KB după decodare
-const TARGET_W = 640; // țintă ~480–640 pe latura mare
+const MAX_BASE64_CHARS = 40_000;
+const TARGET_W = 640;
 const INITIAL_QUALITY = 0.6;
 
 async function getFrontCameraStream(): Promise<MediaStream> {
-  // 1) încercă explicit camera frontală
   try {
     return await navigator.mediaDevices.getUserMedia({
       video: {
@@ -21,7 +19,6 @@ async function getFrontCameraStream(): Promise<MediaStream> {
       audio: false,
     });
   } catch {
-    // 2) fallback: alege manual un deviceId "front"/"FaceTime"
     const devices = await navigator.mediaDevices.enumerateDevices();
     const videoInputs = devices.filter((d) => d.kind === "videoinput");
     const front =
@@ -70,8 +67,6 @@ export default function MobileCapturePage() {
     const vw = video.videoWidth;
     const vh = video.videoHeight;
     if (!vw || !vh) return false;
-
-    // scale păstrează proporțiile, latura mare = TARGET_W
     const scale = Math.min(TARGET_W / Math.max(vw, vh), 1);
     const cw = Math.round(vw * scale);
     const ch = Math.round(vh * scale);

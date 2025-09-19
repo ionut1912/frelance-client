@@ -13,8 +13,15 @@ import { useNavigate } from "react-router-dom";
 import AddressForm from "./forms/AddressForm";
 import UserDataForm from "./forms/UserDataForm";
 import VerifyPhoto from "./VerifyPhoto";
-import { loadCurrentUserProfile } from "../store/user-profile/thunks";
-import { AddressData, UserData } from "../models/UserProfile";
+import {
+  loadCurrentUserProfile,
+  saveClientProfile,
+} from "../store/user-profile/thunks";
+import {
+  AddressData,
+  CreateClientProfileRequest,
+  UserData,
+} from "../models/UserProfile";
 
 const steps = ["Address Details", "User Details"];
 
@@ -39,15 +46,13 @@ export default function ClientPage() {
   }, [dispatch]);
   const handleNext = useCallback(() => {
     if (activeStep === steps.length - 1) {
-      console.log("Final data:", { addressData, userData });
-      //alert("Formular trimis! Verifică consola pentru datele finale.");
-      // dispatch(
-      //   saveClientProfile({
-      //     address: addressData,
-      //     user: userData,
-      //   } as CreateClientProfileRequest),
-      // );
-      // navigate("/client");
+      dispatch(
+        saveClientProfile({
+          address: addressData,
+          user: userData,
+        } as CreateClientProfileRequest),
+      );
+      navigate("/client");
     } else setActiveStep((prev) => prev + 1);
   }, [activeStep, addressData, userData, dispatch, navigate]);
 
