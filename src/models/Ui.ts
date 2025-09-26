@@ -1,4 +1,4 @@
-import { AddressDto } from "./UserProfile";
+import { AddressDto, UserRole } from "./UserProfile";
 
 interface BaseProfileData {
   address: AddressDto;
@@ -54,6 +54,15 @@ interface PaginatedList<T> {
   items: T[];
 }
 
+interface NavbarProps {
+  role: UserRole;
+}
+
+interface NavLink {
+  label: string;
+  url: string;
+}
+
 export type {
   ClientProfileData,
   FreelancerProfileData,
@@ -62,4 +71,6 @@ export type {
   DialogData,
   PaginatedList,
   PaginatedDataRequest,
+  NavbarProps,
+  NavLink,
 };

@@ -6,15 +6,7 @@ import { UserRole } from "../models/UserProfile";
 import { logout } from "../store/auth/slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
-
-interface NavbarProps {
-  role: UserRole;
-}
-
-interface NavLink {
-  label: string;
-  url: string;
-}
+import { NavbarProps, NavLink } from "../models/Ui";
 
 const NAV_LINKS: Record<UserRole, NavLink[]> = {
   Client: [
@@ -42,10 +34,12 @@ export default function Navbar({ role }: NavbarProps) {
 
   const navLinks = useMemo(() => NAV_LINKS[role] ?? [], [role]);
   const isActive = (url: string) => location.pathname.startsWith(url);
-  const logouutUser = () => {
+
+  const logoutUser = () => {
     dispatch(logout());
-    navigate("/");
+    navigate("/login", { replace: true });
   };
+
   const handleNavigate = (to: string) => {
     navigate(to);
     setOpen(false);
@@ -55,7 +49,6 @@ export default function Navbar({ role }: NavbarProps) {
     <nav className="bg-gray-700">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
-          {/* Mobile menu button */}
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             <button
               onClick={() => setOpen((v) => !v)}
@@ -68,7 +61,6 @@ export default function Navbar({ role }: NavbarProps) {
             </button>
           </div>
 
-          {/* Desktop links */}
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
@@ -76,15 +68,15 @@ export default function Navbar({ role }: NavbarProps) {
                   <Link
                     key={link.label}
                     to={link.url}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white ${
-                      isActive(link.url) ? "bg-gray-900 text-white" : ""
-                    }`}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white ${isActive(link.url) ? "bg-gray-900 text-white" : ""}`}
                   >
                     {link.label}
                   </Link>
                 ))}
-
-                <button className="cursor-pointer text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white px-3 py-2 rounded-md text-sm font-medium">
+                <button
+                  className="cursor-pointer text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  onClick={logoutUser}
+                >
                   Logout
                 </button>
               </div>
@@ -93,7 +85,6 @@ export default function Navbar({ role }: NavbarProps) {
         </div>
       </div>
 
-      {/* Mobile panel */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -107,16 +98,13 @@ export default function Navbar({ role }: NavbarProps) {
               <button
                 key={link.label}
                 onClick={() => handleNavigate(link.url)}
-                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white ${
-                  isActive(link.url) ? "bg-gray-900 text-white" : ""
-                }`}
+                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white ${isActive(link.url) ? "bg-gray-900 text-white" : ""}`}
               >
                 {link.label}
               </button>
             ))}
-
             <button
-              onClick={logouutUser}
+              onClick={logoutUser}
               className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-600 hover:text-white focus:bg-gray-900 focus:text-white"
             >
               Logout

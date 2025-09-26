@@ -85,7 +85,6 @@ export default function ClientPage() {
     },
     [addressData, userData],
   );
-
   if (profile) {
     return (
       <Box sx={{ textAlign: "center", p: 4 }}>

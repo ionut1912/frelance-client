@@ -8,7 +8,7 @@ export default function RequireAuth() {
   const location = useLocation();
   const role = useSelector((state: RootState) => state.auth.role!);
   if (!isAuthenticated()) {
-    return <Navigate to="/unauthorized" replace state={{ from: location }} />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
   return (
     <>

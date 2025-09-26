@@ -35,18 +35,19 @@ export const loadCurrentUserProfile = createAsyncThunk<
   { state: RootState }
 >("userProfile/loadCurrentUserProfile", async (_, { getState }) => {
   const response = await getCurrentUserProfile();
-
   const role = getState().auth.role;
   if (role === "Client") {
+    const dto = response.data as ClientProfileDto;
     return {
-      clientProfiles: response.data as ClientProfileDto[],
+      clientProfiles: dto ? [dto] : [],
       freelancerProfiles: [],
     };
   }
   if (role === "Freelancer") {
+    const dto = response.data as FreelancerProfileDto;
     return {
       clientProfiles: [],
-      freelancerProfiles: response.data as FreelancerProfileDto[],
+      freelancerProfiles: dto ? [dto] : [],
     };
   }
 

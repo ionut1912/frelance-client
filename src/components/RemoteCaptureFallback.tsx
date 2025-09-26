@@ -41,8 +41,7 @@ export default function RemoteCaptureFallback({
     return () => {
       conn?.stop().catch(() => {});
     };
-    // IMPORTANT: nu include `onPhoto` aici (e stabilizat în CameraCapture cu useCallback)
-  }, []); // 👈 rulează o singură dată
+  }, []);
 
   if (!session) return null;
 
