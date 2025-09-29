@@ -34,7 +34,6 @@ interface BaseProfileDto {
 
 interface FreelancerData {
   programmingLanguages: string[];
-  areas: string[];
   foreignLanguages: string[];
   experience: string;
   rate: number;

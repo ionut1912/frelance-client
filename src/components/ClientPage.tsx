@@ -1,30 +1,28 @@
-import { useState, useEffect } from "react";
-import {
-  Box,
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  Typography,
-} from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../store";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch, RootState } from "../store";
 import AddressForm from "./forms/AddressForm";
 import UserDataForm from "./forms/UserDataForm";
-import VerifyPhoto from "./VerifyPhoto";
-import Spinner from "./Spinner";
+import {
+  loadCurrentUserProfile,
+  saveClientProfile,
+} from "../store/user-profile/thunks";
 import {
   AddressData,
   CreateClientProfileRequest,
   UserData,
 } from "../models/UserProfile";
+import VerifyPhoto from "./VerifyPhoto";
 import {
-  loadCurrentUserProfile,
-  saveClientProfile,
-} from "../store/user-profile/thunks";
-
-const steps = ["Address Details", "User Details"];
+  Box,
+  Button,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import Spinner from "./Spinner";
 
 export default function ClientPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,7 +32,7 @@ export default function ClientPage() {
     (state: RootState) => state.userProfile.clientProfiles?.[0],
   );
   const loading = useSelector((state: RootState) => state.userProfile.loading);
-
+  const steps = ["Address Details", "User Details"];
   const [activeStep, setActiveStep] = useState(0);
   const [addressData, setAddressData] = useState<AddressData>({
     addressCountry: "",
@@ -73,49 +71,47 @@ export default function ClientPage() {
         }}
       />
     );
-  } else {
-    {
-      content = (
-        <UserDataForm
-          key="step-1"
-          initialValues={userData}
-          onSubmit={async (vals) => {
-            setUserData(vals);
-            await dispatch(
-              saveClientProfile({
-                address: addressData,
-                user: vals,
-              } as CreateClientProfileRequest),
-            );
-            navigate("/client");
-          }}
-        />
-      );
-    }
-
-    return (
-      <Box sx={{ width: "100%", mt: 4 }}>
-        <Stepper activeStep={activeStep}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-
-        <Box sx={{ mt: 2 }}>
-          {content}
-          <Box sx={{ mt: 2 }}>
-            <Button
-              disabled={activeStep === 0}
-              onClick={() => setActiveStep((s) => s - 1)}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-          </Box>
-        </Box>
-      </Box>
+  } else if (activeStep === 1) {
+    content = (
+      <UserDataForm
+        key="step-1"
+        initialValues={userData}
+        onSubmit={async (vals) => {
+          setUserData(vals);
+          await dispatch(
+            saveClientProfile({
+              address: addressData,
+              user: vals,
+            } as CreateClientProfileRequest),
+          );
+          navigate("/client");
+        }}
+      />
     );
   }
+
+  return (
+    <Box sx={{ width: "100%", mt: 4 }}>
+      <Stepper activeStep={activeStep}>
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+
+      <Box sx={{ mt: 2 }}>
+        {content}
+        <Box sx={{ mt: 2 }}>
+          <Button
+            disabled={activeStep === 0}
+            onClick={() => setActiveStep((s) => s - 1)}
+            sx={{ mr: 1 }}
+          >
+            Back
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  );
 }

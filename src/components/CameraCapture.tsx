@@ -26,16 +26,19 @@ export default function CameraCapture({
   const { checking, hasCamera } = useCameraAvailability();
 
   const onPhotoCb = useCallback(
-    (dataUrl: string) => onChange("image", dataUrl),
+    (dataUrl: string) => {
+      onChange("image", String(dataUrl));
+    },
     [onChange],
   );
 
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get("session") || "";
   useRemotePhotoReceiver(sessionId, onPhotoCb);
+
   const handleCapture = () => {
     const photo = capturePhoto();
-    if (photo) onChange("image", photo);
+    if (photo) onChange("image", String(photo));
   };
 
   if (checking) {
@@ -74,9 +77,8 @@ export default function CameraCapture({
           )}
         </>
       ) : (
-        <RemoteCaptureFallback onPhoto={onPhotoCb} />
+        <RemoteCaptureFallback onPhoto={(photo) => onPhotoCb(String(photo))} />
       )}
-
       {userData.image && (
         <img
           src={userData.image}

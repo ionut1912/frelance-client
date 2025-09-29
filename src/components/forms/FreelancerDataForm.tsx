@@ -19,7 +19,6 @@ interface FreelancerDataFormProps {
 
 const DEFAULT_FREELANCER: FreelancerData = {
   programmingLanguages: [],
-  areas: [],
   foreignLanguages: [],
   experience: "",
   rate: 0,
@@ -65,16 +64,6 @@ export default function FreelancerDataForm({
     [skills],
   );
 
-  const areaOptions = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          skills.map((s: SkillDto) => s?.area).filter((v): v is string => !!v),
-        ),
-      ).sort(),
-    [skills],
-  );
-
   const languageOptions = useMemo(
     () =>
       Array.from(
@@ -94,12 +83,6 @@ export default function FreelancerDataForm({
       .of(Yup.string().trim().required())
       .min(1, "Select at least one language")
       .required(),
-
-    areas: Yup.array()
-      .of(Yup.string().trim().required())
-      .min(1, "Select at least one area")
-      .required(),
-
     foreignLanguages: Yup.array()
       .of(Yup.string().trim().required())
       .max(10, "Too many items")
@@ -167,42 +150,6 @@ export default function FreelancerDataForm({
               formik.touched.programmingLanguages &&
               formik.errors.programmingLanguages
             }
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {loadingSkills ? <Spinner /> : null}
-                  {params.InputProps?.endAdornment}
-                </>
-              ),
-            }}
-          />
-        )}
-      />
-
-      <Autocomplete<string, true, false, false>
-        multiple
-        disableCloseOnSelect
-        filterSelectedOptions
-        options={areaOptions}
-        value={formik.values.areas || []}
-        onChange={(_, v) => {
-          formik.setFieldValue("areas", v);
-          formik.setFieldTouched("areas", true);
-        }}
-        loading={loadingSkills}
-        loadingText="Se încarcă ariile..."
-        noOptionsText={loadingSkills ? "Se încarcă..." : "Fără opțiuni"}
-        isOptionEqualToValue={(o, v) => o === v}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Areas"
-            fullWidth
-            margin="normal"
-            aria-busy={loadingSkills}
-            error={!!(formik.touched.areas && formik.errors.areas)}
-            helperText={formik.touched.areas && formik.errors.areas}
             InputProps={{
               ...params.InputProps,
               endAdornment: (

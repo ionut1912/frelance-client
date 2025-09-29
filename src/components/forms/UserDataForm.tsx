@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useForm } from "../../hooks/useForm";
 import { UserData } from "../../models/UserProfile";
 import CameraCapture from "../CameraCapture";
+import { useEffect } from "react";
 
 interface UserDataFormProps {
   initialValues?: UserData;
@@ -23,7 +24,12 @@ export default function UserDataForm({
       .trim()
       .min(10, "Bio must be at least 10 characters")
       .required("Bio is required"),
-    image: Yup.string().required("Image is required"),
+    image: Yup.string()
+      .required("Image is required")
+      .matches(
+        /^data:image\/[a-zA-Z]+;base64,/,
+        "Image must be a valid base64 image",
+      ),
   });
 
   const formik = useForm<UserData>(
@@ -32,6 +38,12 @@ export default function UserDataForm({
     onSubmit,
     true,
   );
+
+  useEffect(() => {
+    if (formik.values.image) {
+      formik.validateField("image");
+    }
+  }, [formik.values.image]);
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 2 }}>
@@ -51,16 +63,13 @@ export default function UserDataForm({
       <CameraCapture
         userData={formik.values}
         onChange={(field, value) => {
-          formik.setFieldValue(field, value ?? "");
-          formik.setFieldTouched(field, true);
+          const strValue = value ? String(value) : "";
+          formik.setFieldValue(field, strValue);
+          formik.setFieldTouched(field, true, false);
         }}
       />
       <Box display="flex" justifyContent="flex-end" mt={3}>
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={!formik.isValid || !formik.dirty}
-        >
+        <Button type="submit" variant="contained" disabled={!formik.isValid}>
           Save User Details
         </Button>
       </Box>

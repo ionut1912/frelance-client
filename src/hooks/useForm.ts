@@ -1,9 +1,9 @@
-import { useFormik, FormikProps, FormikValues } from "formik";
 import * as Yup from "yup";
+import { useFormik, FormikProps, FormikValues } from "formik";
 
 export function useForm<T extends FormikValues>(
   initialValues: T,
-  validationSchema: Yup.ObjectSchema<T>,
+  validationSchema: Yup.AnyObjectSchema,
   onSubmit: (values: T) => void,
   validateOnMount: boolean = false,
 ): FormikProps<T> {

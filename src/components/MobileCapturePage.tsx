@@ -86,7 +86,6 @@ export default function MobileCapturePage() {
   ) => {
     let q = INITIAL_QUALITY;
     let dataUrl = canvas.toDataURL("image/jpeg", q);
-    // micșorează calitatea până intră sub prag
     while (dataUrl.length > maxChars && q > 0.3) {
       q -= 0.1;
       dataUrl = canvas.toDataURL("image/jpeg", q);
@@ -153,9 +152,6 @@ export default function MobileCapturePage() {
       >
         {sending ? "Se trimite…" : "Capture & Trimite"}
       </Button>
-      <Typography variant="body2" color="text.secondary">
-        Folosește HTTPS.
-      </Typography>
     </Box>
   );
 }
