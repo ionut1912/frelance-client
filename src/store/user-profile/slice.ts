@@ -12,6 +12,7 @@ const initialState: UserProfileState = {
   freelancerProfiles: null,
   paginatedUserProfiles: null,
   error: null,
+  loading: true,
 };
 
 const userProfileSlice = createSlice({
@@ -38,6 +39,7 @@ const userProfileSlice = createSlice({
       .addCase(loadCurrentUserProfile.fulfilled, (state, action) => {
         state.clientProfiles = action.payload.clientProfiles ?? null;
         state.freelancerProfiles = action.payload.freelancerProfiles ?? null;
+        state.loading = false;
       })
       .addCase(saveClientProfile.rejected, (state, action) => {
         state.error = action.payload ?? null;

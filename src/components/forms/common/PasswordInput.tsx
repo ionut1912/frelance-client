@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import type { ReactNode } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -8,7 +9,7 @@ interface PasswordInputProps {
   onChange: (value: string) => void;
   onBlur?: () => void;
   error?: boolean;
-  helperText?: string | undefined | boolean;
+  helperText?: ReactNode;
 }
 
 export default function PasswordInput({
@@ -20,10 +21,7 @@ export default function PasswordInput({
   helperText,
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const togglePassword = useCallback(
-    () => setShowPassword((prev) => !prev),
-    [],
-  );
+  const togglePassword = useCallback(() => setShowPassword((p) => !p), []);
 
   return (
     <TextField
@@ -36,18 +34,22 @@ export default function PasswordInput({
       error={error}
       helperText={helperText}
       margin="normal"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton
-              edge="end"
-              onClick={togglePassword}
-              aria-label="toggle password"
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        ),
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                edge="end"
+                onClick={togglePassword}
+                onMouseDown={(e) => e.preventDefault()} // păstrează focusul în input
+                aria-label="toggle password visibility"
+                aria-pressed={showPassword}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        },
       }}
     />
   );

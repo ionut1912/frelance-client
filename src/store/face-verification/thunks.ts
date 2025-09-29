@@ -14,7 +14,7 @@ import { verifyUserProfile } from "../../services/userProfileService";
 import { AppDispatch, RootState } from "../../store";
 import { resetFalseCount, incrementFalseCount } from "./slice";
 import verifyFace from "../../services/faceVerificationService";
-import { blockUserAccount, deleteUserAccount } from "../auth/thunks";
+import { blockUserAccount, deleteCurrentUserAccount } from "../auth/thunks";
 import {
   verifreelancerProfile,
   verifyClientProfile,
@@ -57,7 +57,7 @@ export const verifyCapturedFace = createAsyncThunk<
         toast.warning(
           "We will delete your profile data, because we don't find a face in one of your images",
         );
-        appDispatch(deleteUserAccount(payload.profile.id));
+        appDispatch(deleteCurrentUserAccount());
       }
 
       return rejectWithValue(error);
@@ -92,13 +92,13 @@ async function processNoMatch(
 
   if (falseCount === 3 || falseCount === 6) {
     dispatch(blockUserAccount({ id: profile.user.id, navigate }));
-    dispatch(deleteUserAccount(profile.id));
+    dispatch(deleteCurrentUserAccount());
     toast.error(
       `Your account will be locked for 1h because you attempted verification ${falseCount} times`,
     );
     navigate("/");
   } else if (falseCount === 9) {
-    dispatch(deleteUserAccount(profile.user.id));
+    dispatch(deleteCurrentUserAccount());
     dispatch(removeUserProfile(profile.id));
     dispatch(resetFalseCount());
     toast.error(

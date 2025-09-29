@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState: CountryState = {
   countries: [],
   error: null,
+  loading: true,
 };
 
 const countrySlice = createSlice({
@@ -16,6 +17,7 @@ const countrySlice = createSlice({
       .addCase(loadCountries.fulfilled, (state, action) => {
         state.countries = action.payload.countries;
         state.error = null;
+        state.loading = false;
       })
       .addCase(loadCountries.rejected, (state, action) => {
         state.error = (action.error as string) ?? null;

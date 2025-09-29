@@ -8,6 +8,7 @@ import {
   login,
   blockAccount,
   deleteAccount,
+  deleteCurrentAccount,
 } from "../../services/authService";
 import { getRoleFromToken, navigateByRole } from "../../utils/authUtils";
 import { extractErrorMessages } from "../../utils/httpError";
@@ -70,6 +71,20 @@ export const deleteUserAccount = createAsyncThunk<
 >("auth/deleteUserAccount", async (id, { rejectWithValue }) => {
   try {
     await deleteAccount(id);
+  } catch (error) {
+    const messages = extractErrorMessages(error);
+    messages.forEach((m) => toast.error(m));
+    return rejectWithValue(error as AxiosError);
+  }
+});
+
+export const deleteCurrentUserAccount = createAsyncThunk<
+  void,
+  void,
+  { rejectValue: AxiosError }
+>("auth/deleteCurrentUserAccount", async (_, { rejectWithValue }) => {
+  try {
+    await deleteCurrentAccount();
   } catch (error) {
     const messages = extractErrorMessages(error);
     messages.forEach((m) => toast.error(m));

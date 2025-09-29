@@ -23,3 +23,9 @@ export function deleteAccount(id: number): Promise<AxiosResponse<void>> {
     headers: { "requires-auth": "" },
   });
 }
+
+export function deleteCurrentAccount(): Promise<AxiosResponse<void>> {
+  return api.delete<void>(`${API_URL}/api/auth/account/current`, {
+    headers: { "requires-auth": "" },
+  });
+}

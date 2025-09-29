@@ -4,7 +4,7 @@ import {
   loginUser,
   registerUser,
   blockUserAccount,
-  deleteUserAccount,
+  deleteCurrentUserAccount,
 } from "./thunks";
 import { UserRole } from "../../models/UserProfile";
 
@@ -43,12 +43,12 @@ const authSlice = createSlice({
       .addCase(blockUserAccount.rejected, (state, action) => {
         state.error = action.payload ?? null;
       })
-      .addCase(deleteUserAccount.fulfilled, (state) => {
+      .addCase(deleteCurrentUserAccount.fulfilled, (state) => {
         state.user = null;
         state.role = null;
         state.error = null;
       })
-      .addCase(deleteUserAccount.rejected, (state, action) => {
+      .addCase(deleteCurrentUserAccount.rejected, (state, action) => {
         state.error = action.payload ?? null;
       });
   },

@@ -4,7 +4,7 @@ import { CityState } from "./types";
 
 const initialState: CityState = {
   cities: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -17,10 +17,10 @@ const citySlice = createSlice({
       .addCase(loadCities.fulfilled, (state, action) => {
         state.cities = action.payload.cities;
         state.error = null;
+        state.loading = false;
       })
       .addCase(loadCities.rejected, (state, action) => {
         state.error = (action.error as string) ?? null;
-        state.loading = true;
       });
   },
 });

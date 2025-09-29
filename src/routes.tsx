@@ -68,6 +68,15 @@ const routes: RouteObject[] = [
             Component,
           })),
       },
+      {
+        path: "/freelancer",
+        lazy: () =>
+          import("./routes/freelancerProfile").then(
+            ({ default: Component }) => ({
+              Component,
+            }),
+          ),
+      },
     ],
   },
 ];
