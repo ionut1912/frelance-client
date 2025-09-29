@@ -11,18 +11,22 @@ import { NavbarProps, NavLink } from "../models/Ui";
 const NAV_LINKS: Record<UserRole, NavLink[]> = {
   Client: [
     { label: "My Profile", url: "/user-profile" },
+    { label: "Freelancers Profiles", url: "/freelancers-profiles" },
     { label: "My Projects", url: "/projects" },
+    { label: "Applications", url: "/applications" },
     { label: "My Invoices", url: "/invoices" },
     { label: "My Contracts", url: "/contracts" },
-    { label: "My Proposals", url: "/proposals" },
-    { label: "Project Board", url: "/board" },
+    { label: "Payments", url: "/payments" },
+    { label: "Projects Boards", url: "/boards" },
   ],
   Freelancer: [
     { label: "My Profile", url: "/user-profile" },
-    { label: "Projects", url: "/projects" },
-    { label: "Invoices", url: "/invoices" },
-    { label: "Contracts", url: "/contracts" },
-    { label: "Proposals", url: "/proposals" },
+    { label: "Current Projects", url: "/projects" },
+    { label: "All projects", url: "/all-projects" },
+    { label: "My Invoices", url: "/invoices" },
+    { label: "My Contracts", url: "/contracts" },
+    { label: "My Proposals", url: "/proposals" },
+    { label: "Projects Boards", url: "/boards" },
   ],
 };
 

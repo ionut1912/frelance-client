@@ -91,7 +91,7 @@ export default function FreelancerDataForm({
 
   const validationSchema: Yup.ObjectSchema<FreelancerData> = Yup.object({
     programmingLanguages: Yup.array()
-      .of(Yup.string().trim().required()) 
+      .of(Yup.string().trim().required())
       .min(1, "Select at least one language")
       .required(),
 
