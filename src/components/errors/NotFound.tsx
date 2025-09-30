@@ -1,9 +1,21 @@
 import { Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { isAuthenticated } from "../../lib/auth";
+import { useSelector } from "react-redux";
+
+import { RootState } from "../../store";
+import { navigateByRole } from "../../utils/authUtils";
 
 export default function NotFound() {
   const navigate = useNavigate();
-
+  const role = useSelector((state: RootState) => state.auth.role);
+  const handleReturnHome = () => {
+    if (!isAuthenticated) {
+      navigate("/");
+    } else {
+      navigateByRole(role!, navigate);
+    }
+  };
   return (
     <Container className="min-h-screen flex items-center justify-center">
       <div className="text-center space-y-6">
@@ -18,7 +30,7 @@ export default function NotFound() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => navigate("/")}
+          onClick={handleReturnHome}
           className="mt-8"
         >
           Return Home

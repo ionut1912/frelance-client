@@ -8,7 +8,6 @@ import SideBarLayout from "../sidebar/SideBarLayout";
 export default function RequireAuth() {
   const location = useLocation();
   const role = useSelector((state: RootState) => state.auth.role!);
-  console.log(role);
   if (!isAuthenticated()) {
     return (
       <Navigate to={routesLinks.login} replace state={{ from: location }} />

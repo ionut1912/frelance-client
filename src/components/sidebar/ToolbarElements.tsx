@@ -10,14 +10,11 @@ interface ToolbarElementsProps {
 }
 export default function ToolbarElements({ role }: ToolbarElementsProps) {
   const { freelancerProfile, clientProfile, loading } = useCurrentUser();
-  console.log(clientProfile);
-  console.log(loading);
   if (loading) {
     return <Spinner />;
   }
   const profile = role === "Freelancer" ? freelancerProfile : clientProfile;
 
-  console.log("profile in toolbar", profile);
   return (
     <Stack direction={"row"} spacing={2}>
       <TextField
