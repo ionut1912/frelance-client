@@ -16,7 +16,7 @@ import { UserRole } from "../models/UserProfile";
 import { setRole } from "../store/auth/slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
-
+import { routesLinks } from "../routes/index";
 export default function RoleSelection() {
   const [role, setRoleState] = useState<UserRole>("Client");
   const dispatch = useDispatch<AppDispatch>();
@@ -87,7 +87,7 @@ export default function RoleSelection() {
         <Button
           component={Link}
           onClick={setUserRole}
-          to="/register"
+          to={routesLinks.register}
           variant="contained"
           size="large"
           className="w-full"
@@ -96,7 +96,7 @@ export default function RoleSelection() {
           Join as {role}
         </Button>
         <Typography variant="body2" className="text-center mt-3">
-          <Link to="/login" className="text-gray-700">
+          <Link to={routesLinks.login} className="text-gray-700">
             Already have an account?{" "}
             <span className="text-green-600">Log In</span>
           </Link>

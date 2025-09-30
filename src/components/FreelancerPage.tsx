@@ -14,25 +14,19 @@ import {
   UserData,
 } from "../models/UserProfile";
 import VerifyPhoto from "./VerifyPhoto";
-import {
-  Box,
-  Button,
-  Step,
-  StepLabel,
-  Stepper,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import FreelancerDataForm from "./forms/FreelancerDataForm";
+import { routesLinks } from "../routes/index";
+import { useCurrentUser } from "../hooks/useCurerentUser";
+import Dashboard from "./dashboard/Dashboard";
 
 export default function FreelancerPage() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const profile = useSelector(
-    (state: RootState) => state.userProfile.freelancerProfiles?.[0],
-  );
+  const profile = useCurrentUser().freelancerProfile;
   const loading = useSelector((state: RootState) => state.userProfile.loading);
   const steps = ["Address Details", "User Details", "Freelancer Details"];
   const [activeStep, setActiveStep] = useState(0);
@@ -62,8 +56,7 @@ export default function FreelancerPage() {
   if (profile) {
     return (
       <Box sx={{ textAlign: "center", p: 4 }}>
-        <Typography variant="h2">Hello, {profile.user.username}</Typography>
-        {!profile.isVerified && <VerifyPhoto profile={profile} />}
+        {profile.isVerified ? <Dashboard /> : <VerifyPhoto profile={profile} />}
       </Box>
     );
   }
@@ -106,7 +99,7 @@ export default function FreelancerPage() {
               freelancer: vals,
             } as CreateFreelancerProfileRequest),
           );
-          navigate("/freelancer");
+          navigate(routesLinks.freelancer);
         }}
       />
     );

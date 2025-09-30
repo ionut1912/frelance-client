@@ -3,6 +3,7 @@ import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { NavigateFunction } from "react-router-dom";
 import { RegisterDto, LoginDto, UserDto } from "../../models/Accounts";
+import { routesLinks } from "../../routes/index";
 import {
   register,
   login,
@@ -21,7 +22,7 @@ export const registerUser = createAsyncThunk<
   try {
     await register(payload);
     toast.success("Register successful");
-    navigate("/login");
+    navigate(routesLinks.login);
   } catch (error) {
     const messages = extractErrorMessages(error);
     messages.forEach((m) => toast.error(m));
@@ -56,7 +57,7 @@ export const blockUserAccount = createAsyncThunk<
   try {
     await blockAccount(id);
     toast.error("Account blocked");
-    navigate("/login");
+    navigate(routesLinks.login);
   } catch (error) {
     const messages = extractErrorMessages(error);
     messages.forEach((m) => toast.error(m));

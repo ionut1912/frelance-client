@@ -3,6 +3,7 @@ import RootLayout from "./root";
 import Spinner from "./components/Spinner";
 import ErrorBoundary from "./components/errors/ErrorBoundary";
 import RequireAuth from "./components/auth/RequireAuth";
+import { routesLinks } from "./routes/index";
 
 const routes: RouteObject[] = [
   {
@@ -18,21 +19,21 @@ const routes: RouteObject[] = [
           })),
       },
       {
-        path: "/register",
+        path: routesLinks.register,
         lazy: () =>
           import("./routes/register").then(({ default: Component }) => ({
             Component,
           })),
       },
       {
-        path: "/login",
+        path: routesLinks.login,
         lazy: () =>
           import("./routes/login").then(({ default: Component }) => ({
             Component,
           })),
       },
       {
-        path: "/remote-capture",
+        path: routesLinks.remoteCapture,
         lazy: () =>
           import("./routes/mobileCameraCapture").then(
             ({ default: Component }) => ({
@@ -41,14 +42,14 @@ const routes: RouteObject[] = [
           ),
       },
       {
-        path: "*",
+        path: routesLinks.notFound,
         lazy: () =>
           import("./routes/not-found").then(({ default: Component }) => ({
             Component,
           })),
       },
       {
-        path: "/unauthorized",
+        path: routesLinks.unauthorized,
         lazy: () =>
           import("./routes/unauthorized").then(({ default: Component }) => ({
             Component,
@@ -62,20 +63,27 @@ const routes: RouteObject[] = [
     hydrateFallbackElement: <Spinner />,
     children: [
       {
-        path: "/client",
+        path: routesLinks.client,
         lazy: () =>
           import("./routes/clientProfile").then(({ default: Component }) => ({
             Component,
           })),
       },
       {
-        path: "/freelancer",
+        path: routesLinks.freelancer,
         lazy: () =>
           import("./routes/freelancerProfile").then(
             ({ default: Component }) => ({
               Component,
             }),
           ),
+      },
+      {
+        path: routesLinks.calendar,
+        lazy: () =>
+          import("./routes/calendar").then(({ default: Component }) => ({
+            Component,
+          })),
       },
     ],
   },

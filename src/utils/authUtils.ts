@@ -5,7 +5,7 @@ import axios, {
 } from "axios";
 import { NavigateFunction } from "react-router-dom";
 import { jwtDecode, JwtPayload as DefaultJwtPayload } from "jwt-decode";
-
+import { routesLinks } from "../routes/index";
 interface JwtPayload extends DefaultJwtPayload {
   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"?: string;
 }
@@ -46,10 +46,10 @@ export function navigateByRole(
 ): void {
   switch (role) {
     case "Freelancer":
-      navigate("/freelancer");
+      navigate(routesLinks.freelancer);
       break;
     case "Client":
-      navigate("/client");
+      navigate(routesLinks.client);
       break;
     default:
       navigate("/");

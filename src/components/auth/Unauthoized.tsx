@@ -1,6 +1,6 @@
 import { Lock } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-
+import { routesLinks } from "../../routes/index";
 export default function Unauthorized() {
   const location = useLocation() as any;
   const fromPath = location?.state?.from?.pathname ?? "/";
@@ -21,7 +21,7 @@ export default function Unauthorized() {
           </p>
           <div className="mt-6 flex gap-3">
             <Link
-              to="/login"
+              to={routesLinks.login}
               className="flex-1 inline-flex items-center justify-center rounded-xl border px-4 py-2.5 text-sm font-medium hover:bg-slate-50 transition"
             >
               Go to Login
@@ -35,7 +35,10 @@ export default function Unauthorized() {
           </div>
           <p className="mt-4 text-xs text-slate-500 text-center">
             Don’t have an account?{" "}
-            <Link to="/register" className="underline underline-offset-4">
+            <Link
+              to={routesLinks.register}
+              className="underline underline-offset-4"
+            >
               Create one
             </Link>
           </p>

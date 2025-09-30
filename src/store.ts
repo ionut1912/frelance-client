@@ -18,6 +18,7 @@ import cityReducer from "../src/store/city/slice";
 import countryReducer from "../src/store/country/slice";
 import languageReducer from "../src/store/language/slice";
 import skillReducer from "../src/store/skills/slice";
+import navigationReducer from "./store/navigation/slice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   country: countryReducer,
   language: languageReducer,
   skill: skillReducer,
+  navigation: navigationReducer,
 });
 
 const persistConfig = {

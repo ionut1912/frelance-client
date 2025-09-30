@@ -1,4 +1,52 @@
 import { AddressDto, UserRole } from "./UserProfile";
+import React from "react";
+import { SvgIconProps } from "@mui/material";
+import { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import { UseSuspenseQueryResult } from "@tanstack/react-query";
+
+type NavigationItemIconColor =
+  | "primary"
+  | "secondary"
+  | "default"
+  | "error"
+  | "info"
+  | "success"
+  | "warning";
+type NavigationItemIconProps = SvgIconProps;
+interface NavigationItemIcon {
+  icon: (props: NavigationItemIconProps) => React.ReactElement;
+}
+
+interface NavigationItemBaseType {
+  label: string;
+  active?: boolean;
+  disabled?: boolean;
+  description?: string;
+}
+
+interface NavigationItemSimpleType
+  extends NavigationItemBaseType,
+    NavigationItemIcon {
+  path: string;
+  badgeText?: string | number;
+  badgeColor?: NavigationItemIconColor;
+  external?: boolean;
+}
+
+type NavigationItemSimpleTypeWithoutIcon = Omit<
+  NavigationItemSimpleType,
+  "icon"
+>;
+
+interface NavigationItemNestedType
+  extends NavigationItemBaseType,
+    NavigationItemIcon {
+  items: NavigationItemSimpleTypeWithoutIcon[];
+}
+
+interface NavigationItemHeaderType {
+  header: string;
+}
 
 interface BaseProfileData {
   address: AddressDto;
@@ -63,14 +111,56 @@ interface NavLink {
   url: string;
 }
 
+interface NavigationListItemButtonProps {
+  active?: boolean;
+  nested?: boolean;
+}
+
+type NavigationItemType =
+  | NavigationItemSimpleType
+  | NavigationItemNestedType
+  | NavigationItemHeaderType;
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+interface CalendarEvent {
+  id: string;
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  location: string;
+}
+
+interface CalendarData {
+  date: Date;
+  events: CalendarEvent[];
+}
+
+type CalendarType = UseSuspenseQueryResult<CalendarData[]>;
+
 export type {
   ClientProfileData,
   FreelancerProfileData,
   FreelancerDetailsData,
   UserDetailsData,
   DialogData,
+  NavigationItemType,
   PaginatedList,
   PaginatedDataRequest,
   NavbarProps,
   NavLink,
+  NavigationItemIconProps,
+  NavigationItemBaseType,
+  NavigationItemSimpleType,
+  NavigationItemSimpleTypeWithoutIcon,
+  NavigationItemNestedType,
+  NavigationItemHeaderType,
+  NavigationListItemButtonProps,
+  AppBarProps,
+  CalendarEvent,
+  CalendarData,
+  CalendarType,
 };

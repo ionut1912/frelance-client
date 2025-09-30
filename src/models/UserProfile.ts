@@ -6,7 +6,7 @@ import { InvoicesDto } from "./Invoices";
 import { FreelancerDetailsData, UserDetailsData } from "./Ui";
 import { NavigateFunction } from "react-router-dom";
 
-export type UserRole = "Client" | "Freelancer";
+type UserRole = "Client" | "Freelancer";
 
 interface ForeignLanguageDto {
   language: string;
@@ -161,5 +161,6 @@ export type {
   PatchUserProfileAddressRequest,
   PatchUserDetailsRequest,
   GetSkillsResult,
+  UserRole,
   VerifyFaceRequest,
 };
